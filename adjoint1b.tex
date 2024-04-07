@@ -1,6 +1,8 @@
 \documentclass{beamer}
 \usetheme{Boadilla}
 
+\usepackage{mathtools} % for the `coloneqq` command
+
 \title{Markov Categories and Entropy}
 \subtitle{Paolo Perrone, IEEE Transactions on Information Theory, 2023}
 
@@ -8,14 +10,31 @@
 \institute{Adjoint School 2024}
 \date{April 11, 2024}
 
+% command to automatically generate subsection frames with the respective title
+\AtBeginSubsection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsubsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
 \begin{document}
 
 \begin{frame}
 \titlepage
 \end{frame}
 
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
 \section{Introduction to Markov Categories}
-\input{part1/part1}
+\input{part1/introduction.tex}
+
 \section{Useful ways to construct Markov categories}
 \input{part2/part2}
 \section{Properties and additional axioms}
