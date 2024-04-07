@@ -39,6 +39,7 @@ First of all, a Markov category consists of a col- lection of objects, denoted b
         \sum_{y\in Y} f(y\mid x) = 1 \quad \text{for every $x\in X$.}
     \]
     (Include stochastic matrix calculation + graph?)
+    \includegraphics[width=\textwidth]{finstoch_mkv_kernel}
 \end{frame}
 
 \begin{frame}
@@ -111,6 +112,12 @@ First of all, a Markov category consists of a col- lection of objects, denoted b
     by which we mean the integral with respect to the measure $f_x$ on $Y$, for every $x$.
 \end{frame}
 
+\begin{frame}
+    \includegraphics[width=\textwidth]{finstoch_matmul.png}
+    \includegraphics[width=\textwidth]{finstoch_matmul_2.png}
+    
+\end{frame}
+
 \subsection{Markov categories are symmetric monoidal}
 \begin{frame}
     \frametitle{States}
@@ -143,6 +150,10 @@ where for example, Y can possibly depend on both X and A. In FinStoch, the tenso
 \]
 \end{frame}
 
+\begin{frame}
+    \includegraphics[width=\textwidth]{finstoch_parallel_composition.png}
+\end{frame}
+
 \subsection{Markov categories have comonoid objects}
 %%%% fill in copy/delete another way
 \begin{frame}
@@ -151,6 +162,7 @@ where for example, Y can possibly depend on both X and A. In FinStoch, the tenso
 The last piece of structure that we need to form a Markov category is two distinguished maps for each object X: a map $\text{\normalfont copy}: X\to X\otimes X$ which we call “copy” or “duplicate”, and represent as follows
 (the copy fork graphic)
 (Nico's copy graphic here)
+\includegraphics[width=\textwidth]{copy_graphic}
 \end{frame}
 
 
@@ -160,6 +172,7 @@ The last piece of structure that we need to form a Markov category is two distin
         \item Short intuitive description
         \item Marginals, colorful picture for finstoch: “If you have the tensor product and delete morphism, then marginals come automatically for free. No more integrating over variables!”
     \end{enumerate}
+    \includegraphics[width=\textwidth]{delete_graphic.png}
 \end{frame}
 
 \begin{frame}
