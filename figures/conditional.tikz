@@ -1,0 +1,34 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=bn] (0) at (3, -1) {};
+		\node [style=none] (2) at (4, 0.25) {};
+		\node [style=none] (3) at (2, 0.25) {};
+		\node [style=none] (4) at (4, 1.75) {};
+		\node [style=none] (5) at (4, 2.25) {$Y$};
+		\node [style=state] (6) at (-2.5, -0.75) {$P$};
+		\node [style=none] (7) at (-3, 0.25) {};
+		\node [style=none] (8) at (-2, 0.25) {};
+		\node [style=none] (9) at (-3, 0.75) {$X$};
+		\node [style=none] (10) at (-2, 0.75) {$Y$};
+		\node [style=none] (11) at (-3, -0.5) {};
+		\node [style=none] (12) at (-2, -0.5) {};
+		\node [style=morphism] (13) at (4, 0.75) {$P_{|X}$};
+		\node [style=none] (14) at (2, 1.75) {};
+		\node [style=none] (15) at (2, 2.25) {$X$};
+		\node [style=none] (16) at (0, 0) {$=$};
+		\node [style=state] (17) at (3.5, -2) {$P$};
+		\node [style=bn] (18) at (4, -1) {};
+		\node [style=none] (19) at (3, -1.75) {};
+		\node [style=none] (20) at (4, -1.75) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (7.center) to (11.center);
+		\draw (8.center) to (12.center);
+		\draw [in=-90, out=15] (0) to (2.center);
+		\draw [in=-90, out=165] (0) to (3.center);
+		\draw (4.center) to (2.center);
+		\draw (14.center) to (3.center);
+		\draw (18) to (20.center);
+		\draw (0) to (19.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
