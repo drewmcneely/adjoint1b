@@ -20,7 +20,7 @@
             % TODO?: Add wire diagram
         \item morphisms: channels, devices, programs
             We represent them as boxes to be read horizontally from left to right.
-            % TODO: Add box diagram
+            \includegraphics[width=.4\textwidth]{graphics/string/markov_morphism.png}
     \end{enumerate}
     Morphisms are in general \emph{noisy}, involving randomness
 \end{frame}
@@ -113,7 +113,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{A basic example for $?SFinStoch$}
+    \frametitle{A basic example for $\mathsf{FinStoch}$}
     \begin{minipage}{.48\textwidth}
     The \emph{Chapman-Kolmogorov} formula:
     \begin{align*}
@@ -139,7 +139,7 @@ unit we write $I$, and which we do not draw (it’s represented by an empty regi
 In FinStoch and Stoch it is the one-point space, where there is no distinction between states to be made.
 
 A source, or (random) state on X is now a morphism $p: I\to X$, which we depict as follows.
-% TODO: <add source string diagram here>
+\includegraphics[width=.4\textwidth]{graphics/string/markov_state.png}
 
 (mass fnc for FinStoch??)
 \begin{enumerate}
@@ -153,9 +153,9 @@ A source, or (random) state on X is now a morphism $p: I\to X$, which we depict 
     \frametitle{Parallel composition} 
     \framesubtitle{is "independent"}
 Markov categories also come with a notion of parallel composition. $X\otimes A$, and which we interpret as the object whose states are composite states. in FinStoch and in Stoch it is given by the cartesian product of measurable spaces. Now given channels $f: X\to Y$ and $h: A\to B$, we can form the tensor product channel $f\otimes h: X\otimes A\to Y\otimes B$, which we represent as follows
-% TODO: <parallel morphism string diagram here>
+\includegraphics[width=.4\textwidth]{graphics/string/markov_parallel.png}
 and which we interpret as processing X and A independently. Compare this with a generic channel $g: X\otimes A\to Y\otimes B$
-% TODO: <include a generic two-input-output channel here>
+% TODO?: <include a generic two-input-output channel here>
 where for example, Y can possibly depend on both X and A. In FinStoch, the tensor product of the stochastic matrices f : X → Y and g : A → B is given by the product of the individual entries,
 \[
     f\otimes h(y, b\mid x, a)\coloneqq f(y\mid x)h(b\mid a)
@@ -173,7 +173,7 @@ where for example, Y can possibly depend on both X and A. In FinStoch, the tenso
     \frametitle{copy structure}
     \begin{minipage}{.55\textwidth}
         The last piece of structure that we need to form a Markov category is two distinguished maps for each object X: a map $\text{\normalfont copy}: X\to X\otimes X$ which we call “copy” or “duplicate”, and represent as follows
-        % TODO: <add the copy string diagram here>
+        \includegraphics[width=.4\textwidth]{graphics/string/markov_copy.png}
     \end{minipage}
     \hfill
     \begin{minipage}{.4\textwidth}
@@ -186,7 +186,7 @@ where for example, Y can possibly depend on both X and A. In FinStoch, the tenso
     \frametitle{delete structure}
     \begin{minipage}{.48\textwidth}
         Short intuitive description
-        % TODO: <add the delete string diagram here>
+        % TODO?: <add the delete string diagram here>
     \end{minipage}
     \hfill
     \begin{minipage}{.48\textwidth}
@@ -213,16 +213,21 @@ The last property that we require in a Markov category is normalization or couni
     \begin{definition}
         A Markov category is a symmetric monoidal category $(\mathsf{C}, \otimes, I)$ together with a chosen commutative comonoid structure for each object $X$, which is compatible with tensor products, and for which all morphisms are counital.
     \end{definition}
-    \begin{enumerate}
-        % minipages for each item??
-        \item $?SC$ is semi-cartesian
-        \item Each object $X$ is equipped with "copy" and "discard" maps
-            <copy discard diagrams?>
-        \item which satisfy the identities of a commutative monoid
-            <definitely add diagrams>
-        \item The copy maps are compatible with the monoidal structure in the following way
-            <diagram>
-    \end{enumerate}
+    \begin{minipage}{.48\textwidth}
+        \begin{enumerate}
+            % minipages for each item??
+            \item $\mathsf{C}$ is semi-cartesian
+            \item Each object $X$ is equipped with "copy" and "discard" maps
+            \item which satisfy the identities of a commutative monoid
+            \item The copy maps are compatible with the monoidal structure in the following way
+        \end{enumerate}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.48\textwidth}
+        \includegraphics[width=\textwidth]{graphics/string/markov_copy_delete.png}
+        \includegraphics[width=\textwidth]{graphics/string/markov_commutative_monoid.png}
+        \includegraphics[width=\textwidth]{graphics/string/markov_monoidal_compat.png}
+    \end{minipage}
 \end{frame}
 
 \begin{frame}
