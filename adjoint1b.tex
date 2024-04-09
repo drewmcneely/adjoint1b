@@ -14,7 +14,7 @@
 \usepackage{cleveref}	% must be loaded after hyperref
 \usepackage[autostyle=true,german=quotes]{csquotes}
 \usepackage{tikz-cd}
-\input{markov.tikzstyles}
+\usetikzlibrary{decorations.pathmorphing}
 \usepackage[makeroom]{cancel}
 \usepackage{mathabx}
 \usepackage{multirow}
@@ -25,12 +25,19 @@
 \usepackage{stmaryrd}
 %\usepackage[lite]{mtpro2}	% for super-wide tildes
 % not found :/
-%\usepackage{tikzit}
+\usepackage{tikzit}
+\input{markov.tikzstyles}
+
+% to strike out text:
+\usepackage{ulem}
+\renewcommand<>{\sout}[1]{
+	\temporal#2{\invisible{#1}}{#1}{\beameroriginal{\sout}{#1}}
+}
 
 \title{Markov Categories and Entropy}
 \subtitle{Paolo Perrone, IEEE Transactions on Information Theory, 2023}
 
-\author{Utku Boduroğlu, Drew McNeely, and Nico Wittrock}
+\author[Utku, Drew, Nico]{Utku Boduroğlu, Drew McNeely, and Nico Wittrock}
 \institute{Adjoint School 2024}
 \date{April 11, 2024}
 
@@ -57,6 +64,9 @@
 \input{part2/part2}
 \section{Properties and additional axioms}
 \input{part3/part3}
+
+\section{Bonus Slides}
+\input{partAppendix/bonus_slides}
 
 \begin{frame}
 \frametitle{Outline}
