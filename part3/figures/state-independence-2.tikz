@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=state] (0) at (0, 0) {$f$};
+		\node [style=none] (1) at (-0.5, 0.25) {};
+		\node [style=none] (2) at (0.5, 0.25) {};
+		\node [style=none, label={above:$X$}] (3) at (-0.5, 1.25) {};
+		\node [style=none, label={above:$Y$}] (4) at (0.5, 1.25) {};
+		\node [style=none] (5) at (1.75, 0) {$=$};
+		\node [style=state] (10) at (3.25, 0) {$f$};
+		\node [style=none] (11) at (2.75, 0.25) {};
+		\node [style=none] (12) at (3.75, 0.25) {};
+		\node [style=none, label={above:$X$}] (13) at (2.75, 1.25) {};
+		\node [style=bn] (14) at (3.75, 1.25) {};
+		\node [style=state] (15) at (5.25, 0) {$f$};
+		\node [style=none] (16) at (4.75, 0.25) {};
+		\node [style=none] (17) at (5.75, 0.25) {};
+		\node [style=bn] (18) at (4.75, 1.25) {};
+		\node [style=none, label={above:$Y$}] (19) at (5.75, 1.25) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (3.center) to (1.center);
+		\draw (4.center) to (2.center);
+		\draw (13.center) to (11.center);
+		\draw (14) to (12.center);
+		\draw (18) to (16.center);
+		\draw (19.center) to (17.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

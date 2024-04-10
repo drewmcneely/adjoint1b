@@ -1,0 +1,70 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=morphism] (0) at (0, 0) {$f_g^{\dagger}$};
+		\node [style=none, label={above:$X$}] (1) at (0, 1.5) {};
+		\node [style=none] (2) at (-0.5, -0.5) {};
+		\node [style=none] (3) at (0.5, -0.5) {};
+		\node [style=none, label={below:$A$}] (4) at (-0.5, -1.5) {};
+		\node [style=none, label={below:$Y$}] (5) at (0.5, -1.5) {};
+		\node [style=none] (6) at (2, 0) {$:=$};
+		\node [style=morphism] (8) at (4.5, -1.5) {$g$};
+		\node [style=none, label={above:$X$}] (10) at (3.5, 2.75) {};
+		\node [style=none, label={below:$A$}] (14) at (4.5, -2.75) {};
+		\node [style=none] (15) at (6.5, 2.25) {};
+		\node [style=none] (16) at (3.25, 2.25) {};
+		\node [style=none] (17) at (3.25, -2.25) {};
+		\node [style=none] (18) at (6.5, -2.25) {};
+		\node [style=bn] (20) at (4.5, -0.5) {};
+		\node [style=morphism] (21) at (5.25, 0.75) {$f$};
+		\node [style=none] (22) at (5.25, 1.5) {};
+		\node [style=none] (23) at (6.25, 1.5) {};
+		\node [style=none, label={below:$Y$}] (24) at (6.25, -2.75) {};
+		\node [style=morphism] (25) at (0, -8.75) {$g$};
+		\node [style=bn] (26) at (0, -7.75) {};
+		\node [style=morphism] (27) at (0.75, -6.5) {$f$};
+		\node [style=none, label={above:$X$}] (28) at (-0.75, -5.5) {};
+		\node [style=none, label={below:$A$}] (29) at (0, -9.75) {};
+		\node [style=morphism] (30) at (4.75, -10) {$g$};
+		\node [style=bn] (31) at (4.75, -7.75) {};
+		\node [style=morphism] (32) at (3.75, -6.5) {$f_g^{\dagger}$};
+		\node [style=none, label={above:$Y$}] (33) at (5.75, -5.5) {};
+		\node [style=bn] (34) at (4.75, -11) {};
+		\node [style=morphism] (35) at (4.75, -8.75) {$f$};
+		\node [style=none, label={above:$Y$}] (36) at (0.75, -5.5) {};
+		\node [style=none, label={above:$X$}] (37) at (3.75, -5.5) {};
+		\node [style=none, label={below:$A$}] (38) at (4.75, -11.75) {};
+		\node [style=none] (39) at (4, -7) {};
+		\node [style=none] (40) at (3.5, -7) {};
+		\node [style=none] (41) at (2, -8.5) {$=$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (1.center) to (0);
+		\draw (2.center) to (4.center);
+		\draw (3.center) to (5.center);
+		\draw (8) to (14.center);
+		\draw [style=dashed box] (18.center)
+			 to (17.center)
+			 to (16.center)
+			 to (15.center)
+			 to cycle;
+		\draw [in=-90, out=0] (20) to (21);
+		\draw (21) to (22.center);
+		\draw [bend left=90, looseness=1.50] (22.center) to (23.center);
+		\draw (23.center) to (24.center);
+		\draw [in=-90, out=180, looseness=0.50] (20) to (10.center);
+		\draw (20) to (8);
+		\draw (29.center) to (25);
+		\draw (25) to (26);
+		\draw [in=-90, out=0] (26) to (27);
+		\draw (27) to (36.center);
+		\draw [in=-90, out=-180, looseness=0.75] (26) to (28.center);
+		\draw (38.center) to (34);
+		\draw (34) to (30);
+		\draw (30) to (35);
+		\draw (35) to (31);
+		\draw (32) to (37.center);
+		\draw [in=-90, out=0] (31) to (33.center);
+		\draw [in=-180, out=-90] (39.center) to (31);
+		\draw [in=-180, out=-90, looseness=0.75] (40.center) to (34);
+	\end{pgfonlayer}
+\end{tikzpicture}

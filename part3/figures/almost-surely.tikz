@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=morphism] (0) at (0, 0.25) {$f_1$};
+		\node [style=morphism] (1) at (0, -2) {$g$};
+		\node [style=morphism] (2) at (3, 0.25) {$f_2$};
+		\node [style=morphism] (3) at (3, -2) {$g$};
+		\node [style=none] (4) at (0, 1.25) {};
+		\node [style=none] (5) at (-1.25, 1.25) {};
+		\node [style=none] (6) at (1.75, 1.25) {};
+		\node [style=none] (7) at (3, 1.25) {};
+		\node [style=none] (8) at (0, -3) {};
+		\node [style=none] (9) at (3, -3) {};
+		\node [style=bn] (10) at (0, -1) {};
+		\node [style=bn] (11) at (3, -1) {};
+		\node [style=none] (12) at (1.25, -1) {$=$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [in=180, out=-90, looseness=0.75] (5.center) to (10);
+		\draw (10) to (1);
+		\draw (1) to (8.center);
+		\draw (3) to (9.center);
+		\draw (11) to (3);
+		\draw (2) to (11);
+		\draw (7.center) to (2);
+		\draw [in=180, out=-90, looseness=0.75] (6.center) to (11);
+		\draw (4.center) to (0);
+		\draw (0) to (10);
+	\end{pgfonlayer}
+\end{tikzpicture}
