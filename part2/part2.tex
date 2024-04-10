@@ -1,4 +1,4 @@
-\subsection{Randomness in Markov categories}
+\subsection{Determinism Markov categories}
 
 \begin{frame}{What Markov categories are \emph{not}}
 	\begin{definition}
@@ -154,7 +154,7 @@
 \begin{frame}{Determinism in $\FinStoch$}
 	Recall: $f : X \to Y$ has distributions $f_x$ on $Y$. 
 %	\begin{minipage}{0.75\linewidth}
-	\begin{proof}
+	\begin{example}[\cite{Fritz_synthetic} Example 10.3.]
 		\begin{tabular}{lll}
 			$f$ is deterministic 
 			& $\Leftrightarrow$ & all $f_x$ of form 
@@ -164,8 +164,8 @@
 			& $\Leftrightarrow$ & $f$ corresponds to $\cat{Set}$-function
 			\phantom{\qedhere}
 		\end{tabular}
-	%TODO without delta measure
-	\end{proof}
+	%TODO "Observation"
+	\end{example}
 %	\end{minipage}
 %	\begin{minipage}{0.24\linewidth}
 %	\begin{center}
@@ -185,16 +185,16 @@
 \end{frame}
 
 \begin{frame}{Determinism and Products}
-	\begin{theorem}
-	Let $\cC$ be a Markov category.
+	\begin{lemma}[\cite{Fritz_synthetic} Lemma 10.12, Remark 10.13.]
+	For Markov category $\cC$ 
 	\begin{itemize}
-		\item The deterministic morphisms form Markov subcategory $\cC_{\text{det}} \subset \cC$.
+		\item deterministic morphisms form Markov subcategory $\cC_{\text{det}} \subset \cC$;
 		\pause
 		\item $\cC_{\text{det}}$ is cartesian monoidal (i.e. $\otimes$ is product functor).
 %		\pause
 %		\item If $\cC$ is cartesian monoidal, then all morphisms in $\cC$ are deterministic.
 	\end{itemize}
-	\end{theorem}
+	\end{lemma}
 	\pause
 	\begin{example}
 		\[ 
@@ -204,14 +204,14 @@
 \end{frame}
 
 \begin{frame}{Products and Determinism}
-	\begin{theorem}
-		Let $\cC$ be cartesian monoidal (i.e. $\otimes$ is product functor). 
+	\begin{lemma}[\cite{Fritz_synthetic} Remark 2.4.]
+		For $\cC$ cartesian monoidal (i.e. $\otimes$ is product functor)
 		\begin{itemize}
-			\item $\cC$ is Markov.
-			\item All morphisms are deterministic.
+			\item $\cC$ is Markov;	% in a unique way!
+			\item all morphisms are deterministic.
 		\end{itemize}
 		%		Cartesian monoidal categories are Markov categories (without uncertainty).
-	\end{theorem}
+	\end{lemma}
 	\pause
 	\begin{example}[Markov categories without uncertainty]
 		%\dots this includes
@@ -219,14 +219,34 @@
 	\end{example}
 \end{frame}
 
+\begin{frame}{Probability Monads}
+	\begin{minipage}{0.4\linewidth}
+		\begin{center}
+			\makebox[\textwidth]{\includegraphics[width=\linewidth]{part2/Figures/1-the-duchess-moral}}
+		\end{center}		
+	\end{minipage}
+%	\pause
+	\begin{minipage}{0.59\linewidth}
+		\centering
+		Determinism $\leftrightsquigarrow$ Products	
+	\end{minipage}
+\end{frame}
+
 \subsection{Introducing Uncertainty by Probability Monads}
 
 \begin{frame}{Probability Monads}
-%	\pause[2]
+	\pause[2]
 %	\emph{probability monads}
-%	\pause[1]
 	\dots
 	introduce uncertainty to cartesian Markov categories	
+	\pause[1]
+	\begin{example}[Deterministic Markov categories]
+		%\dots this includes
+		$\cat{Set}$, $\cat{FinSet}$, $\cat{Meas}$, $\cat{BorelMeas}$, \dots
+		% $\cat{Top}$.
+	\end{example}
+%TODO Top, Vect, Man?
+
 \end{frame}
 
 \begin{frame}{Probability Monads}
@@ -257,17 +277,22 @@
 \end{frame}
 
 \begin{frame}{Probability Monads}
-	\begin{theorem}
+	\begin{theorem}[\cite{Fritz_representable}, Proposition 3.1.]
 %		{\pause[1]
-		For a cartesian monoidal category $\cC$ with monad $T: \cC \to \cC$ which is
+		For $\cC$ cartesian monoidal, monad $T: \cC \to \cC$ 
 		\begin{itemize}
-			\item compatible with $I$
+			\item compatible with $I$	% affine: I \cong T(I)
 %			{\pause[2] 
 			{\color{gray}($\rightsquigarrow$ powerset monad was adjusted)}
 %			}
-			\item compatible with $\otimes$
+			\item compatible with $\otimes$ and symmetry
+										% symmetric monoidal monad:
+										% monoidal functor compatibel with 
+										% - unit of T
+										% - multiplication of T
+										% - symmetric braiding 
 		\end{itemize}
-		its Kleisli category $\cC_T$ is Markov.
+		Kleisli category $\cC_T$ is Markov.
 %	}
 	\end{theorem}
 \end{frame}
@@ -302,19 +327,21 @@
 %\end{frame}
 
 \begin{frame}{Probability Monads}
-\begin{example}
-% https://q.uiver.app/#q=WzAsMTAsWzIsMF0sWzAsMF0sWzQsMCwiXFxjYXR7U2V0fSJdLFs0LDIsIlxcY2F0e1Bvc3N9Il0sWzYsMCwiXFxjYXR7RmluU2V0fSJdLFs2LDIsIlxcY2F0e0ZpblBvc3N9Il0sWzgsMCwiXFxjYXR7TWVhc30iXSxbOCwyLCJcXGNhdHtTdG9jaH0iXSxbMTAsMCwiXFxjYXR7Qm9yZWxNZWFzfSJdLFsxMCwyLCJcXGNhdHtCb3JlbFN0b2NofSJdLFsyLDMsIjJee1xcY2lyY30iLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dLFs0LDUsIjJee1xcY2lyY30iLDFdLFs2LDcsIkciLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dLFs4LDksIkciLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dXQ==
-\[\begin{tikzcd}[ampersand replacement=\&]
-{\cat{Set}} \&\& {\cat{FinSet}} \&\& {\cat{Meas}} \&\& {\cat{BorelMeas}} \\
-\\
-{\cat{Poss}} \&\& {\cat{FinPoss}} \&\& {\cat{Stoch}} \&\& {\cat{BorelStoch}}
-\arrow["{2^{\circ}}"{description}, squiggly, from=1-1, to=3-1]
-\arrow["{2^{\circ}}"{description}, squiggly, from=1-3, to=3-3]
-\arrow["\text{Giry monad}"{description}, squiggly, from=1-5, to=3-5]
-\arrow["\text{Giry monad}"{description}, squiggly, from=1-7, to=3-7]
-\end{tikzcd}\]
-\end{example}
+	\begin{example}
+	% https://q.uiver.app/#q=WzAsMTAsWzIsMF0sWzAsMF0sWzQsMCwiXFxjYXR7U2V0fSJdLFs0LDIsIlxcY2F0e1Bvc3N9Il0sWzYsMCwiXFxjYXR7RmluU2V0fSJdLFs2LDIsIlxcY2F0e0ZpblBvc3N9Il0sWzgsMCwiXFxjYXR7TWVhc30iXSxbOCwyLCJcXGNhdHtTdG9jaH0iXSxbMTAsMCwiXFxjYXR7Qm9yZWxNZWFzfSJdLFsxMCwyLCJcXGNhdHtCb3JlbFN0b2NofSJdLFsyLDMsIjJee1xcY2lyY30iLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dLFs0LDUsIjJee1xcY2lyY30iLDFdLFs2LDcsIkciLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dLFs4LDksIkciLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dXQ==
+	\[\begin{tikzcd}[ampersand replacement=\&]
+	{\cat{Set}} \&\& {\cat{FinSet}} \&\& {\cat{Meas}} \&\& {\cat{BorelMeas}} \\
+	\\
+	{\cat{Poss}} \&\& {\cat{FinPoss}} \&\& {\cat{Stoch}} \&\& {\cat{BorelStoch}}
+	\arrow["{2^{\circ}}"{description}, squiggly, from=1-1, to=3-1]
+	\arrow["{2^{\circ}}"{description}, squiggly, from=1-3, to=3-3]
+	\arrow["\text{Giry monad}"{description}, squiggly, from=1-5, to=3-5]
+	\arrow["\text{Giry monad}"{description}, squiggly, from=1-7, to=3-7]
+	\end{tikzcd}\]
+	\end{example}
+	%
 \end{frame}
+
 
 \begin{frame}{Probability Monads}
 	\begin{minipage}{0.4\linewidth}
@@ -324,6 +351,63 @@
 	\end{minipage}
 	\pause
 	\begin{minipage}{0.59\linewidth}
-		Uncertainty captured by \emph{morphisms}!
+		Uncertainty is incorporated in \emph{morphisms}!
 	\end{minipage}
+\end{frame}
+
+\subsection{Representabil Markov Categories}
+\begin{frame}{Representability}
+	%TODO delete this?
+	Monads introduce uncertainty, i.e.\,\emph{non-deterministic} morphisms:
+	\begin{example}
+		% https://q.uiver.app/#q=WzAsMTAsWzIsMF0sWzAsMF0sWzQsMCwiXFxjYXR7U2V0fSJdLFs0LDIsIlxcY2F0e1Bvc3N9Il0sWzYsMCwiXFxjYXR7RmluU2V0fSJdLFs2LDIsIlxcY2F0e0ZpblBvc3N9Il0sWzgsMCwiXFxjYXR7TWVhc30iXSxbOCwyLCJcXGNhdHtTdG9jaH0iXSxbMTAsMCwiXFxjYXR7Qm9yZWxNZWFzfSJdLFsxMCwyLCJcXGNhdHtCb3JlbFN0b2NofSJdLFsyLDMsIjJee1xcY2lyY30iLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dLFs0LDUsIjJee1xcY2lyY30iLDFdLFs2LDcsIkciLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dLFs4LDksIkciLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dXQ==
+		\[\begin{tikzcd}[ampersand replacement=\&]
+		{\cat{Set}} \&\& {\cat{FinSet}} \&\& {\cat{Meas}} \&\& {\cat{BorelMeas}} \\
+		\\
+		{\cat{Poss}} \&\& {\cat{FinPoss}} \&\& {\cat{Stoch}} \&\& {\cat{BorelStoch}}
+		\arrow["{2^{\circ}}"{description}, squiggly, from=1-1, to=3-1]
+		\arrow["{2^{\circ}}"{description}, squiggly, from=1-3, to=3-3]
+		\arrow["\text{Giry monad}"{description}, squiggly, from=1-5, to=3-5]
+		\arrow["\text{Giry monad}"{description}, squiggly, from=1-7, to=3-7]
+		\end{tikzcd}\]
+	\end{example}
+	\begin{center}
+	Question: 
+	Do they also introduce \emph{deterministic} morphisms?
+	\end{center}
+\end{frame}
+
+\begin{frame}{Representability}
+%	\begin{minipage}{0.45\linewidth}
+		\begin{definition}[Representability]
+			Markov cat. $\cC$ is \emph{representible}, if
+			\begin{itemize}
+				\item $\cC = \cat{D}_{T}$ for monad $T : \cat{D} \to \cat{D}$
+				\item $\cat{D} \cong \cC_{\det}$.
+			\end{itemize}
+		\end{definition}
+		%	\hfill
+%	\end{minipage}
+%	~~
+	\pause
+	\begin{minipage}{0.5\linewidth}
+		%	\begin{example}
+		%		($\cat{Fin}$)$\cat{Stoch}$ \emph{not} representable.\\
+		%			\pause
+		%			\item 
+		%			$\cat{BorelStoch}$, ($\cat{Fin}$)$\cat{Poss}$ are.
+		%		\end{itemize}
+		%	\end{example}
+		\begin{example}
+			$\cat{BorelStoch}$, ($\cat{Fin}$)$\cat{Poss}$ representable.
+		\end{example}
+	\end{minipage}
+	~~ \pause 
+	\begin{minipage}{0.45\linewidth}
+		\begin{example}
+			($\cat{Fin}$)$\cat{Stoch}$ \emph{not} representable.
+		\end{example}
+		%	\hfil
+	\end{minipage}
+	%TODO Gauss?
 \end{frame}
