@@ -141,7 +141,6 @@ In FinStoch and Stoch it is the one-point space, where there is no distinction b
 A source, or (random) state on X is now a morphism $p: I\to X$, which we depict as follows.
 \includegraphics[width=.4\textwidth]{graphics/string/markov_state.png}
 
-(mass fnc for FinStoch??)
 \begin{enumerate}
     \item FinStoch: a source is a stochastic "column" matrix, a finite probability measure on $X$
     \item Stoch: A Markov kernel to X with no input, i.e. a probability measure on $X$
@@ -154,9 +153,6 @@ A source, or (random) state on X is now a morphism $p: I\to X$, which we depict 
     \framesubtitle{is "independent"}
 Markov categories also come with a notion of parallel composition. $X\otimes A$, and which we interpret as the object whose states are composite states. in FinStoch and in Stoch it is given by the cartesian product of measurable spaces. Now given channels $f: X\to Y$ and $h: A\to B$, we can form the tensor product channel $f\otimes h: X\otimes A\to Y\otimes B$, which we represent as follows
 \includegraphics[width=.4\textwidth]{graphics/string/markov_parallel.png}
-and which we interpret as processing X and A independently. Compare this with a generic channel $g: X\otimes A\to Y\otimes B$
-% TODO?: <include a generic two-input-output channel here>
-where for example, Y can possibly depend on both X and A. In FinStoch, the tensor product of the stochastic matrices f : X → Y and g : A → B is given by the product of the individual entries,
 \[
     f\otimes h(y, b\mid x, a)\coloneqq f(y\mid x)h(b\mid a)
 \]
@@ -185,7 +181,6 @@ where for example, Y can possibly depend on both X and A. In FinStoch, the tenso
 \begin{frame}
     \frametitle{delete structure}
     \begin{minipage}{.48\textwidth}
-        Short intuitive description
         % TODO?: <add the delete string diagram here>
     \end{minipage}
     \hfill
@@ -228,9 +223,4 @@ The last property that we require in a Markov category is normalization or couni
         \includegraphics[width=\textwidth]{graphics/string/markov_commutative_monoid.png}
         \includegraphics[width=\textwidth]{graphics/string/markov_monoidal_compat.png}
     \end{minipage}
-\end{frame}
-
-\begin{frame}
-    % Do we need to mention that Markov categories admit string diagrams? Can we just mention it offhand and get it over with then?
-    quick mention that Markov categories admit string diagrams
 \end{frame}
