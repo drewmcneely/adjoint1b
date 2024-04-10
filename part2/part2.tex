@@ -1,4 +1,4 @@
-\subsection{Determinism Markov categories}
+\subsection{Determinism}
 
 \begin{frame}{What Markov categories are \emph{not}}
 	\begin{definition}
@@ -126,11 +126,12 @@
 	Recall: $p : I \to A := \{a, b, c\}$ is a distribution $\{p(a), p(b), p(c)\}$. 
 	\begin{example}
 		\includegraphics[scale=0.15]{part2/BarCharts/single_non-det}
-		is \emph{not} deterministic:
+		\pause is \emph{not} deterministic:
 		\\ \pause
 		\[ 
 		\tikzfig{deterministic_I_l}
 		= \includegraphics[scale=0.15]{part2/BarCharts/product_dist}
+		\pause
 		\neq \includegraphics[scale=0.15]{part2/BarCharts/diagonal_dist}
 		= \tikzfig{deterministic_I_r}
 		\]
@@ -154,6 +155,7 @@
 \begin{frame}{Determinism in $\FinStoch$}
 	Recall: $f : X \to Y$ has distributions $f_x$ on $Y$. 
 %	\begin{minipage}{0.75\linewidth}
+	\pause
 	\begin{example}[\cite{Fritz_synthetic} Example 10.3.]
 		\begin{tabular}{lll}
 			$f$ is deterministic 
@@ -215,7 +217,7 @@
 	\pause
 	\begin{example}[Markov categories without uncertainty]
 		%\dots this includes
-		$\cat{Set}$, $\cat{FinSet}$, $\cat{Meas}$, $\cat{BorelMeas}$, \dots% $\cat{Top}$.
+		$\cat{Set}$, $\cat{FinSet}$, $\cat{Top}$, \dots% $\cat{Top}$.
 	\end{example}
 \end{frame}
 
@@ -232,7 +234,7 @@
 	\end{minipage}
 \end{frame}
 
-\subsection{Introducing Uncertainty by Probability Monads}
+\subsection{Probability Monads Introduce Uncertainty}
 
 \begin{frame}{Probability Monads}
 	\pause[2]
@@ -262,7 +264,7 @@
 			\pause
 			\rotatebox[origin=c]{-90}{$\rightsquigarrow$}
 			\\
-		Kleisli category $\cat{Set}_{2^{\circ}}$ %with morphisms 		\includegraphics[scale=0.4]{part2/Figures/morphisms_poss} 
+		Kleisli category $\cat{Poss} := \cat{Set}_{2^{\circ}}$ %with morphisms 		\includegraphics[scale=0.4]{part2/Figures/morphisms_poss} 
 %			\begin{equation*}
 %			\begin{split}
 %			f : X &\to 2^Y	
@@ -355,7 +357,7 @@
 	\end{minipage}
 \end{frame}
 
-\subsection{Representabil Markov Categories}
+\subsection{Representable Markov Categories}
 \begin{frame}{Representability}
 	%TODO delete this?
 	Monads introduce uncertainty, i.e.\,\emph{non-deterministic} morphisms:
@@ -382,7 +384,7 @@
 		\begin{definition}[Representability]
 			Markov cat. $\cC$ is \emph{representible}, if
 			\begin{itemize}
-				\item $\cC = \cat{D}_{T}$ for monad $T : \cat{D} \to \cat{D}$
+				\item $\cC \cong \cat{D}_{T}$ for monad $T : \cat{D} \to \cat{D}$
 				\item $\cat{D} \cong \cC_{\det}$.
 			\end{itemize}
 		\end{definition}
