@@ -1,6 +1,9 @@
 \documentclass{beamer}
 \usetheme{Boadilla}
 
+\usepackage{biblatex} %Imports biblatex package
+\addbibresource{adjointb.bib}
+
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -52,6 +55,7 @@
 \newcommand{\Stoch}{\mathsf{Stoch}}
 \newcommand{\BorelStoch}{\mathsf{BorelStoch}}
 
+
 \begin{document}
 
 \begin{frame}
@@ -60,10 +64,14 @@
 
 \section{Introduction to Markov Categories}
 \input{part1/part1}
-\section{Useful ways to construct Markov categories}
+\section{Uncertainty in Markov categories}
 \input{part2/part2}
 \section{Properties and additional axioms}
 \input{part3/part3}
+
+\begin{frame}{Literature}
+\printbibliography
+\end{frame}
 
 \section{Bonus Slides}
 \input{partAppendix/bonus_slides}
