@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=bn] (0) at (-3, 0) {};
+		\node [style=none] (1) at (-3, -1) {};
+		\node [style=none] (2) at (-3.75, 1) {};
+		\node [style=none] (3) at (-2.25, 1) {};
+		\node [style=bn] (4) at (6.5, 0.5) {};
+		\node [style=none] (5) at (6.5, -0.5) {};
+		\node [style=none] (6) at (6.5, -1) {$X$};
+		\node [style=none] (7) at (-3, -1.5) {$X$};
+		\node [style=none] (8) at (-3.75, 1.5) {$X$};
+		\node [style=none] (9) at (-2.25, 1.5) {$X$};
+		\node [style=none] (10) at (-5.75, 0) {$=$};
+		\node [style=none] (11) at (4.5, 0) {$=$};
+		\node [style=none] (12) at (2.5, 0) {$\del_X$};
+		\node [style=none] (13) at (-7.75, 0) {};
+		\node [style=none] (14) at (-7.75, 0) {$\cop_X$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [in=-90, out=165] (0) to (2.center);
+		\draw (0) to (1.center);
+		\draw [in=-90, out=15] (0) to (3.center);
+		\draw (4) to (5.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

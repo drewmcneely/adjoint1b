@@ -1,12 +1,60 @@
 \documentclass{beamer}
 \usetheme{Boadilla}
 
+\usepackage{biblatex} %Imports biblatex package
+\addbibresource{adjointb.bib}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{calc}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{breakurl}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{cleveref}	% must be loaded after hyperref
+\usepackage[autostyle=true,german=quotes]{csquotes}
+\usepackage{tikz-cd}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage[makeroom]{cancel}
+\usepackage{mathabx}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{xfrac}
+\usepackage{faktor}
+\usepackage{stmaryrd}
+%\usepackage[lite]{mtpro2}	% for super-wide tildes
+% not found :/
+\usepackage{tikzit}
+\input{markov.tikzstyles}
+
+% to strike out text:
+\usepackage{ulem}
+\renewcommand<>{\sout}[1]{
+	\temporal#2{\invisible{#1}}{#1}{\beameroriginal{\sout}{#1}}
+}
+
 \title{Markov Categories and Entropy}
 \subtitle{Paolo Perrone, IEEE Transactions on Information Theory, 2023}
 
-\author{Utku Boduroğlu, Drew McNeely, and Nico Wittrock}
+\author[Utku, Drew, Nico]{Utku Boduroğlu, Drew McNeely, and Nico Wittrock}
 \institute{Adjoint School 2024}
 \date{April 11, 2024}
+
+%some commands:
+%cat stuff:
+\newcommand{\cat}[1]{\mathsf{#1}}
+\newcommand{\cC}{\cat{C}}
+\DeclareMathOperator{\cop}{copy}
+\DeclareMathOperator{\del}{del}
+\newcommand{\idfun}	[1]{\operatorname{id}_{#1}}
+\newcommand{\FinStoch}{\mathsf{FinStoch}}
+\newcommand{\Stoch}{\mathsf{Stoch}}
+\newcommand{\BorelStoch}{\mathsf{BorelStoch}}
+
 
 \begin{document}
 
@@ -14,19 +62,22 @@
 \titlepage
 \end{frame}
 
-\begin{frame}
-\frametitle{Outline}
-This is just me fooling around with Beamer to get a feel for it.
-None of the contents should be taken seriously at this point.
-\tableofcontents
-\end{frame}
+\section{Introduction to Markov Categories}
+\input{part1/part1}
+\section{Uncertainty in Markov categories}
+\input{part2/part2}
+\section{Properties and additional axioms}
+\input{part3/part3}
 
-\input{part1/part1.tex}
-\input{part2/part2.tex}
-\input{part3/part3.tex}
+\begin{frame}{Literature}
+\printbibliography
+\end{frame}
 
 \begin{frame}
 	Questions
 \end{frame}
+
+\section{Bonus Slides}
+\input{partAppendix/bonus_slides}
 
 \end{document}

@@ -1,0 +1,24 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (0, -1.75) {};
+		\node [style=bn] (1) at (0, -0.75) {};
+		\node [style=none] (2) at (-1, 0.5) {};
+		\node [style=none] (3) at (1, 0.5) {};
+		\node [style=morphism] (5) at (-1, 0.75) {$p$};
+		\node [style=morphism] (6) at (1, 0.75) {$p$};
+		\node [style=none] (12) at (-1, 1.75) {};
+		\node [style=none] (13) at (1, 1.75) {};
+		\node [style=none] (18) at (-1, 2.25) {$A$};
+		\node [style=none] (19) at (1, 2.25) {$A$};
+		\node [style=none] (22) at (0, -2.25) {$I$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=dashed box] (0.center) to (1);
+		\draw [style=dashed box, in=-90, out=165] (1) to (2.center);
+		\draw [style=dashed box, in=-90, out=15] (1) to (3.center);
+		\draw (12.center) to (5);
+		\draw (13.center) to (6);
+		\draw (2.center) to (5);
+		\draw (3.center) to (6);
+	\end{pgfonlayer}
+\end{tikzpicture}
