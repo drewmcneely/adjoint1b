@@ -1,15 +1,15 @@
 \begin{tikzpicture}
 	\begin{pgfonlayer}{nodelayer}
-		\node [style=none] (0) at (3.5, -1.75) {};
-		\node [style=bn] (1) at (3.5, 0.25) {};
-		\node [style=none] (2) at (2.5, 1.5) {};
-		\node [style=none] (3) at (4.5, 1.5) {};
-		\node [style=none] (4) at (2.5, 1.75) {};
-		\node [style=none] (5) at (4.5, 1.75) {};
-		\node [style=morphism] (7) at (3.5, -0.75) {$p$};
-		\node [style=none] (8) at (3.5, -2.25) {$I$};
-		\node [style=none] (9) at (2.5, 2.25) {$A$};
-		\node [style=none] (10) at (4.5, 2.25) {$A$};
+		\node [style=none] (0) at (0, -1.75) {};
+		\node [style=bn] (1) at (0, 0.25) {};
+		\node [style=none] (2) at (-1, 1.5) {};
+		\node [style=none] (3) at (1, 1.5) {};
+		\node [style=none] (4) at (-1, 1.75) {};
+		\node [style=none] (5) at (1, 1.75) {};
+		\node [style=morphism] (7) at (0, -0.75) {$p$};
+		\node [style=none] (8) at (0, -2.25) {$\{\ast\}$};
+		\node [style=none] (9) at (-1.25, 2.25) {$\{ a, b, c \}$};
+		\node [style=none] (10) at (1.25, 2.25) {$\{ a, b, c \}$};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw [style=none, in=270, out=165] (1) to (2.center);

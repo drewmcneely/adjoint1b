@@ -1,15 +1,17 @@
-\documentclass{beamer}
-% \documentclass[aspectratio=169]{beamer} % enable before committing
-\usetheme{Boadilla}
+\documentclass[aspectratio=169]{beamer}
 
+\usetheme{Boadilla}
+\setbeamersize{text margin left=12mm,text margin right=12mm}
 \usepackage{biblatex} %Imports biblatex package
 \addbibresource{adjointb.bib}
 
 \usepackage{amsmath}
+%\usepackage{txfonts}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 %\usepackage{calc}
 \usepackage{graphicx}
+\usepackage{graphbox}
 \usepackage{breakurl}
 \usepackage{xspace}
 \usepackage{hyperref}
@@ -25,7 +27,7 @@
 \usepackage{xfrac}
 \usepackage{faktor}
 \usepackage{stmaryrd}
-% \usepackage[lite]{mtpro2}	% for super-wide tildes
+%\usepackage[lite]{mtpro2}	% for super-wide tildes
 % not found :/
 \usepackage{tikzit}
 \input{markov.tikzstyles}
@@ -38,10 +40,12 @@
 	\temporal#2{\invisible{#1}}{#1}{\beameroriginal{\sout}{#1}}
 }
 
-\title{Markov Categories and Entropy}
-\subtitle{Paolo Perrone, IEEE Transactions on Information Theory, 2023}
+\graphicspath{{./graphics}}
 
-\author[Utku, Drew, Nico]{Utku Boduroğlu, Drew McNeely, and Nico Wittrock}
+\title{An Introduction to Markov Categories}
+%\subtitle{Paolo Perrone, IEEE Transactions on Information Theory, 2023}
+
+\author[Utku, Nico, Drew]{Utku Boduroğlu, Drew McNeely, and Nico Wittrock}
 \institute{Adjoint School 2024}
 \date{April 11, 2024}
 
@@ -56,19 +60,6 @@
 \newcommand{\Stoch}{\mathsf{Stoch}}
 \newcommand{\BorelStoch}{\mathsf{BorelStoch}}
 
-% command to automatically generate subsection frames with the respective title
-\AtBeginSubsection[]{
-  \begin{frame}
-  \vfill
-  \centering
-  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
-    \usebeamerfont{title}\insertsubsectionhead\par%
-  \end{beamercolorbox}
-  \vfill
-  \end{frame}
-}
-
-\graphicspath{{./graphics}}
 
 \begin{document}
 
@@ -77,7 +68,8 @@
 \end{frame}
 
 \begin{frame}
-    \tableofcontents
+	\frametitle{Outline}
+	\tableofcontents
 \end{frame}
 
 \section{Introduction to Markov Categories}
@@ -93,5 +85,46 @@
 
 \section{Bonus Slides}
 \input{partAppendix/bonus_slides}
+
+%\section{Markov Categories}
+%\subsection{Axioms}
+%
+%\begin{frame}
+%\frametitle{Definition of Markov Category}
+%\begin{definition}
+%	A Markov category is a semi-Cartesian category in which every object is a commutative comonoid.
+%\end{definition}
+%\end{frame}
+%
+%\subsection{Examples}
+%
+%\begin{frame}
+%	\frametitle{Example Markov category}
+%	Okay if we create an example, it absolutely needs to involve the cloud cover forecast during the total solar eclipse.
+%\end{frame}
+%
+%\section{Enriched Categories}
+%
+%\begin{frame}
+%	\frametitle{Enriched Categories}
+%	So yeah an enriched category is like a category with more structure on the morphisms.
+%	Instead of having hom-sets, ya got yourself some hom-objects.
+%\end{frame}
+%
+%\section{Divergences}
+%
+%\begin{frame}
+%	\frametitle{Divergence}
+%	Aight, so a divergence is like a metric for probability distributions...
+%
+%	Except it ain't a metric, cause it ain't \emph{sym}metric.
+%\end{frame}
+%
+%\subsection{Entropy}
+%
+%\begin{frame}
+%	\frametitle{Entropy}
+%	Entropy is a measure of how ``random'' a probability distribution is, given through the divergence between both sides of the defining equation for deterministic kernels. Neat!!
+%\end{frame}
 
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2024.3.28)  9 APR 2024 10:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2024.3.28)  11 APR 2024 15:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -552,20 +552,19 @@ Kindly consider setting the prefactor of z to 95.30853
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./diagonal_dist.aux) ) 
 Here is how much of TeX's memory you used:
- 22817 strings out of 481239
- 609652 string characters out of 5920377
- 955810 words of memory out of 5000000
- 37741 multiletter control sequences out of 15000+600000
+ 22809 strings out of 481239
+ 609416 string characters out of 5920377
+ 954810 words of memory out of 5000000
+ 37733 multiletter control sequences out of 15000+600000
  532338 words of font info for 24 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,10n,98p,735b,2122s stack positions out of 5000i,500n,10000p,200000b,80000s
 </u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on diagonal_dist.pdf (1 page, 20543 bytes).
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+Output written on diagonal_dist.pdf (1 page, 12699 bytes).
 PDF statistics:
- 19 PDF objects out of 1000 (max. 8388607)
- 13 compressed objects within 1 object stream
+ 15 PDF objects out of 1000 (max. 8388607)
+ 10 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
