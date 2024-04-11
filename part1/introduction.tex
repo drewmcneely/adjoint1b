@@ -12,16 +12,16 @@
 \subsection{Informal introduction to Markov kernels and Markov categories}
 
 \begin{frame}
-    A Markov category consists of
-    \begin{enumerate}
-        \item objects: spaces of possible states\par
-            Alphabets or data
-            Represented as wires
+    A Markov category can be interpreted to consist of
+    \begin{enumerate}\pause
+        \item objects: spaces of possible values (Alphabets or data)\par
+            Represented as wires\pause
             % TODO?: Add wire diagram
-        \item morphisms: channels, devices, programs
-            We represent them as boxes to be read horizontally from left to right.
+        \item morphisms: channels, devices, programs\par
+            Represented as boxes, to be read horizontally from left to right
+
             \includegraphics[width=.4\textwidth]{graphics/string/markov_morphism.png}
-    \end{enumerate}
+    \end{enumerate}\pause
     Morphisms are in general \emph{noisy}, involving randomness
 \end{frame}
 
@@ -36,7 +36,7 @@
             \end{itemize}
         \item Stoch: 
             \begin{itemize}
-                \item objects: measurable sets/alphabets $(X, \Sigma_X), Y\ \text{(when clear from context)}, \dots$
+                \item objects: measurable spaces/alphabets $(X, \Sigma_X), Y\ \text{(when clear from context)}, \dots$
                 \item morphisms: Markov kernels $f: X\to Y$
             \end{itemize}
     \end{enumerate}
@@ -55,7 +55,7 @@
         \[
             \sum_{y\in Y} f(y\mid x) = 1 \quad \text{for every $x\in X$.}
         \]
-    \end{minipage}
+    \end{minipage}\pause
     \hfill
     \begin{minipage}{.48\textwidth}
         \includegraphics[width=\textwidth]{finstoch_mkv_kernel}
@@ -75,41 +75,49 @@
 \end{frame}
 
 \begin{frame}
-    For both examples, we can equivalently see the channels $X\to Y$ as (measurable) functions $X\to PY$, where for $x\in X$, $f_x$ is a probability measure of $Y$.
+    For both examples, we can equivalently see the channels $X\to Y$ as (measurable) functions $X\to PY$, where for $x\in X$, $f_x$ is a probability measure of $Y$.\pause
+    \[
+        \text{\normalfont Hom} _\text{\normalfont Markov} (X, Y) \cong \text{\normalfont Meas} (X, PY)
+    \]
+    where $P$ is the probability (Giry) monad taking a measurable space $Y$ to the set (measurable space) of probability measures on $Y$.\pause
 
+    \begin{minipage}{.3\textwidth}
+        \begin{align*}
+            X&\times Y \to [0, 1]\\
+            X&\times \Sigma_Y \to [0, 1]\\
+        \end{align*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.6\textwidth}
+        \begin{align*}
+            f_x: &Y\to [0, 1],\quad \sum\nolimits_{y\in Y} f(y \mid x) = 1\\
+            f_x: &\Sigma_Y\to [0, 1] \in PY \\
+        \end{align*}
+    \end{minipage}
     % TODO: a short mention of probability monads here
     
 \end{frame}
 
 \subsection{Markov categories are categories}
 
-\begin{frame}
-    \frametitle{Identity}
-    \framesubtitle{through Dirac delta distribution}
-    % TODO: Shorten this frame
-    The fact that we have a category means the following. First of all, we have an identity morphism $1_X: X\to X$ for each object (alphabet) $X$, which represents no change in the state of $X$. We draw it simply with a wire
-    In FinStoch, identities are identity matrices. In Stoch, they are the "Dirac delta" kernels defined by the identity function
-    \[
-        \text{\normalfont id} (S\mid x) = \delta_x (S) = 1_S(x) = \begin{cases} 1\ x\in S\\ 0\ x\not \in S
-        \end{cases}
-    \]
-\end{frame}
 
 \begin{frame}
     \frametitle{Composition}
     \framesubtitle{through the Chapman-Kolmogorov equation}
     % TODO: Shorten this frame
     % Composition (Stoch, FinStoch) through the Chapman-Kolmogorov equation (measure pushfwd, matmul)
-    Moreover, we have a notion of sequential composition of channels: given channels f : X → Y and g : Y → Z, we can form a channel g ◦ f : X → Z, which we draw as follows.
-    In FinStoch the composition is given by the \emph{Chapman-Kolmogorov} formula:
-    \begin{align}
-        g\circ f (z\mid x) \coloneqq \sum_{y\in Y} g(z\mid y) f(y\mid x)
-    \end{align}
-    and in Stoch it is given by its continuous analogue: for every measurable subset $S\subset Z$,
-    \begin{align}
-        g\circ f (S\mid x) \coloneqq \int_Y g(S\mid y) f(dy\mid x)
-    \end{align}
-    by which we mean the integral with respect to the measure $f_x$ on $Y$, for every $x$.
+    Given channels f : X → Y and g : Y → Z, we can form a channel g ◦ f : X → Z; for the case of Fin/Stoch, this is through the respective versions of the \emph{Chapman-Kolmogorov} formula:\pause
+    \begin{itemize}
+        \item in FinStoch,
+        \begin{align}
+            g\circ f (z\mid x) \coloneqq \sum_{y\in Y} g(z\mid y) f(y\mid x)
+        \end{align}\pause
+        \item in Stoch, it is given by the continuous analogue: for every measurable subset $S\subset Z$,
+        \begin{align}
+            g\circ f (S\mid x) \coloneqq \int_Y g(S\mid y) f(dy\mid x)
+        \end{align}
+        by which we mean the integral with respect to the measure $f_x$ on $Y$, for every $x$.
+\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -128,18 +136,37 @@
     
 \end{frame}
 
+\begin{frame}
+    \frametitle{Identity}
+    \framesubtitle{through Dirac delta distribution}
+    % TODO: Shorten this frame
+    Identities in a Markov category represents for each object $X$ that there is no change in the state of $X$. We draw it simply with a wire.\pause
+    \begin{itemize}
+        \item In FinStoch, identities are identity matrices. 
+        \item In Stoch, they are the "Dirac delta" kernels defined by the identity function
+        \[
+            \text{\normalfont id} (S\mid x) = \delta_x (S) = 1_S(x) = \begin{cases} 1\ x\in S\\ 0\ x\not \in S
+            \end{cases}
+        \]
+\end{itemize}
+\end{frame}
+
 \subsection{Markov categories are symmetric monoidal}
 \begin{frame}
     \frametitle{States}
     \framesubtitle{form probability distributions}
     % States form probability distributions
     % TODO: Rephrase to simplify what a source is in Fin/Stoch and what it should be in a MC
-unit we write $I$, and which we do not draw (it’s represented by an empty region). 
+    Both $(\mathsf{FinStoch}, \otimes, *)$ and $(\mathsf{Stoch}, \otimes, *)$ are monoidal categories under "cartesian product" and the singleton space.\par
+    In general, we have a unit, written $I$, and which we do not draw (it’s represented by an empty region).\pause
 
-In FinStoch and Stoch it is the one-point space, where there is no distinction between states to be made.
-
-A source, or (random) state on X is now a morphism $p: I\to X$, which we depict as follows.
-\includegraphics[width=.4\textwidth]{graphics/string/markov_state.png}
+    \begin{minipage}{.55\textwidth}
+        A source, or (random) state on X is now a morphism $p: I\to X$: 
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.4\textwidth}
+        \includegraphics[width=\textwidth]{graphics/string/markov_state.png}
+    \end{minipage}\pause
 
 \begin{enumerate}
     \item FinStoch: a source is a stochastic "column" matrix, a finite probability measure on $X$
@@ -150,12 +177,18 @@ A source, or (random) state on X is now a morphism $p: I\to X$, which we depict 
 
 \begin{frame}
     \frametitle{Parallel composition} 
-    \framesubtitle{is "independent"}
-Markov categories also come with a notion of parallel composition. $X\otimes A$, and which we interpret as the object whose states are composite states. in FinStoch and in Stoch it is given by the cartesian product of measurable spaces. Now given channels $f: X\to Y$ and $h: A\to B$, we can form the tensor product channel $f\otimes h: X\otimes A\to Y\otimes B$, which we represent as follows
-\includegraphics[width=.4\textwidth]{graphics/string/markov_parallel.png}
-\[
-    f\otimes h(y, b\mid x, a)\coloneqq f(y\mid x)h(b\mid a)
-\]
+Markov categories also come with a notion of parallel composition through $\otimes$\par
+Given channels $f: X\to Y$ and $h: A\to B$, we can form the tensor product channel $f\otimes h: X\otimes A\to Y\otimes B$, which we represent as follows:\pause
+
+\begin{minipage}{.4\textwidth}
+    \includegraphics[width=\textwidth]{graphics/string/markov_parallel.png}
+\end{minipage}
+\hfill
+\begin{minipage}{.55\textwidth}
+    \[
+        f\otimes h(y, b\mid x, a)\coloneqq f(y\mid x)h(b\mid a)
+    \]
+\end{minipage}
 \end{frame}
 
 \begin{frame}
@@ -167,47 +200,115 @@ Markov categories also come with a notion of parallel composition. $X\otimes A$,
 \subsection{Markov categories have comonoid objects}
 \begin{frame}
     \frametitle{copy structure}
-    \begin{minipage}{.55\textwidth}
-        The last piece of structure that we need to form a Markov category is two distinguished maps for each object X: a map $\text{\normalfont copy}: X\to X\otimes X$ which we call “copy” or “duplicate”, and represent as follows
-        \includegraphics[width=.4\textwidth]{graphics/string/markov_copy.png}
-    \end{minipage}
+    \begin{minipage}{.57\textwidth}
+        % The last piece of structure that we need to form a Markov category is two distinguished maps for each object X: a map $\text{\normalfont copy}: X\to X\otimes X$ which we call “copy” or “duplicate”, and represent as follows
+        The copy structure consists of a copy (or duplicate) map ${\text{\normalfont copy} _X: X\to X\otimes X}$ for each object $X$, represented as
+
+        \begin{center}
+            \includegraphics[width=.4\textwidth]{graphics/string/markov_copy.png}
+        \end{center}
+
+        As the name suggests, this can be thought of as making a copy of the information.
+    \end{minipage}\pause
     \hfill
-    \begin{minipage}{.4\textwidth}
+    \begin{minipage}{.38\textwidth}
         \includegraphics[width=\textwidth]{copy_graphic}
+        \caption{The grid above does NOT represent a stochastic matrix!}
     \end{minipage}
 \end{frame}
 
 
 \begin{frame}
     \frametitle{delete structure}
+    The delete structure consists of a collection of maps
     \begin{minipage}{.48\textwidth}
-        % TODO?: <add the delete string diagram here>
+        \[
+            \text{\normalfont del} _X : X\to I
+        \]
+    \end{minipage}
+    \hfill % 
+    \begin{minipage}{.48\textwidth}
+        \tikzfig{delete}
+    \end{minipage}
+    \vspace{5mm}
+
+    for each object $X$. We also require that these morphisms assemble into a natural transformation $\text{\normalfont del} : \text{\normalfont id} \Rightarrow I$
+\end{frame}
+
+\begin{frame}[t]
+    \frametitle{Marginals}
+    \framesubtitle{with $\otimes$ and delete}
+    \vspace{5mm}
+    \begin{minipage}{.55\textwidth}
+        With the compatible monoidal action and the delete structure, we can also talk about marginalization:\par
+        For a joint morphism ${p: A\to X\otimes Y}$, we can obtain its marginal morphisms ${p|_X: A\to X}$ and ${p|_Y: A\to Y}$ by the delete map
+        \begin{align*}
+            (\text{\normalfont id} _X \otimes \text{\normalfont del} _Y) \circ p = p|_X\\
+            (\text{\normalfont del} _X \otimes \text{\normalfont id} _Y) \circ p = p|_Y\\
+        \end{align*}
     \end{minipage}
     \hfill
-    \begin{minipage}{.48\textwidth}
+    \begin{minipage}{.35\textwidth}
         \includegraphics[width=\textwidth]{delete_graphic.png}
     \end{minipage}
 \end{frame}
 
 \begin{frame}[t]
-    \frametitle{Marginals}
-    \framesubtitle{from copy and delete}
-    Marginals, colorful picture for finstoch: “If you have the tensor product and delete morphism, then marginals come automatically for free. No more integrating over variables!”
+    Graphically:
+    \vspace{10mm}
+
+    \begin{minipage}{.48\textwidth}
+        \tikzfig{state_I}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.48\textwidth}
+        \tikzfig{marginalX_I}
+    \end{minipage}
+    \vspace{10mm}
+    \pause
+
+    \begin{minipage}{.48\textwidth}
+        \tikzfig{state_A}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.48\textwidth}
+        \tikzfig{marginalX_A}
+    \end{minipage}
 \end{frame}
 
 \begin{frame}
     \frametitle{Naturality of delete}
-The last property that we require in a Markov category is normalization or counitality: applying a morphism f and discarding its output is the same as discarding the input from the start.  In FinStoch, this is exactly the condition that the sum of each column of a stochastic matrix is one, i.e. that transition probabilities are normalized.
+The last property that we require in a Markov category is normalization or counitality:
+
+% applying a morphism f and discarding its output is the same as discarding the input from the start.  
 % TODO: loop back to when we talked about normalization and say that naturality of delete suffices to reflect this
+\begin{minipage}{.48\textwidth}
+    \includegraphics[width=\textwidth]{graphics/string/markov_nat_delete.png}
+    % \tikzfig{normalization}
+\end{minipage}
+\hfill
+\begin{minipage}{.48\textwidth}
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCJYIl0sWzIsMCwiSSJdLFswLDIsIlkiXSxbMiwxLCJcXHRleHR7ZGVsfV9ZIiwyXSxbMCwxLCJcXHRleHR7ZGVsfV9YIl0sWzAsMiwiZiIsMl1d
+\[\begin{tikzcd}[ampersand replacement=\&]
+	X \&\& I \\
+	\\
+	Y
+	\arrow["{\text{del}_Y}"', from=3-1, to=1-3]
+	\arrow["{\text{del}_X}", from=1-1, to=1-3]
+	\arrow["f"', from=1-1, to=3-1]
+\end{tikzcd}\]
+\end{minipage}\pause
+
+In FinStoch, this is exactly the condition that the sum of each column of a stochastic matrix is one, i.e. that transition probabilities are normalized.
 \end{frame}
 
-\subsection{Formal definition of Markov categories}
+\subsection{Formal definition of Markov category}
 
 \begin{frame}
     % “A Markov category is a semicartesian category where all objects are commutative comonoids compatible with the monoidal structure”
     \begin{definition}
         A Markov category is a symmetric monoidal category $(\mathsf{C}, \otimes, I)$ together with a chosen commutative comonoid structure for each object $X$, which is compatible with tensor products, and for which all morphisms are counital.
-    \end{definition}
+    \end{definition}\pause
     \begin{minipage}{.48\textwidth}
         \begin{enumerate}
             % minipages for each item??
