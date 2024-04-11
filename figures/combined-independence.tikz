@@ -15,18 +15,18 @@
 		\node [style=bn] (12) at (-1, 1.25) {};
 		\node [style=bn] (13) at (-0.5, 1.75) {};
 		\node [style=bn] (14) at (0, 1.25) {};
-		\node [style=none, label={above:$B$}] (15) at (-0.5, 4.5) {};
-		\node [style=medium box] (16) at (-1.75, 3.25) {$g$};
-		\node [style=medium box] (17) at (0.75, 3.25) {$h$};
-		\node [style=none, label={above:$X$}] (18) at (-1.75, 4.5) {};
-		\node [style=none, label={above:$Y$}] (19) at (0.75, 4.5) {};
-		\node [style=none, label={below:$A$}] (20) at (-5, -2.75) {};
-		\node [style=bn] (21) at (-0.5, -1.75) {};
-		\node [style=none] (22) at (0.5, 2.75) {};
-		\node [style=none] (23) at (1, 2.75) {};
-		\node [style=none] (24) at (-1.5, 2.75) {};
-		\node [style=none] (25) at (-2, 2.75) {};
-		\node [style=none, label={below:$A$}] (26) at (-0.5, -2.75) {};
+		\node [style=none, label={above:$B$}] (15) at (-0.5, 4.25) {};
+		\node [style=medium box] (16) at (-1.75, 3) {$g$};
+		\node [style=medium box] (17) at (0.75, 3) {$h$};
+		\node [style=none, label={above:$X$}] (18) at (-1.75, 4.25) {};
+		\node [style=none, label={above:$Y$}] (19) at (0.75, 4.25) {};
+		\node [style=none, label={below:$A$}] (20) at (-5, -2.25) {};
+		\node [style=bn] (21) at (-0.5, -1.5) {};
+		\node [style=none] (22) at (0.5, 2.5) {};
+		\node [style=none] (23) at (1, 2.5) {};
+		\node [style=none] (24) at (-1.5, 2.5) {};
+		\node [style=none] (25) at (-2, 2.5) {};
+		\node [style=none, label={below:$A$}] (26) at (-0.5, -2.25) {};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw (1.center) to (4.center);
