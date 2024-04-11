@@ -55,7 +55,7 @@
         \[
             \sum_{y\in Y} f(y\mid x) = 1 \quad \text{for every $x\in X$.}
         \]
-    \end{minipage}\pause
+    \end{minipage}
     \hfill
     \begin{minipage}{.48\textwidth}
         \includegraphics[width=\textwidth]{finstoch_mkv_kernel}
@@ -144,12 +144,19 @@
     \begin{itemize}
         \item In FinStoch, identities are identity matrices. 
         \item In Stoch, they are the "Dirac delta" kernels defined by the identity function
-        \[
-            \text{\normalfont id} (S\mid x) = \delta_x (S) = 1_S(x) = \begin{cases} 1\ x\in S\\ 0\ x\not \in S
-            \end{cases}
-        \]
 \end{itemize}
+\begin{minipage}{.48\textwidth}
+    \[
+        \text{\normalfont id} (S\mid x) = \delta_x (S) = 1_S(x) = \begin{cases} 1\ x\in S\\ 0\ x\not \in S
+        \end{cases}
+    \]
+\end{minipage}
+\hfill
+\begin{minipage}{.48\textwidth}
+    \includegraphics[width=\textwidth]{graphics/markov_delta.png}
+\end{minipage}
 \end{frame}
+
 
 \subsection{Markov categories are symmetric monoidal}
 \begin{frame}
@@ -193,7 +200,7 @@ Given channels $f: X\to Y$ and $h: A\to B$, we can form the tensor product chann
 
 \begin{frame}
     \begin{center}
-        \includegraphics[width=.7\textwidth]{finstoch_parallel_composition.png}
+        \includegraphics[width=.5\textwidth]{graphics/parallel_dist.jpg}
     \end{center}
 \end{frame}
 
@@ -212,8 +219,8 @@ Given channels $f: X\to Y$ and $h: A\to B$, we can form the tensor product chann
     \end{minipage}\pause
     \hfill
     \begin{minipage}{.38\textwidth}
-        \includegraphics[width=\textwidth]{copy_graphic}
-        \caption{The grid above does NOT represent a stochastic matrix!}
+        \includegraphics[width=\textwidth]{copy_illustration}
+        % \caption{The grid above does NOT represent a stochastic matrix!}
     \end{minipage}
 \end{frame}
 
