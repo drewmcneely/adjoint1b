@@ -3,16 +3,16 @@
 		\node [style=medium box] (0) at (0, -0.25) {$f$};
 		\node [style=none] (1) at (-0.5, 0.25) {};
 		\node [style=none] (2) at (0.5, 0.25) {};
-		\node [style=none, label={above:$X$}] (3) at (-0.5, 1.25) {};
-		\node [style=none, label={above:$Y$}] (4) at (0.5, 1.25) {};
+		\node [style=none, label={above:$X$}] (3) at (-0.5, 1) {};
+		\node [style=none, label={above:$Y$}] (4) at (0.5, 1) {};
 		\node [style=none] (5) at (1.75, 0) {$=$};
 		\node [style=morphism] (6) at (3, 0) {$g$};
 		\node [style=morphism] (7) at (5, 0) {$h$};
-		\node [style=none, label={above:$X$}] (8) at (3, 1.25) {};
-		\node [style=none, label={above:$Y$}] (9) at (5, 1.25) {};
-		\node [style=none, label={below:$A$}] (10) at (0, -2.25) {};
+		\node [style=none, label={above:$X$}] (8) at (3, 1) {};
+		\node [style=none, label={above:$Y$}] (9) at (5, 1) {};
+		\node [style=none, label={below:$A$}] (10) at (0, -2) {};
 		\node [style=bn] (11) at (4, -1.25) {};
-		\node [style=none, label={below:$A$}] (12) at (4, -2.25) {};
+		\node [style=none, label={below:$A$}] (12) at (4, -2) {};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw (3.center) to (1.center);
