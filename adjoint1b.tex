@@ -32,11 +32,15 @@
 \usepackage{tikzit}
 \input{markov.tikzstyles}
 
+\setbeamersize{text margin left=12mm,text margin right=12mm} 
+
 % to strike out text:
 \usepackage{ulem}
 \renewcommand<>{\sout}[1]{
 	\temporal#2{\invisible{#1}}{#1}{\beameroriginal{\sout}{#1}}
 }
+
+\graphicspath{{./graphics}}
 
 \title{An Introduction to Markov Categories}
 %\subtitle{Paolo Perrone, IEEE Transactions on Information Theory, 2023}
@@ -69,7 +73,7 @@
 \end{frame}
 
 \section{Introduction to Markov Categories}
-\input{part1/part1}
+\input{part1/introduction.tex}
 \section{Uncertainty in Markov categories}
 \input{part2/part2}
 \section{Properties and additional axioms}

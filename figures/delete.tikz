@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=white morphism] (0) at (-1, -1.25) {$X$};
+		\node [style=bn] (1) at (1, -1.25) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (1) to (0);
+	\end{pgfonlayer}
+\end{tikzpicture}
