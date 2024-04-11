@@ -8,9 +8,9 @@
 		\node [style=morphism] (6) at (1, 0.75) {$p$};
 		\node [style=none] (12) at (-1, 1.75) {};
 		\node [style=none] (13) at (1, 1.75) {};
-		\node [style=none] (18) at (-1, 2.25) {$A$};
-		\node [style=none] (19) at (1, 2.25) {$A$};
-		\node [style=none] (22) at (0, -2.25) {$I$};
+		\node [style=none] (18) at (-1.25, 2.25) {$\{ a, b, c \}$};
+		\node [style=none] (22) at (0, -2.25) {$\{\ast\}$};
+		\node [style=none] (23) at (1.25, 2.25) {$\{ a, b, c \}$};
 	\end{pgfonlayer}
 	\begin{pgfonlayer}{edgelayer}
 		\draw [style=dashed box] (0.center) to (1);
