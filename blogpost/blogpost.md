@@ -19,7 +19,7 @@ W = {Sunny, Cloudy, Rainy}
 S = {On, Off}
 P = {High, Low}
 T = {Hot, Mild, Cold}
- 
+
 * Distributions
     * Show probability and possibility distributions in our example setting
     * Use bra-ket notation from example 2.4 in [this paper](https://arxiv.org/pdf/1709.00322)
@@ -98,3 +98,9 @@ In this sense, why should del be compatible with the monoidal structure?
 ### Determinism
 ### Almost-sure equality
 ### Representability?
+
+# Conclusion: Cool things you can do with Markov categories
+
+* De Finetti
+* HMMs and Bayesian Inversion
+* Causal Inferencing
