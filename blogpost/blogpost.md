@@ -55,24 +55,24 @@ Let's start with the terse definition that category theorists love so much: A Ma
 Let's go a little bit more in-depth into why each of these axioms are required.
 (Bring in our established example setting into each of the subsections below.)
 
-### Composition and Identity
+### Composition and Identity (Utku)
 
 We want to describe how to "push forward" distributions
 
-### Monoidal Products
+### Monoidal Products (Nico)
 
 We want to describe distributions over joint variables.
 
-### Swap Map
+### Swap Map (Drew)
 
-### Copy Map
+### Copy Map (Drew)
 
 We want this because it makes sense to process the same data in multiple different ways and then compare them.
 Show for instance the "graph" of a morphism
 
 Why should this be compatible with the monoidal structure?
 
-### Delete Map
+### Delete Map (Nico)
 
 In probability theory: marginalization.
 In information processing:deleting information seems desirable (even though impossible in quantum information theory)
@@ -91,7 +91,7 @@ In this sense, why should del be compatible with the monoidal structure?
 * Finstoch
 * Gauss
 
-## Additional Axioms and definitions
+## Additional Axioms and definitions (Drew)
 
 ### Independence
 ### Conditionals, Bayesian Inversion
