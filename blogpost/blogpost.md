@@ -4,18 +4,25 @@ Drew, Nico, and Utku
 
 # Introduction (this probably doesn't need a section title)
 
+We assume that the reader is familiar with symmetric monoidal categories and string diagrams. All of our string diagrams are to be read bottom to top.
+
 * As said by Tomas, spell out the motivation here, and make sure readers know that there's a big reward at the end.
 * Maybe an illustration? My motivator to learn this was the difference between the cumbersome algebra from my professor's notes (Section 9.4 of the attached estimation theory pdf) vs the simplicity of [Proposition 3.7 in this paper](https://arxiv.org/pdf/2401.14669)
 
 # Basics of Probability Theory (UTKU)
 
-* Establish an example setting 
-    * Solar Eclipse weather?
-    * Casino?
-    * Sports ball?
-    * Drawing balls from an urn? (booooring!)
+Establish an example setting:
+
+Weather, lawn sprinklers, and other
+
+W = {Sunny, Cloudy, Rainy}
+S = {On, Off}
+P = {High, Low}
+T = {Hot, Mild, Cold}
+ 
 * Distributions
-    * Show probability and possibility distributions in our example setting?
+    * Show probability and possibility distributions in our example setting
+    * Use bra-ket notation from example 2.4 in [this paper](https://arxiv.org/pdf/1709.00322)
 * Markov Kernels
     * Probability and possibility
     * Show that these are Kleisli maps, segue into next section
@@ -55,6 +62,8 @@ We want to describe how to "push forward" distributions
 ### Monoidal Products
 
 We want to describe distributions over joint variables.
+
+### Swap Map
 
 ### Copy Map
 
