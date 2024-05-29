@@ -2,7 +2,7 @@ Adjoint School 2024 Subgroup 1B Blogpost
 
 Drew, Nico, and Utku
 
-# Introduction (this probably doesn't need a section title)
+# Introduction (this probably doesn't need a section title) (Drew)
 
 We assume that the reader is familiar with symmetric monoidal categories and string diagrams. All of our string diagrams are to be read bottom to top.
 
