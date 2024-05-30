@@ -88,10 +88,6 @@ When a distribution is postcomposed with a copy, it will land on the diagonal in
 Cartesian categories come equipped with diagonal maps that do something very similar to this.
 Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories, albeit probabilistically uninteresting ones since all morphisms are *deterministic* as we'll define later.
 But if we have a probability monad on a Cartesian category, we can transport the diagonal maps into its Kleisli category, and these become precisely the copy maps.
-One thing to note is that the diagonal maps in a Cartesian category are natural in a certain sense, but this is not necessarily the case for a general Markov category.
-Explicitly, if we equate the two inputs of the tensor product to form a "squaring" endofunctor $$- \otimes - : f \mapsto f\otimes f$$, then the collection of diagonal maps in a Cartesian category form a natural transformation $$\Delta : \mathrm{id} \rightarrow - \otimes -$$, but the copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:
-
-[determinism string diagram]()
 
 Why do we want this comultiplication structure on our objects?
 If we think of string diagrams as having pipes through which information flows, then it's useful to duplicate information and run different transformations on their parallel streams for comparison.
@@ -122,9 +118,40 @@ In this sense, why should del be compatible with the monoidal structure?
 
 ## Additional Axioms and definitions (Drew)
 
-### Independence
-### Conditionals, Bayesian Inversion
+Markov categories as we've built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels.
+Many morphisms have relationships with each other that correspond to useful notions in traditional probability.
+
 ### Determinism
+
+Looking back at Cartesian categories, there seems to be something special about them: all of their morphisms seem to be "deterministic," in that they map a single input to a single output.
+This isn't a very categorical notion though, so let's try to find properties of Cartesian categories that encapsulate the idea that there's no uncertainty in the morphism outputs.
+
+One unique property that Cartesian categories have over Markov categories is that their diagonal maps are natural in a certain sense.
+Explicitly, if we equate the two inputs of the tensor product to form a "squaring" endofunctor $$- \otimes - : f \mapsto f\otimes f$$, then the collection of diagonal maps in a Cartesian category form a natural transformation $$\Delta : \mathrm{id} \rightarrow - \otimes -$$, but the copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:
+
+[determinism string diagram]()
+
+This actually makes sense as a condition for a kernel to be deterministic!
+If we really think about what uncertainty means, it boils down to the idea that many different outputs of a process could be possible given a single input.
+Say the process maps pressure to weather state, and it's a low pressure day.
+You could duplicate these exact pressure conditions on the other side of town, but the weather gods might decide to bless your neighbors with rain while they leave you only with cloud cover.
+This would be different from copying your weather state and pasting it over your friend's house.
+On the other hand, a deterministic process could be from weather to sprinkler, if it's always guaranteed to sprinkle when the sun is out.
+If you and your friend have identical weather, there's no difference between each sprinkler having its own sun sensor or a single sensor controlling both.
+
+Only Cartesian categories have all-deterministic morphisms, and so we also call them deterministic Markov categories.
+Further, all of the following are equivalent statemtents:
+
+* A Markov category is deterministic
+* Its copy map is natural
+* It is Cartesian
+
+Even though general Markov categories don't have all deterministic morphisms, they all at least have a few.
+In fact, it's not hard to prove that copies, deletes, swaps, and identities are all deterministic themselves, and that determinism is closed under composition.
+This means that the collection of deterministic morphisms form a wide subcategory of $$\mathsf{C}$$, which we call $$\mathsf{C}_{\mathrm{det}}$$, and that category is Markov itself!
+
+### Conditional Independence
+### Conditionals, Bayesian Inversion
 ### Almost-sure equality
 ### Representability?
 
