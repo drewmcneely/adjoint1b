@@ -72,6 +72,35 @@ Show for instance the "graph" of a morphism
 
 Why should this be compatible with the monoidal structure?
 
+Now if we remember, every object $$X$$ in a Markov category is a comonoid, meaning that it's equipped with a comultiplication morphism $$\mathrm{copy}_X :X \rightarrow X\otimes X$$, which we'll give the following string diagram:
+
+[copy string diagram]()
+
+We can think of it as a Markov kernel that takes an input $$x \in X$$ and outputs a Dirac delta distribution on its diagonal, $$\delta_{(x,x)} \in X\otimes X$$.
+In our example, the copy morphism on our set of weather conditions forms the following stochastic matrix:
+
+[copy stochastic matrix]()
+
+When a distribution is postcomposed with a copy, it will land on the diagonal in the joint space:
+
+[copy postcomposed]()
+
+Cartesian categories come equipped with diagonal maps that do something very similar to this.
+Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories, albeit probabilistically uninteresting ones since all morphisms are *deterministic* as we'll define later.
+But if we have a probability monad on a Cartesian category, we can transport the diagonal maps into its Kleisli category, and these become precisely the copy maps.
+One thing to note is that the diagonal maps in a Cartesian category are natural in a certain sense, but this is not necessarily the case for a general Markov category.
+Explicitly, if we equate the two inputs of the tensor product to form a "squaring" endofunctor $$- \otimes - : f \mapsto f\otimes f$$, then the collection of diagonal maps in a Cartesian category form a natural transformation $$\Delta : \mathrm{id} \rightarrow - \otimes -$$, but the copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:
+
+[determinism string diagram]()
+
+Why do we want this comultiplication structure on our objects?
+If we think of string diagrams as having pipes through which information flows, then it's useful to duplicate information and run different transformations on their parallel streams for comparison.
+For instance, for a distribution $$p: I \rightarrow X$$ and kernel $$f: X \rightarrow Y$$, it's really common to generate a joint distribution on $$X$$s and $$Y$$s with the following diagram:
+
+[graph state string diagram]()
+
+We sometimes call this a graph state because it works the exact same way for sets: the graph of a function $$f:X\rightarrow Y$$ is the set of tuples $$\{ (x, f(x)) : x\in X\}$$. The appearance of $$x$$ twice means that it must have been passed through a copy map, and the tuple $$(-, f(-))$$ represents the map $$\mathrm{id}\times f$$.
+
 ### Delete Map (Nico)
 
 In probability theory: marginalization.
