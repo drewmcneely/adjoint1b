@@ -27,7 +27,37 @@ T = {Hot, Mild, Cold}
     * Probability and possibility
     * Show that these are Kleisli maps, segue into next section
 
-# Kleisli Categories (Should this be a subsection of above?) (NICO)
+# Kleisli Categories 
+<!--
+(Should this be a subsection of above? I think not) (NICO)
+-->
+
+If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad).
+<!---
+$P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $
+--->
+In fact, it turns out that most Markov categories of interest arise as Kleisli categories of. (See the [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details).
+
+If you do *not* know Kleisli categories--don't worry, we'll try to explain the relevant properties on the go. 
+
+A Kleisly category is, in short, a category $\mathbf{C}$ together with a wide subcategory $\iota: \mathbf{C}_{det} \subset \mathbf{C}$ (`wide' means 'identity on objects') having a right adjoint: $ \iota \dashv P $
+
+If you have heard about Kleisli categories and are wondering `where is the monad?!` --It's $ P \iota : \mathbf{C} \to \mathbf{C} $ (with multiplication and unit, a.k.a flatten and dirac, induced by the adjunction).
+
+The subcategory $\mathbf{C}_{det}$ is called 'deterministic', as their morphisms are interpreted as 'deterministic processes'. We'll define the term later in detail, but call upon your intuitio for now: a deterministic processs has one (or multiple) output(s) beeing definitely determined by their input(s) (which may in fact be empty). In a sense, determenistic processes behave like functions (as in our first example) -- **TODO** -- or measurable functions (in our second). More generally speaking, the (sub)category of deterministic processes $\mathbf{C}_{det}$ is a *cartesian monoidal* category:
+- it has a terminal object $I$
+- it has products $X \times Y$ and projection pairs $X \xleftarrow{out_L} X \times Y \xrightarrow{out_R}$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)). **TODO: include diagram**
+
+The first property yields a unique *deleting process* $del_X : X \to I$ for every object $X$. The universal propoerty induces the product functor $\times : \mathbf{C} \times \mathbf{C} \to \mathbf{C}$ mapping morphisms $f, g$ to the unique dashed arrow in **TODO: include diagram**
+
+This matches our interpretation of the $\mathbf{C}$-morphisms as processes, which can not only be *composed* (in a time-like manner) but also *tensored* (i.e. run independently in parallel).
+
+
+
+
+
+- example: $\mathbf{MultSet}_{det}=\mathbf{Set}$.
+
 
 * Example probability monads (Construct `flatten`, `dirac`, and `zipper` for each)
     * Finite distribution monad
