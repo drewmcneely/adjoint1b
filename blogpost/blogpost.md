@@ -11,21 +11,103 @@ We assume that the reader is familiar with symmetric monoidal categories and str
 
 # Basics of Probability Theory (UTKU)
 
-Establish an example setting:
+## Probability distributions
+<!-- establish the example somewhere here!
+    WHERE DO WE PUT THE EXAMPLE?
+-->
+We want to proceed with our discussion through an example, and so before we introduce everything, consider the following:
 
-Weather, lawn sprinklers, and other
+> You've just installed a sprinkler system to your lawn! It is a very advanced piece of technology, measuring a myriad of different things to determine when to turn on the sprinklers... and you have no idea how it does this. In your effort to have an idea of when the system turns on (you pay the water bill, after all) you decided to keep track of how the weather feels and whether your sprinkler is on or not.
 
-W = {Sunny, Cloudy, Rainy}
-S = {On, Off}
-P = {High, Low}
-T = {Hot, Mild, Cold}
+Here's what you have:
+You make the following distinctions: Weather = {sunny, cloudy, rainy}, Humidity = {dry, humid}, Temperature = {hot, mild, cold}, Sprinkler = {on, off}
 
+| Weather | Humidity | Temperature | Sprinkler |
+| --- | --- | --- | --- | 
+| sunny | humid | mild | off |
+| sunny | dry | hot | on |
+| cloudy | dry | hot | on |
+| rainy | humid | mild | on |
+| rainy | humid | cold | off |
+| cloudy | dry | cold | on |
+| sunny | humid | cold | off |
+
+You also have a record of how the weather has been over the past few months and you compile this data into the following probability distributions:
+
+- Weather: $0.2\mid \text{sunny}\rangle + 0.3\mid \text{rainy}\rangle + 0.5\mid \text{cloudy}\rangle$
+- Humidity: $0.6\mid \text{humid}\rangle + 0.4\mid \text{dry}\rangle$
+- Temperature: $0.4\mid \text{hot}\rangle + 0.4\mid \text{mild}\rangle + 0.3\mid \text{cold}\rangle$
+
+
+A probability distribution on a finite set $X$ is a function $p: 2^X\to [0, 1]$ assigning to each subset $A\subset X$ a number $p(A)$ such that
+
+* $p(\emptyset) = 0$,
+* $p(X) = 1$,
+* and for disjoint subsets $A_1,\dots, A_k \subset X$, $\sum_i p(A_i) = p(\bigcup_i A_i)$.
+
+For our purposes, a simpler characterization exists from the fact that we can consider a set to disjointly consist of its individual points; namely we can think of a probability distribution on $X$ to be a function $p: X\to [0, 1]$ such that
+\[
+    \sum_{x\in X} p(x) = 1
+\]
+
+
+We will also make use of the bra-ket notation to denote a distribution/state on $X$; for $X\coloneqq \{x_1,\dots,x_k\}$ with the values $\lambda_i \coloneqq p(x_i)$, the following notation also describes a distribution on $X$:
+\[
+    \sum_{i=1}^k \lambda_i = 1 \leftrightsquigarrow \lambda_1\mid x_1\rangle + \lambda_2\mid x_2\rangle + \dots + \lambda_k\mid x_k\rangle
+\]
+
+Given this notion, we can model the transition between "state spaces" $X$ to $Y$ by means of a *stochastic matrix*, which is a matrix $f: X\times Y \to [0,1]$ such that each column sums to 1, which we denote
+\[
+    \sum_{y\in Y} f(y\mid x) = 1
+\]
+
+Following our established bra-ket notation, we can equivalently describe the action of the channel $f: X\to Y$ by
+\[
+    f: x\mapsto \gamma_1 \mid y_1\rangle + \gamma_2 \mid y_2 \rangle + \dots + \gamma_n \mid y_n \rangle
+\]
+with $\gamma_i \coloneqq f(y_i\mid x)$ and $f_x$ forming a probability distribution on $Y$.
+
+Furthermore, given two channels $f: X\to Y$ and $g: Y\to Z$, we also have a way of obtaining a composite channel $g\circ f: X\to Z$, by the Chapman-Kolmogorov formula, defining the channel
+\[
+    (g\circ f)(z\mid x) \coloneqq \sum_{y\in Y} g(z\mid y)f(y\mid x)
+\]
+
+All in all, along with the identity matrices, all this data assembles into the category $\mathsf{FinStoch}$ with
+
+* objects: finite sets
+* morphisms: stochastic matrices
+* where the composition is determined through the Chapman-Kolmogorov formula
+
+This is one of the first examples of a Markov category that we will be looking at, and it will be a good baseline to observe why a Markov category is defined the way it is.
+
+## Possibility distribution
+<!-- 
+ 
+ 
+for possibility, describe it as an assignment x \mapsto f(x) \subset Y
+finally showcase how all of these are actually Kleisli maps!
+-->
+Markov categories need not only house probabilistic models of uncertainty; we'll see that the following also forms a Markov category:
+
+Consider a channel between two finite sets $X$, $Y$ to be an assignment $f: X\to Y$ such that each $f(x)\subset Y$ is a non-empty subset. Defining the composition to be
+\[
+g\circ f (x) \coloneqq \bigcup_{y\in f(x)} g(y) 
+\]
+and the identities as $x \mapsto \{x\}$ gives us the Markov category $\mathsf{FinSetMulti}$ of possibilities!
+
+## Channels are Kleisli maps
+The keen-eyed among you will have noticed that for the Markov categories we've seen, fixing an element $x\in X$ yields some structure attached to $Y$ with some desirable properties: in the case of $\mathsf{FinStoch}$, we have that each $f_x$ is a probability distribution on $Y$ -- in fact, the Chapman-Kolmogorov formula further provides a way to obtain a probability distribution from a probability distribution of probability distributions. In the case of $\mathsf{FinSetMulti}$, each $f_x$ is a non-empty subset of $Y$, and the composition is provided through the union of a set of sets.
+
+This is not a coincidence: monads that satisfy some nice properties (which we will talk about shortly) have that their Kleisli categories be Markov categories; the monads in question will provide us descriptions of the channels, as well as the rule for composition.
+
+<!-- 
 * Distributions
     * Show probability and possibility distributions in our example setting
     * Use bra-ket notation from example 2.4 in [this paper](https://arxiv.org/pdf/1709.00322)
 * Markov Kernels
     * Probability and possibility
     * Show that these are Kleisli maps, segue into next section
+-->
 
 # Kleisli Categories (Should this be a subsection of above?) (NICO)
 
