@@ -74,16 +74,15 @@ Why should this be compatible with the monoidal structure?
 
 Now if we remember, every object $$X$$ in a Markov category is a comonoid, meaning that it's equipped with a comultiplication morphism $$\mathrm{copy}_X :X \rightarrow X\otimes X$$, which we'll give the following string diagram:
 
-[copy string diagram]()
+![copy string diagram](figures/copy.png)
 
 We can think of it as a Markov kernel that takes an input $$x \in X$$ and outputs a Dirac delta distribution on its diagonal, $$\delta_{(x,x)} \in X\otimes X$$.
 In our example, the copy morphism on our set of weather conditions forms the following stochastic matrix:
 
 [copy stochastic matrix]()
 
-When a distribution is postcomposed with a copy, it will land on the diagonal in the joint space:
-
-[copy postcomposed]()
+When a distribution is postcomposed with a copy, it will land on the diagonal in the joint space.
+So for instance, if a distribution on weather states is $$p_W = 0.2 | \mathrm{Sunny} \rangle + 0.3 | \mathrm{Cloudy} \rangle + 0.5 | \mathrm{Rainy} \rangle$$, then we get $$\mathrm{copy}_W \circ p_W = 0.2 | \mathrm{(Sunny,Sunny)} \rangle + 0.3 | \mathrm{(Cloudy, Cloudy)} \rangle + 0.5 | \mathrm{(Rainy, Rainy)} \rangle$$
 
 Cartesian categories come equipped with diagonal maps that do something very similar to this.
 Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories, albeit probabilistically uninteresting ones since all morphisms are *deterministic* as we'll define later.
@@ -127,9 +126,9 @@ Looking back at Cartesian categories, there seems to be something special about 
 This isn't a very categorical notion though, so let's try to find properties of Cartesian categories that encapsulate the idea that there's no uncertainty in the morphism outputs.
 
 One unique property that Cartesian categories have over Markov categories is that their diagonal maps are natural in a certain sense.
-Explicitly, if we equate the two inputs of the tensor product to form a "squaring" endofunctor $$- \otimes - : f \mapsto f\otimes f$$, then the collection of diagonal maps in a Cartesian category form a natural transformation $$\Delta : \mathrm{id} \rightarrow - \otimes -$$, but the copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:
+Explicitly, if we equate the two inputs of the tensor product to form a "squaring" endofunctor $$- \otimes - : f \mapsto f\otimes f$$, then the collection of diagonal maps in a Cartesian category form a natural transformation $$\Delta : \mathrm{id} \rightarrow - \otimes -$$. The copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:
 
-[determinism string diagram]()
+![determinism string diagram](figures/deterministic.png)
 
 This actually makes sense as a condition for a kernel to be deterministic!
 If we really think about what uncertainty means, it boils down to the idea that many different outputs of a process could be possible given a single input.
@@ -151,6 +150,9 @@ In fact, it's not hard to prove that copies, deletes, swaps, and identities are 
 This means that the collection of deterministic morphisms form a wide subcategory of $$\mathsf{C}$$, which we call $$\mathsf{C}_{\mathrm{det}}$$, and that category is Markov itself!
 
 ### Conditional Independence
+
+
+
 ### Conditionals, Bayesian Inversion
 ### Almost-sure equality
 ### Representability?

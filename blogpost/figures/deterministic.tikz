@@ -1,0 +1,32 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (2, 0) {};
+		\node [style=bn] (1) at (2.75, 0) {};
+		\node [style=morphism] (5) at (4.5, -1) {$f$};
+		\node [style=morphism] (6) at (4.5, 1) {$f$};
+		\node [style=none] (7) at (-5.5, 0) {};
+		\node [style=bn] (8) at (-3.5, 0) {};
+		\node [style=none] (9) at (-2, -1) {};
+		\node [style=none] (11) at (-2, 1) {};
+		\node [style=none] (12) at (5.5, -1) {};
+		\node [style=none] (13) at (5.5, 1) {};
+		\node [style=none] (16) at (0, 0) {$=$};
+		\node [style=morphism] (17) at (-4.5, 0) {$f$};
+		\node [style=none] (18) at (6, -1) {$Y$};
+		\node [style=none] (19) at (6, 1) {$Y$};
+		\node [style=none] (22) at (1.5, 0) {$X$};
+		\node [style=none] (23) at (-6, 0) {$X$};
+		\node [style=none] (24) at (-1.5, -1) {$Y$};
+		\node [style=none] (25) at (-1.5, 1) {$Y$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=none] (0.center) to (1);
+		\draw [style=none] (7.center) to (8);
+		\draw [style=none, in=180, out=-75] (8) to (9.center);
+		\draw (12.center) to (5);
+		\draw (13.center) to (6);
+		\draw [in=180, out=75] (8) to (11.center);
+		\draw [in=180, out=75] (1) to (6);
+		\draw [in=180, out=-75] (1) to (5);
+	\end{pgfonlayer}
+\end{tikzpicture}
