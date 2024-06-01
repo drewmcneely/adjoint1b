@@ -59,7 +59,7 @@ Given this notion, we can model the transition between "state spaces" $X$ to $Y$
 
 Following our established bra-ket notation, we can equivalently describe the action of the channel $f: X\to Y$ by
 \[
-    f: x\mapsto \gamma_1 \mid y_1\rangle + \gamma_2 \mid y_2 \rangle + \dots + \gamma_n \mid y_n \rangle
+    f_x: \gamma_1 \mid y_1\rangle + \gamma_2 \mid y_2 \rangle + \dots + \gamma_n \mid y_n \rangle
 \]
 with $\gamma_i \coloneqq f(y_i\mid x)$ and $f_x$ forming a probability distribution on $Y$.
 
@@ -70,21 +70,20 @@ Furthermore, given two channels $f: X\to Y$ and $g: Y\to Z$, we also have a way 
 \]
 
 
-You can interpret these distributions to be channels from the singleton set to their respective sets: $p: I \to W$, $q: I \to H$, $r: I \to T$.
+You can interpret these distributions to be channels from the singleton set to their respective sets: $p: \ast \to W$, $q: \ast \to H$, $r: \ast \to T$.
 Then, composing any such distribution with a channel will again yield a distribution
 \[
-    I \stackrel{p}{\to} X \stackrel{f}{\to} Y
+    \ast \stackrel{p}{\to} X \stackrel{f}{\to} Y
 \]
 
 > Consider the example scenario we described above. Suppose that you compiled the historical weather data into the following probability distribution $p: \ast\to W\otimes H\otimes T$ (more to come about $\otimes$ in just a second):
-
 \[
-    p: 0.2\mid s,d,h\rangle + 0.3\mid r,h,c\rangle + 0.3\mid c,h,m\rangle + 0.2\mid c,d,h\rangle
+    p_\ast: 0.2\mid s,d,h\rangle + 0.3\mid r,h,c\rangle + 0.3\mid c,h,m\rangle + 0.2\mid c,d,h\rangle
 \]
 
-> From the table in the example, we can obtain the following channel $f: W\otimes H\otimes T \to S$ if we assume the [principle of indifference](), i.e., that the entries in the table all occur with equal probability (which would be the case if these were a list of observations<!--reword? -->), we get the following channel
+> From the table in the example, we can obtain the following channel $f: W\otimes H\otimes T \to S$ if we assume the [principle of indifference](), i.e., that the entries in the table all occur with equal probability (which would be the case if these were a list of observations<!--reword? -->), we get a channel
 \[
-    f(w,h,t) = \lambda_{wht}^\text{\normalfont on} \mid \text{\normalfont on} \rangle + \lambda_{wht}^\text{\normalfont off} \mid \text{\normalfont off} \rangle
+    f_{(w,h,t)} = \delta_{wht}^\text{\normalfont on} \mid \text{\normalfont on} \rangle + \delta_{wht}^\text{\normalfont off} \mid \text{\normalfont off} \rangle
 \]
 
 <!-- assumption that these are independent; instead consider an example where you just define a joint distribution -->
@@ -117,11 +116,12 @@ g\circ f (x) \coloneqq \bigcup_{y\in f(x)} g(y)
 and the identities as $x \mapsto \{x\}$ gives us the Markov category $\mathsf{FinSetMulti}$ of possibilities!
 
 The same data from the example can be used in a possibilistic way as well; a channel $S \to W\otimes H\otimes T$ can map the sprinkler to all the possible states of weather/climate where the sprinkler has turned on etc.
+<!-- TODO: Elaborate on this! -->
 
 ## Channels are Kleisli maps
-The keen-eyed among you will have noticed that for the Markov categories we've seen, fixing an element $x\in X$ yields some structure attached to $Y$ with some desirable properties: in the case of $\mathsf{FinStoch}$, we have that each $f_x$ is a probability distribution on $Y$ -- in fact, the Chapman-Kolmogorov formula further provides a way to obtain a probability distribution from a probability distribution of probability distributions. In the case of $\mathsf{FinSetMulti}$, each $f_x$ is a non-empty subset of $Y$, and the composition is provided through the union of a set of sets.
+Something you may have noticed from the two examples of morphisms of Markov categories is that fixing an element $x\in X$ yields some structure attached to $Y$ with "desirable properties": in the case of $\mathsf{FinStoch}$, we have that each $f_x$ is a probability distribution on $Y$ -- in fact, the Chapman-Kolmogorov formula further provides a way to obtain a probability distribution from a probability distribution of probability distributions. In the case of $\mathsf{FinSetMulti}$, each $f_x$ is a non-empty subset of $Y$, and the composition is provided through the union of a set of sets.
 
-This is not a coincidence: monads that satisfy some nice properties (which we will talk about shortly) have that their Kleisli categories be Markov categories; the monads in question will provide us descriptions of the channels, as well as the rule for composition.
+This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition. 
 
 <!-- 
 * Distributions
@@ -162,6 +162,9 @@ Let's go a little bit more in-depth into why each of these axioms are required.
 
 ### Composition and Identity (Utku)
 <!-- We want to describe how to "push forward" distributions -->
+The necessity for composition and identities in a categorical setting requires no explanation, though we note that the mental image of "information flow" is essentially channels/Markov kernels taking states to states.
+The flow of information is essentially a pushforward. <!-- better phrasing -->
+
 
 ### Monoidal Products (Nico)
 
