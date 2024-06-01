@@ -27,17 +27,12 @@ You make the following distinctions: Weather = {sunny, cloudy, rainy}, Humidity 
 | sunny | humid | mild | off |
 | sunny | dry | hot | on |
 | cloudy | dry | hot | on |
-| rainy | humid | mild | on |
+| cloudy | humid | mild | on |
 | rainy | humid | cold | off |
 | cloudy | dry | cold | on |
 | sunny | humid | cold | off |
 
-You also have a record of how the weather has been over the past few months and you compile this data into the following probability distributions:
-
-- Weather: $0.2\mid \text{sunny}\rangle + 0.3\mid \text{rainy}\rangle + 0.5\mid \text{cloudy}\rangle$
-- Humidity: $0.6\mid \text{humid}\rangle + 0.4\mid \text{dry}\rangle$
-- Temperature: $0.4\mid \text{hot}\rangle + 0.4\mid \text{mild}\rangle + 0.3\mid \text{cold}\rangle$
-
+> You make an assumption that the frequency with which each weather event occurred would be an accurate estimate for how it will be in the future, and so you assemble the previous 3 months' weather data into probability distributions.
 
 A probability distribution on a finite set $X$ is a function $p: 2^X\to [0, 1]$ assigning to each subset $A\subset X$ a number $p(A)$ such that
 
@@ -56,7 +51,8 @@ We will also make use of the bra-ket notation to denote a distribution/state on 
     \sum_{i=1}^k \lambda_i = 1 \leftrightsquigarrow \lambda_1\mid x_1\rangle + \lambda_2\mid x_2\rangle + \dots + \lambda_k\mid x_k\rangle
 \]
 
-Given this notion, we can model the transition between "state spaces" $X$ to $Y$ by means of a *stochastic matrix*, which is a matrix $f: X\times Y \to [0,1]$ such that each column sums to 1, which we denote
+
+Given this notion, we can model the transition between "state spaces" $X$ to $Y$ by means of a [*stochastic matrix*](), which is a matrix $f: X\times Y \to [0,1]$ such that each column sums to 1, which we denote
 \[
     \sum_{y\in Y} f(y\mid x) = 1
 \]
@@ -67,9 +63,34 @@ Following our established bra-ket notation, we can equivalently describe the act
 \]
 with $\gamma_i \coloneqq f(y_i\mid x)$ and $f_x$ forming a probability distribution on $Y$.
 
+
 Furthermore, given two channels $f: X\to Y$ and $g: Y\to Z$, we also have a way of obtaining a composite channel $g\circ f: X\to Z$, by the Chapman-Kolmogorov formula, defining the channel
 \[
     (g\circ f)(z\mid x) \coloneqq \sum_{y\in Y} g(z\mid y)f(y\mid x)
+\]
+
+
+You can interpret these distributions to be channels from the singleton set to their respective sets: $p: I \to W$, $q: I \to H$, $r: I \to T$.
+Then, composing any such distribution with a channel will again yield a distribution
+\[
+    I \stackrel{p}{\to} X \stackrel{f}{\to} Y
+\]
+
+> Consider the example scenario we described above. Suppose that you compiled the historical weather data into the following probability distribution $p: \ast\to W\otimes H\otimes T$ (more to come about $\otimes$ in just a second):
+
+\[
+    p: 0.2\mid s,d,h\rangle + 0.3\mid r,h,c\rangle + 0.3\mid c,h,m\rangle + 0.2\mid c,d,h\rangle
+\]
+
+> From the table in the example, we can obtain the following channel $f: W\otimes H\otimes T \to S$ if we assume the [principle of indifference](), i.e., that the entries in the table all occur with equal probability (which would be the case if these were a list of observations<!--reword? -->), we get the following channel
+\[
+    f(w,h,t) = \lambda_{wht}^\text{\normalfont on} \mid \text{\normalfont on} \rangle + \lambda_{wht}^\text{\normalfont off} \mid \text{\normalfont off} \rangle
+\]
+
+<!-- assumption that these are independent; instead consider an example where you just define a joint distribution -->
+Then, by everything we've established so far, we can reason about the likelihood that the sprinkler will turn on the next day by composing the state $p$ of the climate with the channel $f$ to obtain a state $f\circ p$ of the sprinkler, computed
+\[
+    f\circ p: 0.7\mid \text{\normalfont on} \rangle + 0.3\mid \text{\normalfont off} \rangle
 \]
 
 All in all, along with the identity matrices, all this data assembles into the category $\mathsf{FinStoch}$ with
@@ -94,6 +115,8 @@ Consider a channel between two finite sets $X$, $Y$ to be an assignment $f: X\to
 g\circ f (x) \coloneqq \bigcup_{y\in f(x)} g(y) 
 \]
 and the identities as $x \mapsto \{x\}$ gives us the Markov category $\mathsf{FinSetMulti}$ of possibilities!
+
+The same data from the example can be used in a possibilistic way as well; a channel $S \to W\otimes H\otimes T$ can map the sprinkler to all the possible states of weather/climate where the sprinkler has turned on etc.
 
 ## Channels are Kleisli maps
 The keen-eyed among you will have noticed that for the Markov categories we've seen, fixing an element $x\in X$ yields some structure attached to $Y$ with some desirable properties: in the case of $\mathsf{FinStoch}$, we have that each $f_x$ is a probability distribution on $Y$ -- in fact, the Chapman-Kolmogorov formula further provides a way to obtain a probability distribution from a probability distribution of probability distributions. In the case of $\mathsf{FinSetMulti}$, each $f_x$ is a non-empty subset of $Y$, and the composition is provided through the union of a set of sets.
@@ -138,8 +161,7 @@ Let's go a little bit more in-depth into why each of these axioms are required.
 (Bring in our established example setting into each of the subsections below.)
 
 ### Composition and Identity (Utku)
-
-We want to describe how to "push forward" distributions
+<!-- We want to describe how to "push forward" distributions -->
 
 ### Monoidal Products (Nico)
 
