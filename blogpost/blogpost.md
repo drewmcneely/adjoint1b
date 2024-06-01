@@ -12,15 +12,16 @@ We assume that the reader is familiar with symmetric monoidal categories and str
 # Basics of Probability Theory (UTKU)
 
 ## Probability distributions
-<!-- establish the example somewhere here!
-    WHERE DO WE PUT THE EXAMPLE?
--->
 We want to proceed with our discussion through an example, and so before we introduce everything, consider the following:
 
 > You've just installed a sprinkler system to your lawn! It is a very advanced piece of technology, measuring a myriad of different things to determine when to turn on the sprinklers... and you have no idea how it does this. In your effort to have an idea of when the system turns on (you pay the water bill, after all) you decided to keep track of how the weather feels and whether your sprinkler is on or not.
 
 Here's what you have:
-You make the following distinctions: Weather = {sunny, cloudy, rainy}, Humidity = {dry, humid}, Temperature = {hot, mild, cold}, Sprinkler = {on, off}
+You make the following distinctions: 
+```
+    Weather = {sunny, cloudy, rainy}, Humidity = {dry, humid},
+    Temperature = {hot, mild, cold}, Sprinkler = {on, off}
+```
 
 | Weather | Humidity | Temperature | Sprinkler |
 | --- | --- | --- | --- | 
@@ -46,7 +47,7 @@ For our purposes, a simpler characterization exists from the fact that we can co
 \]
 
 
-We will also make use of the bra-ket notation to denote a distribution/state on $X$; for $X\coloneqq \{x_1,\dots,x_k\}$ with the values $\lambda_i \coloneqq p(x_i)$, the following notation also describes a distribution on $X$:
+We will also make use of the [bra-ket notation]() to denote a distribution/state on $X$; for $X\coloneqq \{x_1,\dots,x_k\}$ with the values $\lambda_i \coloneqq p(x_i)$, the following notation also describes a distribution on $X$:
 \[
     \sum_{i=1}^k \lambda_i = 1 \leftrightsquigarrow \lambda_1\mid x_1\rangle + \lambda_2\mid x_2\rangle + \dots + \lambda_k\mid x_k\rangle
 \]
@@ -64,7 +65,7 @@ Following our established bra-ket notation, we can equivalently describe the act
 with $\gamma_i \coloneqq f(y_i\mid x)$ and $f_x$ forming a probability distribution on $Y$.
 
 
-Furthermore, given two channels $f: X\to Y$ and $g: Y\to Z$, we also have a way of obtaining a composite channel $g\circ f: X\to Z$, by the Chapman-Kolmogorov formula, defining the channel
+Furthermore, given two channels $f: X\to Y$ and $g: Y\to Z$, we also have a way of obtaining a composite channel $g\circ f: X\to Z$, by the [Chapman-Kolmogorov equation](), defining the channel
 \[
     (g\circ f)(z\mid x) \coloneqq \sum_{y\in Y} g(z\mid y)f(y\mid x)
 \]
@@ -86,7 +87,6 @@ Then, composing any such distribution with a channel will again yield a distribu
     f_{(w,h,t)} = \delta_{wht}^\text{\normalfont on} \mid \text{\normalfont on} \rangle + \delta_{wht}^\text{\normalfont off} \mid \text{\normalfont off} \rangle
 \]
 
-<!-- assumption that these are independent; instead consider an example where you just define a joint distribution -->
 Then, by everything we've established so far, we can reason about the likelihood that the sprinkler will turn on the next day by composing the state $p$ of the climate with the channel $f$ to obtain a state $f\circ p$ of the sprinkler, computed
 \[
     f\circ p: 0.7\mid \text{\normalfont on} \rangle + 0.3\mid \text{\normalfont off} \rangle
@@ -96,17 +96,11 @@ All in all, along with the identity matrices, all this data assembles into the c
 
 * objects: finite sets
 * morphisms: stochastic matrices
-* where the composition is determined through the Chapman-Kolmogorov formula
+* where the composition is determined through the Chapman-Kolmogorov equation
 
 This is one of the first examples of a Markov category that we will be looking at, and it will be a good baseline to observe why a Markov category is defined the way it is.
 
 ## Possibility distribution
-<!-- 
- 
- 
-for possibility, describe it as an assignment x \mapsto f(x) \subset Y
-finally showcase how all of these are actually Kleisli maps!
--->
 Markov categories need not only house probabilistic models of uncertainty; we'll see that the following also forms a Markov category:
 
 Consider a channel between two finite sets $X$, $Y$ to be an assignment $f: X\to Y$ such that each $f(x)\subset Y$ is a non-empty subset. Defining the composition to be
