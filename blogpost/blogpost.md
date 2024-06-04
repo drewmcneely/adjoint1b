@@ -2,7 +2,7 @@ Adjoint School 2024 Subgroup 1B Blogpost
 
 Drew, Nico, and Utku
 
-# Introduction (this probably doesn't need a section title)
+# Introduction (this probably doesn't need a section title) (Drew)
 
 We assume that the reader is familiar with symmetric monoidal categories and string diagrams. All of our string diagrams are to be read bottom to top.
 
@@ -129,6 +129,30 @@ Show for instance the "graph" of a morphism
 
 Why should this be compatible with the monoidal structure?
 
+Now if we remember, every object $$X$$ in a Markov category is a comonoid, meaning that it's equipped with a comultiplication morphism $$\mathrm{copy}_X :X \rightarrow X\otimes X$$, which we'll give the following string diagram:
+
+![](figures/copy.png)
+
+We can think of it as a Markov kernel that takes an input $$x \in X$$ and outputs a Dirac delta distribution on its diagonal, $$\delta_{(x,x)} \in \mathcal{P}\ X\otimes X$$.
+In our example, the copy morphism on our set of weather conditions forms the following stochastic matrix:
+
+![](figures/weather-copy.png)
+
+When a distribution is postcomposed with a copy, it will land on the diagonal in the joint space.
+So for instance, if a distribution on weather states is $$p_W = 0.2 | \mathrm{Sunny} \rangle + 0.3 | \mathrm{Cloudy} \rangle + 0.5 | \mathrm{Rainy} \rangle$$, then we get $$\mathrm{copy}_W \circ p_W = 0.2 | \mathrm{(Sunny,Sunny)} \rangle + 0.3 | \mathrm{(Cloudy, Cloudy)} \rangle + 0.5 | \mathrm{(Rainy, Rainy)} \rangle$$
+
+Cartesian categories come equipped with diagonal maps that do something very similar to this.
+Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories, albeit probabilistically uninteresting ones since all morphisms are *deterministic* as we'll define later.
+But if we have a probability monad on a Cartesian category, we can transport the diagonal maps into its Kleisli category, and these become precisely the copy maps.
+
+Why do we want this comultiplication structure on our objects?
+If we think of string diagrams as having pipes through which information flows, then it's useful to duplicate information and run different transformations on their parallel streams for comparison.
+For instance, for a distribution $$p: I \rightarrow X$$ and kernel $$f: X \rightarrow Y$$, it's really common to generate a joint distribution on $$X$$s and $$Y$$s with the following diagram:
+
+![](figures/graph-state.png)
+
+We sometimes call this a graph state because it works the exact same way for sets: the graph of a function $$f:X\rightarrow Y$$ is the set of tuples $$\{ (x, f(x)) : x\in X\}$$. The appearance of $$x$$ twice means that it must have been passed through a copy map, and the tuple $$(-, f(-))$$ represents the map $$\mathrm{id}\times f$$.
+
 ### Delete Map (Nico)
 
 In probability theory: marginalization.
@@ -150,11 +174,98 @@ In this sense, why should del be compatible with the monoidal structure?
 
 ## Additional Axioms and definitions (Drew)
 
-### Independence
-### Conditionals, Bayesian Inversion
+Markov categories as we've built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels.
+Many morphisms have relationships with each other that correspond to useful notions in traditional probability.
+
 ### Determinism
-### Almost-sure equality
-### Representability?
+
+Looking back at Cartesian categories, there seems to be something special about them: all of their morphisms seem to be "deterministic," in that they map a single input to a single output.
+This isn't a very categorical notion though, so let's try to find properties of Cartesian categories that encapsulate the idea that there's no uncertainty in the morphism outputs.
+
+One unique property that Cartesian categories have over Markov categories is that their diagonal maps are natural in a certain sense.
+Explicitly, if we equate the two inputs of the tensor product to form a "squaring" endofunctor $$- \otimes - : f \mapsto f\otimes f$$, then the collection of diagonal maps in a Cartesian category form a natural transformation $$\Delta : \mathrm{id} \rightarrow - \otimes -$$. The copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:
+
+![determinism string diagram](figures/deterministic.png)
+
+This actually makes sense as a condition for a kernel to be deterministic!
+If we really think about what uncertainty means, it boils down to the idea that many different outputs of a process could be possible given a single input.
+Say the process maps pressure to weather state, and it's a low pressure day.
+You could duplicate these exact pressure conditions on the other side of town, but the weather gods might decide to bless your neighbors with rain while they leave you only with cloud cover.
+This would be different from copying your weather state and pasting it over your friend's house.
+On the other hand, a deterministic process could be from weather to sprinkler, if it's always guaranteed to sprinkle when the sun is out.
+If you and your friend have identical weather, there's no difference between each sprinkler having its own sun sensor or a single sensor controlling both.
+
+Here's a concrete example with possibilistic states: Say the forecast today has $$p_W = \{\mathrm{Cloudy}, \mathrm{Rainy}\}$$ as possibilities.
+If we copy this, we get $$\mathrm{copy}_W \circ p_W = \{(\mathrm{Cloudy}, \mathrm{Cloudy}), (\mathrm{Rainy}, \mathrm{Rainy})\}$$ which is not equal to $$p_W \otimes p_W = \{(\mathrm{Cloudy}, \mathrm{Cloudy}),(\mathrm{Cloudy}, \mathrm{Rainy}), (\mathrm{Rainy}, \mathrm{Cloudy}), (\mathrm{Rainy}, \mathrm{Rainy})\}$$.
+On the other hand, we could look outside and determine the weather is certainly $$q_W = \{\mathrm{Rainy}\}$$.
+Then copying and tensoring would both give us $$\mathrm{copy}_W \circ q_W = \{(\mathrm{Rainy}, \mathrm{Rainy})\}$$.
+
+Only Cartesian categories have all-deterministic morphisms, and so we also call them deterministic Markov categories.
+Further, all of the following are equivalent statemtents:
+
+* A Markov category is deterministic
+* Its copy map is natural
+* It is Cartesian
+
+Even though general Markov categories don't have all deterministic morphisms, they all at least have a few.
+In fact, it's not hard to prove that copies, deletes, swaps, and identities are all deterministic themselves, and that determinism is closed under composition.
+This means that the collection of deterministic morphisms form a wide subcategory of $$\mathsf{C}$$, which we call $$\mathsf{C}_{\mathrm{det}}$$, and that category is Markov itself!
+
+### Conditionals, Bayesian Inversion
+
+In traditional probability, we define a conditional probability as "the probability of one event given that another event is already known to have occurred."
+This is constructed from a joint probability distribution, whose values are "renormalized" to the restriction of the known event.
+
+For example, say the forecast for today given jointly for pressure and weather, and the data is given in the table below:
+
++-----------:+:--------:+:-------:+
+|            | **High** | **Low** |
++------------+----------+---------+
+| **Sunny**  | .1       |         |
++------------+----------+---------+
+| **Cloudy** | .1       | .2      |
++------------+----------+---------+
+| **Rainy**  |          | .6      |
++------------+----------+---------+
+
+Say we have a barometer and now for a fact that the pressure outside is low.
+With this updated information, what's our new estimate for the chance of rain?
+We can calculate this by restricting our data to only the event of low pressure, and renormalizing that data to sum up again to 1.
+Renormalization is easily done by dividing our values by the total probability of that restriction, which is $$.2 + .6 = .8$$.
+So the chance of rain *given* that it's low pressure is $$.6/.8 = .75$$.
+
+From here, we have a general formula for calculating conditional probability in the finite case:
+
+$$p(y|x) = \frac{p(y,x)}{\sum_x p(y,x)}$$
+
+where the traditional notation for the conditional probability of $$y$$ given $$x$$ is given by a pipe separating them.
+If this looks exactly like the notation for stochastic kernels, this is no coincidence!
+In fact, we can calculate these quantities for all outcomes to generate a stochastic kernel from $$P$$ to $$W$$:
+
+$$ p_{|P} = 
+\begin{bmatrix}
+.5 & 0 \\
+.5 & .25 \\
+0 & .75 
+\end{bmatrix}
+$$
+
+If the event $$A$$ is known to be true, then the conditional probability of event $$B$$ given $$A$$ is written as $$P(B|A)$$.
+If this looks identical to our notation for stochastic kernels, this is no coincidence.
+
+### Conditional Independence
+
+In traditional probability, a joint distribution is said to be independent in its variables if it satisfies
+
+$$P(x,y) = P(x)P(y)$$
+
+for all $$x$$ and $$y$$.
+There are actually many different forms of this condition.
+The above was given in the finite case, but for general measure theoretic probability it 
+
+What does this mean qualitatively?
+And can we 
+
 
 # Conclusion: Cool things you can do with Markov categories
 
