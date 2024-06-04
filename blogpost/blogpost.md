@@ -32,26 +32,53 @@ T = {Hot, Mild, Cold}
 (Should this be a subsection of above? I think not) (NICO)
 -->
 
-If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad).
-<!---
-$P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $
---->
-In fact, it turns out that most Markov categories of interest arise as Kleisli categories of. (See the [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details).
+If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the normalized [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the *Giry monad*, *Radon monad*, or *distribution monads over semirings*. Rather than explaining (technical) details of these, we want to dive into the underlying construction.
 
 If you do *not* know Kleisli categories--don't worry, we'll try to explain the relevant properties on the go. 
 
-A Kleisly category is, in short, a category $\mathbf{C}$ together with a wide subcategory $\iota: \mathbf{C}_{det} \subset \mathbf{C}$ (`wide' means 'identity on objects') having a right adjoint: $ \iota \dashv P $
+A Kleisli category is, in short, a category $\mathbf{C}$ together with a wide subcategory $\iota: \mathbf{C}_{det} \subset \mathbf{C}$ (`wide' means 'identity on objects') having a right adjoint: $\iota \dashv P$: we have a natural[^1] isomorphism
 
-If you have heard about Kleisli categories and are wondering `where is the monad?!` --It's $ P \iota : \mathbf{C} \to \mathbf{C} $ (with multiplication and unit, a.k.a flatten and dirac, induced by the adjunction).
+[^1]: natural between functors $\mathbf{C}_{det} \times \mathbf{C} \to \mathbf{Set}$, i.e. considering $\mathbf{C}_{det}$-morphisms as left input and $\mathbf{C}$-morphisms on the right.
 
-The subcategory $\mathbf{C}_{det}$ is called 'deterministic', as their morphisms are interpreted as 'deterministic processes'. We'll define the term later in detail, but call upon your intuitio for now: a deterministic processs has one (or multiple) output(s) beeing definitely determined by their input(s) (which may in fact be empty). In a sense, determenistic processes behave like functions (as in our first example) -- **TODO** -- or measurable functions (in our second). More generally speaking, the (sub)category of deterministic processes $\mathbf{C}_{det}$ is a *cartesian monoidal* category:
-- it has a terminal object $I$
-- it has products $X \times Y$ and projection pairs $X \xleftarrow{out_L} X \times Y \xrightarrow{out_R}$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)). **TODO: include diagram**
+$$\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY)$$
 
-The first property yields a unique *deleting process* $del_X : X \to I$ for every object $X$. The universal propoerty induces the product functor $\times : \mathbf{C} \times \mathbf{C} \to \mathbf{C}$ mapping morphisms $f, g$ to the unique dashed arrow in **TODO: include diagram**
+If you have heard about Kleisli categories and are wondering 'where is the monad?!' --It's $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ (with multiplication and unit, a.k.a flatten and dirac, induced by the adjunction).
 
-This matches our interpretation of the $\mathbf{C}$-morphisms as processes, which can not only be *composed* (in a time-like manner) but also *tensored* (i.e. run independently in parallel).
+**TODO:  explain that the object $PY$ is called "distribution object"?**
 
+The subcategory $\mathbf{C}_{det}$ is called 'deterministic', as their morphisms are interpreted as 'deterministic processes'. We'll define the term later in detail, but call upon your intuition for now: a deterministic process has one (or multiple) output(s) being definitely determined by their input(s) (which may in fact be empty). In a sense, determenistic processes behave like functions (as in our first example) -- **TODO** -- or measurable functions (in our second). More generally speaking, the (sub)category of deterministic processes $\mathbf{C}_{det}$ is a *cartesian monoidal* category:
+
+ 1. it has a terminal object $I$:  every object $X$ has a unique *deleting process* $del_X : X \to I$. 
+
+ 3. it has products $X \times Y$ and projection pairs $X \xleftarrow{\pi_L} X \times Y \xrightarrow{\pi_R} Y$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)). 
+
+You probably know that these properties together induce a symmetric monoidal structure with tensored $\mathbf{C}_{det}$-morphisms, as indicated in **TODO: diagram**.
+
+As explained above, (**TODO: Check** ) we want to model stochastic process in a process-oriented manner. But how to integrate the tensor structure from $\mathbf{C}_{det}$ to $\mathbf{C}$? We need help of *zipper functions* in $\mathbf{C}_{det}$
+$$\nabla_{X,Y} : PX \times PY \to P(X \times Y)$$ 
+being compatible with the product on $\mathbf{C}_{det}$ and the adjunction $\iota \dashv P$.[^2]  
+
+[^2]:  to be precise, we require  $\nabla_{X,Y}$ to make $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations. 
+We are still wondering, though, what this exactly means for our characterization of Kleisli categories as left adjoint wide inclusions $P \vdash \iota : \mathbf{C}_{det} \subset \mathbf{C}$.
+
+Using the natural bijection $\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY)$ from above, we say that morphisms $f \in \mathbf{C} (A, X)$ and $g \in \mathbf{C} (B, Y)$ are represented by deterministic $f_{det} \in \mathbf{C}_{det}(A, PX)$ and $g_{det} \in \mathbf{C}_{det}(B, PY)$, respectively. Their tensor product is then defined by its representant $$(f \otimes g)_{det} : A \times B \xrightarrow{f_{det} \times g_{det}} PX \times PY \xrightarrow{\nabla_{X,Y}} P(X \times Y).$$
+In the examples from above, the zipper is given as ... **TODO**..., yielding symmetric monoidal categories ... **TODO**.
+
+These examples are symmetric monoidal categories, but not cartesian monoidal: they do have products.
+
+However, they satisfy point 1: the tensor unit $I$ is still terminal not only in $\mathbf{C}_{det}$, but also in $\mathbf{C}$. 
+
+This property is important for Markov categories, as it allows for *weakened* products: every pair of morphisms $f \in \mathbf{C}( A, X)$ and $g \in \mathbf{C}(A, Y)$, gives rise to *at least* one morphisms making the product diagram commute, namely
+$$A \xrightarrow{\iota \langle id_A, id_A \rangle} A \times A \xrightarrow{f \otimes g} X \times Y$$,
+**TODO: should we explain this?**
+where $\langle id_A, id_A \rangle \in \mathbf{C}_{det}(A, A \times A)$ is the "diagonal map" induced by the universal property. It will be called copy-map from now on, as it is given as ... **TODO** in our example categories ... **TODO**
+
+These *weak products* are no categorical products, as they lack the uniqueness constraint.
+<!-- a property we are used to in $\mathbf{Set}$, which does not hold, though in the Kleisli category $\mathbf{SetMulti}$ **TODO: name**, -->
+Here is a (counter)example: **TODO**
+
+From a probability theoretic words, this states that morphisms of the form $h: A \to X \times Y$ can in general not be recovered from their so-called marginalizations $\pi_L \circ f : A \to X$ and $\pi_R \circ f : A \to Y$, as the product space $X \times Y$ incorporates more "uncertainty" than its individual factors. (This stems back from $\nabla_{X,Y} : PX \times PY \to P(X \times Y)$ *not*  being isomorphic: recall that $PX$ is a "distribution object" describing the amount of different states on $X$.)
+ 
 
 
 
