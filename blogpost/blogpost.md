@@ -1,4 +1,5 @@
-Adjoint School 2024 Subgroup 1B Blogpost
+ 
+ Adjoint School 2024 Subgroup 1B Blogpost
 
 Drew, Nico, and Utku
 
@@ -42,17 +43,17 @@ A Kleisli category is, in short, a category $\mathbf{C}$ together with a wide su
 
 $$\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY)$$
 
-If you have heard about Kleisli categories and are wondering 'where is the monad?!' --It's $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ (with multiplication and unit, a.k.a flatten and dirac, induced by the adjunction).
+If you have heard about Kleisli categories and are wondering 'where is the monad?!' --it's $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ (with multiplication and unit, a.k.a flatten and dirac, directy coming the adjunction).
 
-**TODO:  explain that the object $PY$ is called "distribution object"?**
+The object $PX \in \mathbf{C}_{det}$ is called "distribution object" describing the amount of uncertainty on $X$.
+In the examples from above, ... **TODO**
 
-The subcategory $\mathbf{C}_{det}$ is called 'deterministic', as their morphisms are interpreted as 'deterministic processes'. We'll define the term later in detail, but call upon your intuition for now: a deterministic process has one (or multiple) output(s) being definitely determined by their input(s) (which may in fact be empty). In a sense, determenistic processes behave like functions (as in our first example) -- **TODO** -- or measurable functions (in our second). More generally speaking, the (sub)category of deterministic processes $\mathbf{C}_{det}$ is a *cartesian monoidal* category:
+The subcategory $\mathbf{C}_{det}$ is called 'deterministic', as their morphisms are interpreted as 'deterministic processes'. We'll define the term later in detail, but call upon your intuition for now: a deterministic process has one (or multiple) output(s) being definitely determined by their input(s) (which may, in fact, be empty). In a sense, determenistic processes behave like functions (as in our first example) -- **TODO** -- or measurable functions (in our second). More precisely and generally speaking, the (sub)category of deterministic processes $\mathbf{C}_{det}$ is a *cartesian monoidal* category:
 
- 1. it has a terminal object $I$:  every object $X$ has a unique *deleting process* $del_X : X \to I$. 
+ 1. it has a terminal object $I$. Equivalently,  there are so-called *deleting morhisms* $del_X : X \to I$ natural in $X$. 
 
- 3. it has products $X \times Y$ and projection pairs $X \xleftarrow{\pi_L} X \times Y \xrightarrow{\pi_R} Y$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)). 
-
-You probably know that these properties together induce a symmetric monoidal structure with tensored $\mathbf{C}_{det}$-morphisms, as indicated in **TODO: diagram**.
+ 2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\pi_L} X \times Y \xrightarrow{\pi_R} Y$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)). 
+ 3. its symmetric monoidal structure is induced by 1. and 2., with tensored $\mathbf{C}_{det}$-morphisms, as indicated in **TODO: diagram**.
 
 As explained above, (**TODO: Check** ) we want to model stochastic process in a process-oriented manner. But how to integrate the tensor structure from $\mathbf{C}_{det}$ to $\mathbf{C}$? We need help of *zipper functions* in $\mathbf{C}_{det}$
 $$\nabla_{X,Y} : PX \times PY \to P(X \times Y)$$ 
@@ -62,42 +63,60 @@ being compatible with the product on $\mathbf{C}_{det}$ and the adjunction $\iot
 We are still wondering, though, what this exactly means for our characterization of Kleisli categories as left adjoint wide inclusions $P \vdash \iota : \mathbf{C}_{det} \subset \mathbf{C}$.
 
 Using the natural bijection $\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY)$ from above, we say that morphisms $f \in \mathbf{C} (A, X)$ and $g \in \mathbf{C} (B, Y)$ are represented by deterministic $f_{det} \in \mathbf{C}_{det}(A, PX)$ and $g_{det} \in \mathbf{C}_{det}(B, PY)$, respectively. Their tensor product is then defined by its representant $$(f \otimes g)_{det} : A \times B \xrightarrow{f_{det} \times g_{det}} PX \times PY \xrightarrow{\nabla_{X,Y}} P(X \times Y).$$
+Indeed, this defines a symmetric monoidal on $\mathbf{C}$ extending the cartesian monoidal structure on $\mathbf{C}_{det}$, in the sense that the inclusion $\iota : \mathbf{C}_{det} \subset \mathbf{C}$ is strict symmetric monoidal.[^3]
+[^3]:  In order to prove that, note that deterministic morphisms $f  \in \mathbf{C}_{det}(X,Y)$ are represented by $f_{det} = Pf \circ \delta_{X} \in \mathbf{C}_{det}(X,PY)$, where $\delta$ the unit of the adjunctin $\iota \dashv P$.
+
 In the examples from above, the zipper is given as ... **TODO**..., yielding symmetric monoidal categories ... **TODO**.
 
-These examples are symmetric monoidal categories, but not cartesian monoidal: they do have products.
+These examples are symmetric monoidal categories, but not cartesian monoidal. As a (counter)example, consider two maps $f$, $g$ from  **TODO: is there already such an example?** both maps $h_1$ and $h_2$ make the diagram **TODO** commute.
 
+In probability theoretic words, this states that a morphism of the form $h: A \to X \times Y$ carries more information than its so-called marginalizations $\pi_L \circ h : A \to X$ and $\pi_R \circ h : A \to Y$. The reason is that the product space $X \times Y$ incorporates more "uncertainty" than its individual factors. (Which stems back from $\nabla_{X,Y} : PX \times PY \to P(X \times Y)$ *not*  being isomorphic.)
+
+Hence, clearly, our Kleisli categories $\mathbf{C}$ do not have products.
 However, they satisfy point 1: the tensor unit $I$ is still terminal not only in $\mathbf{C}_{det}$, but also in $\mathbf{C}$. 
 
-This property is important for Markov categories, as it allows for *weakened* products: every pair of morphisms $f \in \mathbf{C}( A, X)$ and $g \in \mathbf{C}(A, Y)$, gives rise to *at least* one morphisms making the product diagram commute, namely
-$$A \xrightarrow{\iota \langle id_A, id_A \rangle} A \times A \xrightarrow{f \otimes g} X \times Y$$,
-**TODO: should we explain this?**
-where $\langle id_A, id_A \rangle \in \mathbf{C}_{det}(A, A \times A)$ is the "diagonal map" induced by the universal property. It will be called copy-map from now on, as it is given as ... **TODO** in our example categories ... **TODO**
+This property is important for Markov categories. <!-- (Actually, it's exactly the difference between Markov categories and CD categories.) --> In particular, it allows for *weakened* products: every pair of morphisms $f \in \mathbf{C}( A, X)$ and $g \in \mathbf{C}(A, Y)$, gives rise to *at least* one morphisms making the product diagram commute, namely
+$$A \xrightarrow{\langle id_A, id_A \rangle} A \times A \xrightarrow{f \otimes g} X \times Y,$$
+where $\langle id_A, id_A \rangle \in \mathbf{C}_{det}(A, A \times A)$ is the "diagonal map" induced by the universal property. We are going to call it $copy_A$ from now on, as it is given as ... **TODO** in our example categories ... **TODO**
 
+Note that the copy maps are compatible with the additional structure in the sense that $(A, copy_A, del_A)$ is a commutative comonoid in $\mathbf{C}$.
+<!---
+ - $\pi_{L} \circ copy_A = id_A = \pi_{R} \circ copy_A$
+ -  $copy_A \otimes id_A \circ copy_A =id_A \otimes copy_A  \circ copy_A$
+ - $swap_{A,A} \circ copy_A = copy_A$
+
+[^4]: whith $swap_{X,Y} :=  \langle \pi_R, \pi_L \rangle: X \times Y \to Y \times X$
+--->
+<!--- 
 These *weak products* are no categorical products, as they lack the uniqueness constraint.
-<!-- a property we are used to in $\mathbf{Set}$, which does not hold, though in the Kleisli category $\mathbf{SetMulti}$ **TODO: name**, -->
-Here is a (counter)example: **TODO**
+<!-- a property we are used to in $\mathbf{Set}$, which does not hold, though in the Kleisli category $\mathbf{SetMulti}$ **TODO: name**, 
+--->
 
-From a probability theoretic words, this states that morphisms of the form $h: A \to X \times Y$ can in general not be recovered from their so-called marginalizations $\pi_L \circ f : A \to X$ and $\pi_R \circ f : A \to Y$, as the product space $X \times Y$ incorporates more "uncertainty" than its individual factors. (This stems back from $\nabla_{X,Y} : PX \times PY \to P(X \times Y)$ *not*  being isomorphic: recall that $PX$ is a "distribution object" describing the amount of different states on $X$.)
+We are going to clarify in the next section what this means in detail; before, let's examine two propoerties that do *not* hold:
+
+ 1.The copy maps are *not* natural; more precisely, a morhism $f \in \mathbf{C}(X,Y)$ satisfies $$f \otimes f \circ copy_X = copy_Y \circ f$$ if and only if $f$ is deterministic. 
+This is not the case, for instance, with **TODO**
+The above equation will server as definition of "deterministic morphisms" in general Markov categories, as ...
+ 2. ... there are Markov category that *do not* arises as Kleisli category: e.g., $\mathbf{FinStoch}$ of finite sets and Markov kernels does have $$\mathbf{FinStoch}_{det} = \mathbf{FinSet} \subset \mathbf{FinStoch}$$ as wide subcategory of deterministic morphisms, the inclusion cannot have a right adjoint (because the set $PX$ of distributions over $X$ is infinite).
+
+
  
 
 
 
-
-- example: $\mathbf{MultSet}_{det}=\mathbf{Set}$.
-
-
-* Example probability monads (Construct `flatten`, `dirac`, and `zipper` for each)
-    * Finite distribution monad
-    * Powerset monad
-    * Briefly mention giry monad
+**Original list of contents:**
+* Example probability monads (**Construct `flatten`, `dirac`, and `zipper` for each. I dit not do that for `flatten`, `dirac`, due to that alternative characterisation of Kleisli categories. Are you OK with that?**)
+    * Finite distribution monad **TODO**
+    * Powerset monad **TODO**
+    * Briefly mention giry monad **check**
 * Kleisli categories
     * What structures do the Kleisli categories lose (and what do they keep) from their base (Cartesian) counterparts?
-        * They do keep comonoid structures
-        * But they're no longer Cartesian
-        * Copy map is no longer natural
-        * Products are no longer categorical products, ie. projections are no longer universal. What does this mean in terms of probability? (Answer: unlike Cartesian projection, you cannot in general reconstruct a joint probability distribution from its marginals)
-        * Delete is still natural though, ie. unit object is still final
-        * This all plays into "equivalent characterizations of deterministic Markov categories"
+        * They do keep comonoid structures **check**
+        * But they're no longer Cartesian **check**
+        * Copy map is no longer natural  **check**
+        * Products are no longer categorical products, ie. projections are no longer universal. What does this mean in terms of probability? (Answer: unlike Cartesian projection, you cannot in general reconstruct a joint probability distribution from its marginals) **check**
+        * Delete is still natural though, ie. unit object is still final **check**
+        * This all plays into "equivalent characterizations of deterministic Markov categories" **missing, but I don't know where to include that**
 
 # Markov Categories
 
@@ -105,7 +124,7 @@ From a probability theoretic words, this states that morphisms of the form $h: A
 
 Let's start with the terse definition that category theorists love so much: A Markov category is a semiCartesian category where every object is a comonoid compatible with the monoidal structure.
 
-(Now give a more explicit definition. Should we give both string diagram equations and commutative diagrams? Or just stick to one?)
+(Now give a more explicit definition. Should we give both string diagram equations and commutative diagrams? Or just stick to one?-- nico would only do it via string diagrams.) 
 
 ## Each Axiom Explained
 
@@ -164,6 +183,7 @@ In this sense, why should del be compatible with the monoidal structure?
 * This corresponds to normalization
 * Deleting an output of a process deletes the whole process
 * Omitting this leads to CD-categories
+* leads to weak products.
 
 ## Important Markov categories
 
