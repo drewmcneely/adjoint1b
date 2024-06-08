@@ -136,7 +136,10 @@ If you are familiar with Kleisli categories, you might have uncovered $\mathbf{M
 
 If you do *not* know Kleisli categories--don't worry, we'll try to explain it on the go, focusing on the relevant properties for our prupose.
 
-Consider an anjunction ![$\iota \dashv P$](figures/tikz-cd-adjunction_C_det.png)
+Consider an anjunction 
+
+![](figures/tikz-cd_adjunction_C_det.png)
+
 Then $\mathbf{C}$ is a *Kleisli category*, iff its objects coincide with those of $\mathbf{C}_{\mathrm{det}}$ and $\iota$ is the idendity on objects.[^1]  This yields a natural[^2] isomorphism $$\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY) .$$
 
 
@@ -150,7 +153,9 @@ In the examples of interest, we have that
 - $\mathbf{C}_{\mathrm{det}}$ is *cartesian monoidal*:
 	1. it has a terminal object $I$. Equivalently,  there are so-called *deleting morhisms*  $del_X : X \to I$ being natural in $X$.   
 	 2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\pi_L} X \times Y \xrightarrow{\pi_R} Y$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)).   
-	 3. it has a symmetric monoidal structure is induced by 1. and 2., with tensored $\mathbf{C}_{det}$-morphisms, as indicated in ![CD missing](figures/tikz-cd_def_product_morphisms.png)
+	 3. it has a symmetric monoidal structure is induced by 1. and 2., with tensored $\mathbf{C}_{det}$-morphisms, as indicated in
+
+![CD missing](figures/tikz-cd_def_product_morphisms.png)
 
 In the exxamples from above ... **TODO**	
 
