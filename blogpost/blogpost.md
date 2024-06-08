@@ -35,27 +35,33 @@ T = {Hot, Mild, Cold}
 
 If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the normalized [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the *Giry monad*, *Radon monad*, or *distribution monads over semirings*. Rather than explaining (technical) details of these, we want to dive into the underlying construction.
 
-If you do *not* know Kleisli categories--don't worry, we'll try to explain the relevant properties on the go. 
+If you do *not* know Kleisli categories--don't worry, we'll try to explain it on the go, focusing on the relevant properties for our prupose.
 
-A Kleisli category is, in short, a category $\mathbf{C}$ together with a wide subcategory $\iota: \mathbf{C}_{det} \subset \mathbf{C}$ (`wide' means 'identity on objects') having a right adjoint: $\iota \dashv P$: we have a natural[^1] isomorphism
+Consider an anjunction ![$\iota \dashv P$](figures/tikz-cd-adjunction_C_det.png)
+Then $\mathbf{C}$ is a *Kleisli category*, iff its objects coincide with those of $\mathbf{C}_{\mathrm{det}}$ and $\iota$ is the idendity on objects.[^1]  This yields a natural[^2] isomorphism $$\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY) .$$
 
-[^1]: natural between functors $\mathbf{C}_{det} \times \mathbf{C} \to \mathbf{Set}$, i.e. considering $\mathbf{C}_{det}$-morphisms as left input and $\mathbf{C}$-morphisms on the right.
 
-$$\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY)$$
+[^1]: If you have heard about Kleisli categories and are wondering 'where is the monad?!' --it's $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ (with multiplication and unit, a.k.a flatten and dirac, directy coming the adjunction).
 
-If you have heard about Kleisli categories and are wondering 'where is the monad?!' --it's $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ (with multiplication and unit, a.k.a flatten and dirac, directy coming the adjunction).
+[^2]: natural between functors $\mathbf{C}_{det} \times \mathbf{C} \to \mathbf{Set}$, i.e. considering $\mathbf{C}_{det}$-morphisms as left input and $\mathbf{C}$-morphisms on the right.
+
+In the examples of interest, we have that
+
+- $\mathbf{C}_{\mathrm{det}} \subset \mathbf{C}$ is a subcategory and $\iota f = f$ for all morphisms in $\mathbf{C}_{\mathrm{det}}$
+- $\mathbf{C}_{\mathrm{det}}$ is *cartesian monoidal*:
+	1. it has a terminal object $I$. Equivalently,  there are so-called *deleting morhisms*  $del_X : X \to I$ being natural in $X$.   
+	 2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\pi_L} X \times Y \xrightarrow{\pi_R} Y$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)).   
+	 3. it has a symmetric monoidal structure is induced by 1. and 2., with tensored $\mathbf{C}_{det}$-morphisms, as indicated in ![CD missing](figures/tikz-cd_def_product_morphisms.png)
+
+In the exxamples from above ... **TODO**	
 
 The object $PX \in \mathbf{C}_{det}$ is called "distribution object" describing the amount of uncertainty on $X$.
 In the examples from above, ... **TODO**
 
-The subcategory $\mathbf{C}_{det}$ is called 'deterministic', as their morphisms are interpreted as 'deterministic processes'. We'll define the term later in detail, but call upon your intuition for now: a deterministic process has one (or multiple) output(s) being definitely determined by their input(s) (which may, in fact, be empty). In a sense, determenistic processes behave like functions (as in our first example) -- **TODO** -- or measurable functions (in our second). More precisely and generally speaking, the (sub)category of deterministic processes $\mathbf{C}_{det}$ is a *cartesian monoidal* category:
+The subcategory $\mathbf{C}_{det}$ is called 'deterministic', as their morphisms are interpreted as 'deterministic processes'. We'll define the term later in detail, but call upon your intuition for now: a deterministic process has one (or multiple) output(s) being definitely determined by their input(s) (which may, in fact, be empty).  **TODO: the following is descriped above?** They can be run "in parallel" (a.k.a tensored) and (eventually) "sequentially" (a.k.a composed), using the symmetric monoidal structure on $\mathbf{C}_{det}$. 
 
- 1. it has a terminal object $I$. Equivalently,  there are so-called *deleting morhisms* $del_X : X \to I$ natural in $X$. 
-
- 2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\pi_L} X \times Y \xrightarrow{\pi_R} Y$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)). 
- 3. its symmetric monoidal structure is induced by 1. and 2., with tensored $\mathbf{C}_{det}$-morphisms, as indicated in **TODO: diagram**.
-
-As explained above, (**TODO: Check** ) we want to model stochastic process in a process-oriented manner. But how to integrate the tensor structure from $\mathbf{C}_{det}$ to $\mathbf{C}$? We need help of *zipper functions* in $\mathbf{C}_{det}$
+How to integrate that to to $\mathbf{C}$? 
+--We need help of *zipper functions* in $\mathbf{C}_{det}$
 $$\nabla_{X,Y} : PX \times PY \to P(X \times Y)$$ 
 being compatible with the product on $\mathbf{C}_{det}$ and the adjunction $\iota \dashv P$.[^2]  
 
@@ -125,6 +131,14 @@ The above equation will server as definition of "deterministic morphisms" in gen
 Let's start with the terse definition that category theorists love so much: A Markov category is a semiCartesian category where every object is a comonoid compatible with the monoidal structure.
 
 (Now give a more explicit definition. Should we give both string diagram equations and commutative diagrams? Or just stick to one?-- nico would only do it via string diagrams.) 
+
+In more detail, a Markov category is a symmetric monoidal category $(\mathbf{C}, \otimes, I)$ where each object is equipped with
+- a *deletion map* $del_X : X \to I$ depicted as ![](figures/delete_intro.png)
+- a *copy map* $copy_X :X \to X \otimes  X$ depicted as ![](figures/delete_intro.png) 
+
+such that
+- the collection of deletion maps is natural. Equivalently, the $I$ is required to be terminal. This impies the deletion maps to be compatible with the tensor:
+- the collection of copy maps is compatible with the 
 
 ## Each Axiom Explained
 
@@ -292,3 +306,4 @@ And can we
 * De Finetti
 * HMMs and Bayesian Inversion
 * Causal Inferencing
+
