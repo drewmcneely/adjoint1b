@@ -16,24 +16,34 @@ We want to proceed with our discussion through an example, and so before we intr
 
 > You've just installed a sprinkler system to your lawn! It is a very advanced piece of technology, measuring a myriad of different things to determine when to turn on the sprinklers... and you have no idea how it does this. In your effort to have an idea of when the system turns on (you pay the water bill, after all) you decided to keep track of how the weather feels and whether your sprinkler is on or not.
 
+<!-- Do we want to include pressure in the example as well? -->
 Here's what you have:
 You make the following distinctions: 
+
 ```
-    Weather = {sunny, cloudy, rainy}, Humidity = {dry, humid},
-    Temperature = {hot, mild, cold}, Sprinkler = {on, off}
+    Weather = {sunny, cloudy, rainy}, 
+    Humidity = {dry, humid},
+    Temperature = {hot, mild, cold}, 
+    Sprinkler = {on, off}
 ```
 
-| Weather | Humidity | Temperature | Sprinkler |
-| --- | --- | --- | --- | 
-| sunny | humid | mild | off |
-| sunny | dry | hot | on |
-| cloudy | dry | hot | on |
-| cloudy | humid | mild | on |
-| rainy | humid | cold | off |
-| cloudy | dry | cold | on |
-| sunny | humid | cold | off |
+<!-- tables need to be arrays... not even HTML tables work :( -->
+\[
+    \begin{array}[t]{cccc}
+    --Weather & Humidity & Temperature & Sprinkler--\\
+    sunny & humid & mild & off \\
+    sunny & dry & hot & on \\
+    cloudy & dry & hot & on \\
+    cloudy & humid & mild & on \\
+    rainy & humid & cold & off \\
+    cloudy & dry & cold & on \\
+    sunny & humid & cold & off \\
+    \end{array}
+\]
 
 > You make an assumption that the frequency with which each weather event occurred would be an accurate estimate for how it will be in the future, and so you assemble the previous 3 months' weather data into probability distributions.
+
+We will be relating our definitions and examples to this theme of a lawn sprinkler system. To contextualize our examples, we provide some definitions.
 
 A probability distribution on a finite set $X$ is a function $p: 2^X\to [0, 1]$ assigning to each subset $A\subset X$ a number $p(A)$ such that
 
@@ -82,24 +92,25 @@ Then, composing any such distribution with a channel will again yield a distribu
     p_\ast: 0.2\mid s,d,h\rangle + 0.3\mid r,h,c\rangle + 0.3\mid c,h,m\rangle + 0.2\mid c,d,h\rangle
 \]
 
-> From the table in the example, we can obtain the following channel $f: W\otimes H\otimes T \to S$ if we assume the [principle of indifference](), i.e., that the entries in the table all occur with equal probability (which would be the case if these were a list of observations<!--reword? -->), we get a channel
+> From the table in the example, we can obtain the following channel $f: W\otimes H\otimes T \to S$ if we assume the principle of indifference, i.e., that the entries in the table all occur with equal probability (which would be the case if these were a list of observations<!--reword? -->), we get a channel
 \[
-    f_{(w,h,t)} = \delta_{wht}^\text{\normalfont on} \mid \text{\normalfont on} \rangle + \delta_{wht}^\text{\normalfont off} \mid \text{\normalfont off} \rangle
+    f_{(w,h,t)} = \delta_{wht}^\text{on} \mid \text{on} \rangle + \delta_{wht}^\text{off} \mid \text{off} \rangle
 \]
 
 Then, by everything we've established so far, we can reason about the likelihood that the sprinkler will turn on the next day by composing the state $p$ of the climate with the channel $f$ to obtain a state $f\circ p$ of the sprinkler, computed
 \[
-    f\circ p: 0.7\mid \text{\normalfont on} \rangle + 0.3\mid \text{\normalfont off} \rangle
+    f\circ p: 0.7\mid \text{on} \rangle + 0.3\mid \text{off} \rangle
 \]
 
 All in all, along with the identity matrices, all this data assembles into the category $\mathsf{FinStoch}$ with
 
-* objects: finite sets
-* morphisms: stochastic matrices
-* where the composition is determined through the Chapman-Kolmogorov equation
+* __objects__: finite sets
+* __morphisms__: stochastic matrices
+* where the composition is determined through the __Chapman-Kolmogorov equation__
 
 This is one of the first examples of a Markov category that we will be looking at, and it will be a good baseline to observe why a Markov category is defined the way it is.
 
+<!-- TODO: Should we remove these subheadings? They don't show up in the blog post renderer. -->
 ## Possibility distribution
 Markov categories need not only house probabilistic models of uncertainty; we'll see that the following also forms a Markov category:
 
@@ -109,22 +120,12 @@ g\circ f (x) \coloneqq \bigcup_{y\in f(x)} g(y)
 \]
 and the identities as $x \mapsto \{x\}$ gives us the Markov category $\mathsf{FinSetMulti}$ of possibilities!
 
-The same data from the example can be used in a possibilistic way as well; a channel $S \to W\otimes H\otimes T$ can map the sprinkler to all the possible states of weather/climate where the sprinkler has turned on etc.
-<!-- TODO: Elaborate on this! -->
+The same data from the example can be used in a possibilistic way as well; a channel $S \to W\otimes H\otimes T$ can map the sprinkler to all the possible states of weather/climate where the sprinkler has turned on etc. Then, a state is just a set of possible configurations, and the composed state $f\circ p$ is the set of all possible configurations one can reach from the initial configurations of $p$.
 
 ## Channels are Kleisli maps
 Something you may have noticed from the two examples of morphisms of Markov categories is that fixing an element $x\in X$ yields some structure attached to $Y$ with "desirable properties": in the case of $\mathsf{FinStoch}$, we have that each $f_x$ is a probability distribution on $Y$ -- in fact, the Chapman-Kolmogorov formula further provides a way to obtain a probability distribution from a probability distribution of probability distributions. In the case of $\mathsf{FinSetMulti}$, each $f_x$ is a non-empty subset of $Y$, and the composition is provided through the union of a set of sets.
 
 This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition. 
-
-<!-- 
-* Distributions
-    * Show probability and possibility distributions in our example setting
-    * Use bra-ket notation from example 2.4 in [this paper](https://arxiv.org/pdf/1709.00322)
-* Markov Kernels
-    * Probability and possibility
-    * Show that these are Kleisli maps, segue into next section
--->
 
 # Kleisli Categories (Should this be a subsection of above?) (NICO)
 
@@ -156,8 +157,7 @@ Let's go a little bit more in-depth into why each of these axioms are required.
 
 ### Composition and Identity (Utku)
 <!-- We want to describe how to "push forward" distributions -->
-The necessity for composition and identities in a categorical setting requires no explanation, though we note that the mental image of "information flow" is essentially channels/Markov kernels taking states to states.
-The flow of information is essentially a pushforward. <!-- better phrasing -->
+It is obvious why composition and identity is important to form a category. We note, however, that we want to think of constituents of a Markov category as states and channels that take states to states. So, in such a case, compositionality is important to be able to talk about "taking states to states", where for a state $p$, we wish for its "pushforward" $f_\ast(p) = f\circ p$ to be a state as well.
 
 
 ### Monoidal Products (Nico)
