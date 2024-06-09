@@ -237,24 +237,29 @@ Let's start with the terse definition that category theorists love so much: A Ma
 
 In more detail, a Markov category is a symmetric monoidal category $(\mathbf{C}, \otimes, I)$ where each object is equipped with
 - a *deletion map* $del_X : X \to I$ depicted as 
+
 ![](figures/intro_delete.png)
 
 - a *copy map* $copy_X :X \to X \otimes  X$ depicted as 
+
 ![](figures/intro_copy.png) 
 
 such that
 
 - the collection of deletion maps is natural:
+
 ![](figures/intro_delete_natural.png)
 
-	Equivalently, $I$ is required to be terminal. Hence, the deletion maps are with the tensor product:
+  Equivalently, $I$ is required to be terminal. Hence, the deletion maps are with the tensor product:
+
 ![](figures/intro_delete_XY.png)
 
 - the collection of copy maps is compatible with the symmetric monoidal structure
 ![](figures/intro_copy_XY.png)
 
 - each pair of copy and discard maps form a commutative comonoid:
-![](figures/commutative-comonoid-equations_no_labels.png)
+
+![](figures/intro_commutative-comonoid-equations_no_labels.png)
 
 
 
