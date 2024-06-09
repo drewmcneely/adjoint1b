@@ -1,4 +1,5 @@
-Adjoint School 2024 Subgroup 1B Blogpost
+ 
+ Adjoint School 2024 Subgroup 1B Blogpost
 
 Drew, Nico, and Utku
 
@@ -16,24 +17,34 @@ We want to proceed with our discussion through an example, and so before we intr
 
 > You've just installed a sprinkler system to your lawn! It is a very advanced piece of technology, measuring a myriad of different things to determine when to turn on the sprinklers... and you have no idea how it does this. In your effort to have an idea of when the system turns on (you pay the water bill, after all) you decided to keep track of how the weather feels and whether your sprinkler is on or not.
 
+<!-- Do we want to include pressure in the example as well? -->
 Here's what you have:
 You make the following distinctions: 
+
 ```
-    Weather = {sunny, cloudy, rainy}, Humidity = {dry, humid},
-    Temperature = {hot, mild, cold}, Sprinkler = {on, off}
+    Weather = {sunny, cloudy, rainy}, 
+    Humidity = {dry, humid},
+    Temperature = {hot, mild, cold}, 
+    Sprinkler = {on, off}
 ```
 
-| Weather | Humidity | Temperature | Sprinkler |
-| --- | --- | --- | --- | 
-| sunny | humid | mild | off |
-| sunny | dry | hot | on |
-| cloudy | dry | hot | on |
-| cloudy | humid | mild | on |
-| rainy | humid | cold | off |
-| cloudy | dry | cold | on |
-| sunny | humid | cold | off |
+<!-- tables need to be arrays... not even HTML tables work :( -->
+\[
+    \begin{array}[t]{cccc}
+    --Weather & Humidity & Temperature & Sprinkler--\\
+    sunny & humid & mild & off \\
+    sunny & dry & hot & on \\
+    cloudy & dry & hot & on \\
+    cloudy & humid & mild & on \\
+    rainy & humid & cold & off \\
+    cloudy & dry & cold & on \\
+    sunny & humid & cold & off \\
+    \end{array}
+\]
 
 > You make an assumption that the frequency with which each weather event occurred would be an accurate estimate for how it will be in the future, and so you assemble the previous 3 months' weather data into probability distributions.
+
+We will be relating our definitions and examples to this theme of a lawn sprinkler system. To contextualize our examples, we provide some definitions.
 
 A probability distribution on a finite set $X$ is a function $p: 2^X\to [0, 1]$ assigning to each subset $A\subset X$ a number $p(A)$ such that
 
@@ -82,24 +93,25 @@ Then, composing any such distribution with a channel will again yield a distribu
     p_\ast: 0.2\mid s,d,h\rangle + 0.3\mid r,h,c\rangle + 0.3\mid c,h,m\rangle + 0.2\mid c,d,h\rangle
 \]
 
-> From the table in the example, we can obtain the following channel $f: W\otimes H\otimes T \to S$ if we assume the [principle of indifference](), i.e., that the entries in the table all occur with equal probability (which would be the case if these were a list of observations<!--reword? -->), we get a channel
+> From the table in the example, we can obtain the following channel $f: W\otimes H\otimes T \to S$ if we assume the principle of indifference, i.e., that the entries in the table all occur with equal probability (which would be the case if these were a list of observations<!--reword? -->), we get a channel
 \[
-    f_{(w,h,t)} = \delta_{wht}^\text{\normalfont on} \mid \text{\normalfont on} \rangle + \delta_{wht}^\text{\normalfont off} \mid \text{\normalfont off} \rangle
+    f_{(w,h,t)} = \delta_{wht}^\text{on} \mid \text{on} \rangle + \delta_{wht}^\text{off} \mid \text{off} \rangle
 \]
 
 Then, by everything we've established so far, we can reason about the likelihood that the sprinkler will turn on the next day by composing the state $p$ of the climate with the channel $f$ to obtain a state $f\circ p$ of the sprinkler, computed
 \[
-    f\circ p: 0.7\mid \text{\normalfont on} \rangle + 0.3\mid \text{\normalfont off} \rangle
+    f\circ p: 0.7\mid \text{on} \rangle + 0.3\mid \text{off} \rangle
 \]
 
 All in all, along with the identity matrices, all this data assembles into the category $\mathsf{FinStoch}$ with
 
-* objects: finite sets
-* morphisms: stochastic matrices
-* where the composition is determined through the Chapman-Kolmogorov equation
+* __objects__: finite sets
+* __morphisms__: stochastic matrices
+* where the composition is determined through the __Chapman-Kolmogorov equation__
 
 This is one of the first examples of a Markov category that we will be looking at, and it will be a good baseline to observe why a Markov category is defined the way it is.
 
+<!-- TODO: Should we remove these subheadings? They don't show up in the blog post renderer. -->
 ## Possibility distribution
 Markov categories need not only house probabilistic models of uncertainty; we'll see that the following also forms a Markov category:
 
@@ -109,37 +121,113 @@ g\circ f (x) \coloneqq \bigcup_{y\in f(x)} g(y)
 \]
 and the identities as $x \mapsto \{x\}$ gives us the Markov category $\mathsf{FinSetMulti}$ of possibilities!
 
-The same data from the example can be used in a possibilistic way as well; a channel $S \to W\otimes H\otimes T$ can map the sprinkler to all the possible states of weather/climate where the sprinkler has turned on etc.
-<!-- TODO: Elaborate on this! -->
+The same data from the example can be used in a possibilistic way as well; a channel $S \to W\otimes H\otimes T$ can map the sprinkler to all the possible states of weather/climate where the sprinkler has turned on etc. Then, a state is just a set of possible configurations, and the composed state $f\circ p$ is the set of all possible configurations one can reach from the initial configurations of $p$.
 
 ## Channels are Kleisli maps
 Something you may have noticed from the two examples of morphisms of Markov categories is that fixing an element $x\in X$ yields some structure attached to $Y$ with "desirable properties": in the case of $\mathsf{FinStoch}$, we have that each $f_x$ is a probability distribution on $Y$ -- in fact, the Chapman-Kolmogorov formula further provides a way to obtain a probability distribution from a probability distribution of probability distributions. In the case of $\mathsf{FinSetMulti}$, each $f_x$ is a non-empty subset of $Y$, and the composition is provided through the union of a set of sets.
 
 This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition. 
 
-<!-- 
-* Distributions
-    * Show probability and possibility distributions in our example setting
-    * Use bra-ket notation from example 2.4 in [this paper](https://arxiv.org/pdf/1709.00322)
-* Markov Kernels
-    * Probability and possibility
-    * Show that these are Kleisli maps, segue into next section
+# Kleisli Categories 
+<!--
+(Should this be a subsection of above? I think not) (NICO)
 -->
 
-# Kleisli Categories (Should this be a subsection of above?) (NICO)
+If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the normalized [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the *Giry monad*, *Radon monad*, or *distribution monads over semirings*. Rather than explaining (technical) details of these, we want to dive into the underlying construction.
 
-* Example probability monads (Construct `flatten`, `dirac`, and `zipper` for each)
-    * Finite distribution monad
-    * Powerset monad
-    * Briefly mention giry monad
+If you do *not* know Kleisli categories--don't worry, we'll try to explain it on the go, focusing on the relevant properties for our prupose.
+
+Consider an anjunction 
+
+![](figures/tikz-cd_adjunction_C_det.png)
+
+Then $\mathbf{C}$ is a *Kleisli category*, iff its objects coincide with those of $\mathbf{C}_{\mathrm{det}}$ and $\iota$ is the idendity on objects.[^1]  This yields a natural[^2] isomorphism $$\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY) .$$
+
+
+[^1]: If you have heard about Kleisli categories and are wondering 'where is the monad?!' --it's $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ (with multiplication and unit, a.k.a flatten and dirac, directy coming the adjunction).
+
+[^2]: natural between functors $\mathbf{C}_{det} \times \mathbf{C} \to \mathbf{Set}$, i.e. considering $\mathbf{C}_{det}$-morphisms as left input and $\mathbf{C}$-morphisms on the right.
+
+In the examples of interest, we have that
+
+- $\mathbf{C}_{\mathrm{det}} \subset \mathbf{C}$ is a subcategory and $\iota f = f$ for all morphisms in $\mathbf{C}_{\mathrm{det}}$
+- $\mathbf{C}_{\mathrm{det}}$ is *cartesian monoidal*:
+	1. it has a terminal object $I$. Equivalently,  there are so-called *deleting morhisms*  $del_X : X \to I$ being natural in $X$.   
+	 2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\pi_L} X \times Y \xrightarrow{\pi_R} Y$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)).   
+	 3. it has a symmetric monoidal structure is induced by 1. and 2., with tensored $\mathbf{C}_{det}$-morphisms, as indicated in
+
+![CD missing](figures/tikz-cd_def_product_morphisms.png)
+
+In the exxamples from above ... **TODO**	
+
+The object $PX \in \mathbf{C}_{det}$ is called "distribution object" describing the amount of uncertainty on $X$.
+In the examples from above, ... **TODO**
+
+The subcategory $\mathbf{C}_{det}$ is called 'deterministic', as their morphisms are interpreted as 'deterministic processes'. We'll define the term later in detail, but call upon your intuition for now: a deterministic process has one (or multiple) output(s) being definitely determined by their input(s) (which may, in fact, be empty).  **TODO: the following is descriped above?** They can be run "in parallel" (a.k.a tensored) and (eventually) "sequentially" (a.k.a composed), using the symmetric monoidal structure on $\mathbf{C}_{det}$. 
+
+How to integrate that to to $\mathbf{C}$? 
+--We need help of *zipper functions* in $\mathbf{C}_{det}$
+$$\nabla_{X,Y} : PX \times PY \to P(X \times Y)$$ 
+being compatible with the product on $\mathbf{C}_{det}$ and the adjunction $\iota \dashv P$.[^2]  
+
+[^2]:  to be precise, we require  $\nabla_{X,Y}$ to make $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations. 
+We are still wondering, though, what this exactly means for our characterization of Kleisli categories as left adjoint wide inclusions $P \vdash \iota : \mathbf{C}_{det} \subset \mathbf{C}$.
+
+Using the natural bijection $\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY)$ from above, we say that morphisms $f \in \mathbf{C} (A, X)$ and $g \in \mathbf{C} (B, Y)$ are represented by deterministic $f_{det} \in \mathbf{C}_{det}(A, PX)$ and $g_{det} \in \mathbf{C}_{det}(B, PY)$, respectively. Their tensor product is then defined by its representant $$(f \otimes g)_{det} : A \times B \xrightarrow{f_{det} \times g_{det}} PX \times PY \xrightarrow{\nabla_{X,Y}} P(X \times Y).$$
+Indeed, this defines a symmetric monoidal on $\mathbf{C}$ extending the cartesian monoidal structure on $\mathbf{C}_{det}$, in the sense that the inclusion $\iota : \mathbf{C}_{det} \subset \mathbf{C}$ is strict symmetric monoidal.[^3]
+[^3]:  In order to prove that, note that deterministic morphisms $f  \in \mathbf{C}_{det}(X,Y)$ are represented by $f_{det} = Pf \circ \delta_{X} \in \mathbf{C}_{det}(X,PY)$, where $\delta$ the unit of the adjunctin $\iota \dashv P$.
+
+In the examples from above, the zipper is given as ... **TODO**..., yielding symmetric monoidal categories ... **TODO**.
+
+These examples are symmetric monoidal categories, but not cartesian monoidal. As a (counter)example, consider two maps $f$, $g$ from  **TODO: is there already such an example?** both maps $h_1$ and $h_2$ make the diagram **TODO** commute.
+
+In probability theoretic words, this states that a morphism of the form $h: A \to X \times Y$ carries more information than its so-called marginalizations $\pi_L \circ h : A \to X$ and $\pi_R \circ h : A \to Y$. The reason is that the product space $X \times Y$ incorporates more "uncertainty" than its individual factors. (Which stems back from $\nabla_{X,Y} : PX \times PY \to P(X \times Y)$ *not*  being isomorphic.)
+
+Hence, clearly, our Kleisli categories $\mathbf{C}$ do not have products.
+However, they satisfy point 1: the tensor unit $I$ is still terminal not only in $\mathbf{C}_{det}$, but also in $\mathbf{C}$. 
+
+This property is important for Markov categories. <!-- (Actually, it's exactly the difference between Markov categories and CD categories.) --> In particular, it allows for *weakened* products: every pair of morphisms $f \in \mathbf{C}( A, X)$ and $g \in \mathbf{C}(A, Y)$, gives rise to *at least* one morphisms making the product diagram commute, namely
+$$A \xrightarrow{\langle id_A, id_A \rangle} A \times A \xrightarrow{f \otimes g} X \times Y,$$
+where $\langle id_A, id_A \rangle \in \mathbf{C}_{det}(A, A \times A)$ is the "diagonal map" induced by the universal property. We are going to call it $copy_A$ from now on, as it is given as ... **TODO** in our example categories ... **TODO**
+
+Note that the copy maps are compatible with the additional structure in the sense that $(A, copy_A, del_A)$ is a commutative comonoid in $\mathbf{C}$.
+<!---
+ - $\pi_{L} \circ copy_A = id_A = \pi_{R} \circ copy_A$
+ -  $copy_A \otimes id_A \circ copy_A =id_A \otimes copy_A  \circ copy_A$
+ - $swap_{A,A} \circ copy_A = copy_A$
+
+[^4]: whith $swap_{X,Y} :=  \langle \pi_R, \pi_L \rangle: X \times Y \to Y \times X$
+--->
+<!--- 
+These *weak products* are no categorical products, as they lack the uniqueness constraint.
+<!-- a property we are used to in $\mathbf{Set}$, which does not hold, though in the Kleisli category $\mathbf{SetMulti}$ **TODO: name**, 
+--->
+
+We are going to clarify in the next section what this means in detail; before, let's examine two propoerties that do *not* hold:
+
+ 1.The copy maps are *not* natural; more precisely, a morhism $f \in \mathbf{C}(X,Y)$ satisfies $$f \otimes f \circ copy_X = copy_Y \circ f$$ if and only if $f$ is deterministic. 
+This is not the case, for instance, with **TODO**
+The above equation will server as definition of "deterministic morphisms" in general Markov categories, as ...
+ 2. ... there are Markov category that *do not* arises as Kleisli category: e.g., $\mathbf{FinStoch}$ of finite sets and Markov kernels does have $$\mathbf{FinStoch}_{det} = \mathbf{FinSet} \subset \mathbf{FinStoch}$$ as wide subcategory of deterministic morphisms, the inclusion cannot have a right adjoint (because the set $PX$ of distributions over $X$ is infinite).
+
+
+ 
+
+
+
+**Original list of contents:**
+* Example probability monads (**Construct `flatten`, `dirac`, and `zipper` for each. I dit not do that for `flatten`, `dirac`, due to that alternative characterisation of Kleisli categories. Are you OK with that?**)
+    * Finite distribution monad **TODO**
+    * Powerset monad **TODO**
+    * Briefly mention giry monad **check**
 * Kleisli categories
     * What structures do the Kleisli categories lose (and what do they keep) from their base (Cartesian) counterparts?
-        * They do keep comonoid structures
-        * But they're no longer Cartesian
-        * Copy map is no longer natural
-        * Products are no longer categorical products, ie. projections are no longer universal. What does this mean in terms of probability? (Answer: unlike Cartesian projection, you cannot in general reconstruct a joint probability distribution from its marginals)
-        * Delete is still natural though, ie. unit object is still final
-        * This all plays into "equivalent characterizations of deterministic Markov categories"
+        * They do keep comonoid structures **check**
+        * But they're no longer Cartesian **check**
+        * Copy map is no longer natural  **check**
+        * Products are no longer categorical products, ie. projections are no longer universal. What does this mean in terms of probability? (Answer: unlike Cartesian projection, you cannot in general reconstruct a joint probability distribution from its marginals) **check**
+        * Delete is still natural though, ie. unit object is still final **check**
+        * This all plays into "equivalent characterizations of deterministic Markov categories" **missing, but I don't know where to include that**
 
 # Markov Categories
 
@@ -147,7 +235,15 @@ This is not a coincidence: we will see that for certain monads, the Kleisli cate
 
 Let's start with the terse definition that category theorists love so much: A Markov category is a semiCartesian category where every object is a comonoid compatible with the monoidal structure.
 
-(Now give a more explicit definition. Should we give both string diagram equations and commutative diagrams? Or just stick to one?)
+(Now give a more explicit definition. Should we give both string diagram equations and commutative diagrams? Or just stick to one?-- nico would only do it via string diagrams.) 
+
+In more detail, a Markov category is a symmetric monoidal category $(\mathbf{C}, \otimes, I)$ where each object is equipped with
+- a *deletion map* $del_X : X \to I$ depicted as ![](figures/delete_intro.png)
+- a *copy map* $copy_X :X \to X \otimes  X$ depicted as ![](figures/delete_intro.png) 
+
+such that
+- the collection of deletion maps is natural. Equivalently, the $I$ is required to be terminal. This impies the deletion maps to be compatible with the tensor:
+- the collection of copy maps is compatible with the 
 
 ## Each Axiom Explained
 
@@ -156,8 +252,7 @@ Let's go a little bit more in-depth into why each of these axioms are required.
 
 ### Composition and Identity (Utku)
 <!-- We want to describe how to "push forward" distributions -->
-The necessity for composition and identities in a categorical setting requires no explanation, though we note that the mental image of "information flow" is essentially channels/Markov kernels taking states to states.
-The flow of information is essentially a pushforward. <!-- better phrasing -->
+It is obvious why composition and identity is important to form a category. We note, however, that we want to think of constituents of a Markov category as states and channels that take states to states. So, in such a case, compositionality is important to be able to talk about "taking states to states", where for a state $p$, we wish for its "pushforward" $f_\ast(p) = f\circ p$ to be a state as well.
 
 
 ### Monoidal Products (Nico)
@@ -208,6 +303,7 @@ In this sense, why should del be compatible with the monoidal structure?
 * This corresponds to normalization
 * Deleting an output of a process deletes the whole process
 * Omitting this leads to CD-categories
+* leads to weak products.
 
 ## Important Markov categories
 
@@ -316,3 +412,4 @@ And can we
 * De Finetti
 * HMMs and Bayesian Inversion
 * Causal Inferencing
+
