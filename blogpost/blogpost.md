@@ -1,18 +1,22 @@
- 
- Adjoint School 2024 Subgroup 1B Blogpost
+# Introduction to Categorical Probability
 
-Drew, Nico, and Utku
+*Guest post by Utku Boduro&gbreve;lu, Drew McNeely, and Nico Wittrock*
 
-# Introduction (this probably doesn't need a section title) (Drew)
+*When is it appropriate to completely reinvent the wheel?*
+To an outsider, that seems to happen a lot in category theory, and probability theory isn't spared from this treatment.
+We've had a useful language to describe probability since the 17th century, and it works. Why change it up now?
 
-We assume that the reader is familiar with symmetric monoidal categories and string diagrams. All of our string diagrams are to be read bottom to top.
+This may be a tempting question when reading about categorical probability, but we might argue that this isn't completely reinventing traditional probability from the ground up.
+Instead, we're developing a set of tools that allows us to work with traditional probability in a really powerful and intuitive way, and these same tools also allow us define new kinds of uncertainty where traditional probability is limited.
+In this blog post, we'll work with examples of both traditional finite probability and nondeterminism, or *possibility* to show how they can be unified in a single categorical language.
 
-* As said by Tomas, spell out the motivation here, and make sure readers know that there's a big reward at the end.
-* Maybe an illustration? My motivator to learn this was the difference between the cumbersome algebra from my professor's notes (Section 9.4 of the attached estimation theory pdf) vs the simplicity of [Proposition 3.7 in this paper](https://arxiv.org/pdf/2401.14669)
+----------------------------------------------------------
 
-# Basics of Probability Theory (UTKU)
+We assume that the reader is familiar with symmetric monoidal categories and string diagrams. All of our string diagrams are read from left to right.
 
-## Probability distributions
+## Basics of Probability Theory (UTKU)
+
+### Probability distributions
 We want to proceed with our discussion through an example, and so before we introduce everything, consider the following:
 
 > You've just installed a sprinkler system to your lawn! It is a very advanced piece of technology, measuring a myriad of different things to determine when to turn on the sprinklers... and you have no idea how it does this. In your effort to have an idea of when the system turns on (you pay the water bill, after all) you decided to keep track of how the weather feels and whether your sprinkler is on or not.
@@ -112,7 +116,9 @@ All in all, along with the identity matrices, all this data assembles into the c
 This is one of the first examples of a Markov category that we will be looking at, and it will be a good baseline to observe why a Markov category is defined the way it is.
 
 <!-- TODO: Should we remove these subheadings? They don't show up in the blog post renderer. -->
-## Possibility distribution
+<!-- That's frustrating. Especially because we're actually supposed to use a level 1 heading for the title. -->
+<!-- Let's keep headings for now for our internal organization maybe? -->
+### Possibility distribution
 Markov categories need not only house probabilistic models of uncertainty; we'll see that the following also forms a Markov category:
 
 Consider a channel between two finite sets $X$, $Y$ to be an assignment $f: X\to Y$ such that each $f(x)\subset Y$ is a non-empty subset. Defining the composition to be
@@ -123,7 +129,7 @@ and the identities as $x \mapsto \{x\}$ gives us the Markov category $\mathsf{Fi
 
 The same data from the example can be used in a possibilistic way as well; a channel $S \to W\otimes H\otimes T$ can map the sprinkler to all the possible states of weather/climate where the sprinkler has turned on etc. Then, a state is just a set of possible configurations, and the composed state $f\circ p$ is the set of all possible configurations one can reach from the initial configurations of $p$.
 
-## Channels are Kleisli maps
+### Channels are Kleisli maps
 Something you may have noticed from the two examples of morphisms of Markov categories is that fixing an element $x\in X$ yields some structure attached to $Y$ with "desirable properties": in the case of $\mathsf{FinStoch}$, we have that each $f_x$ is a probability distribution on $Y$ -- in fact, the Chapman-Kolmogorov formula further provides a way to obtain a probability distribution from a probability distribution of probability distributions. In the case of $\mathsf{FinSetMulti}$, each $f_x$ is a non-empty subset of $Y$, and the composition is provided through the union of a set of sets.
 
 This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition. 
@@ -229,9 +235,9 @@ The above equation will serve as definition of "deterministic morphisms" in gene
         * Delete is still natural though, ie. unit object is still final **check**
         * This all plays into "equivalent characterizations of deterministic Markov categories" **missing, but I don't know where to include that**
 
-# Markov Categories
+## Markov Categories
 
-## Formal definition
+### Formal definition
 
 Let's start with the terse definition that category theorists love so much: A Markov category is a semiCartesian category where every object is a commutative comonoid compatible with the monoidal structure.
 
@@ -264,40 +270,40 @@ such that
 
 
 
-## Each Axiom Explained
+### Each Axiom Explained
 
 Let's go a little bit more in-depth into why each of these axioms are required.
 (Bring in our established example setting into each of the subsections below.)
 
-### Composition and Identity (Utku)
+#### Composition and Identity (Utku)
 <!-- We want to describe how to "push forward" distributions -->
 It is obvious why composition and identity is important to form a category. We note, however, that we want to think of constituents of a Markov category as states and channels that take states to states. So, in such a case, compositionality is important to be able to talk about "taking states to states", where for a state $p$, we wish for its "pushforward" $f_\ast(p) = f\circ p$ to be a state as well.
 
 
-### Monoidal Products (Nico)
+#### Monoidal Products (Nico)
 
 We want to describe distributions over joint variables.
 
-### Swap Map (Drew)
+#### Swap Map (Drew)
 
-### Copy Map (Drew)
+#### Copy Map (Drew)
 
 We want this because it makes sense to process the same data in multiple different ways and then compare them.
 Show for instance the "graph" of a morphism
 
 Why should this be compatible with the monoidal structure?
 
-Now if we remember, every object $$X$$ in a Markov category is a comonoid, meaning that it's equipped with a comultiplication morphism $$\mathrm{copy}_X :X \rightarrow X\otimes X$$, which we'll give the following string diagram:
+Now if we remember, every object $X$ in a Markov category is a comonoid, meaning that it's equipped with a comultiplication morphism $\mathrm{copy}_X :X \rightarrow X\otimes X$, which we'll give the following string diagram:
 
 ![](figures/copy.png)
 
-We can think of it as a Markov kernel that takes an input $$x \in X$$ and outputs a Dirac delta distribution on its diagonal, $$\delta_{(x,x)} \in \mathcal{P}\ X\otimes X$$.
+We can think of it as a Markov kernel that takes an input $x \in X$ and outputs a Dirac delta distribution on its diagonal, $\delta_{(x,x)} \in \mathcal{P}\ X\otimes X$.
 In our example, the copy morphism on our set of weather conditions forms the following stochastic matrix:
 
 ![](figures/weather-copy.png)
 
 When a distribution is postcomposed with a copy, it will land on the diagonal in the joint space.
-So for instance, if a distribution on weather states is $$p_W = 0.2 | \mathrm{Sunny} \rangle + 0.3 | \mathrm{Cloudy} \rangle + 0.5 | \mathrm{Rainy} \rangle$$, then we get $$\mathrm{copy}_W \circ p_W = 0.2 | \mathrm{(Sunny,Sunny)} \rangle + 0.3 | \mathrm{(Cloudy, Cloudy)} \rangle + 0.5 | \mathrm{(Rainy, Rainy)} \rangle$$
+So for instance, if a distribution on weather states is $p_W = 0.2 | \mathrm{Sunny} \rangle + 0.3 | \mathrm{Cloudy} \rangle + 0.5 | \mathrm{Rainy} \rangle$, then we get $$\mathrm{copy}_W \circ p_W = 0.2 | \mathrm{Sunny},\mathrm{Sunny} \rangle + 0.3 | \mathrm{Cloudy},\mathrm{Cloudy} \rangle + 0.5 | \mathrm{Rainy},\mathrm{Rainy} \rangle$$
 
 Cartesian categories come equipped with diagonal maps that do something very similar to this.
 Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories, albeit probabilistically uninteresting ones since all morphisms are *deterministic* as we'll define later.
@@ -305,13 +311,13 @@ But if we have a probability monad on a Cartesian category, we can transport the
 
 Why do we want this comultiplication structure on our objects?
 If we think of string diagrams as having pipes through which information flows, then it's useful to duplicate information and run different transformations on their parallel streams for comparison.
-For instance, for a distribution $$p: I \rightarrow X$$ and kernel $$f: X \rightarrow Y$$, it's really common to generate a joint distribution on $$X$$s and $$Y$$s with the following diagram:
+For instance, for a distribution $p: I \rightarrow X$ and kernel $f: X \rightarrow Y$, it's really common to generate a joint distribution on $X$s and $Y$s with the following diagram:
 
 ![](figures/graph-state.png)
 
-We sometimes call this a graph state because it works the exact same way for sets: the graph of a function $$f:X\rightarrow Y$$ is the set of tuples $$\{ (x, f(x)) : x\in X\}$$. The appearance of $$x$$ twice means that it must have been passed through a copy map, and the tuple $$(-, f(-))$$ represents the map $$\mathrm{id}\times f$$.
+We sometimes call this a graph state because it works the exact same way for sets: the graph of a function $f:X\rightarrow Y$ is the set of tuples $\{ (x, f(x)) : x\in X\}$. The appearance of $x$ twice means that it must have been passed through a copy map, and the tuple $(-, f(-))$ represents the map $\mathrm{id}\times f$.
 
-### Delete Map (Nico)
+#### Delete Map (Nico)
 
 In probability theory: marginalization.
 In information processing:deleting information seems desirable (even though impossible in quantum information theory)
@@ -324,25 +330,25 @@ In this sense, why should del be compatible with the monoidal structure?
 * Omitting this leads to CD-categories
 * leads to weak products.
 
-## Important Markov categories
+### Important Markov categories
 
 * The most important construction: Kleisli categories of symmetric monoidal monads
 * FinSupStoch := Kl(D)
 * Finstoch
 * Gauss
 
-## Additional Axioms and definitions (Drew)
+### Additional Axioms and definitions (Drew)
 
 Markov categories as we've built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels.
 Many morphisms have relationships with each other that correspond to useful notions in traditional probability.
 
-### Determinism
+#### Determinism
 
 Looking back at Cartesian categories, there seems to be something special about them: all of their morphisms seem to be "deterministic," in that they map a single input to a single output.
 This isn't a very categorical notion though, so let's try to find properties of Cartesian categories that encapsulate the idea that there's no uncertainty in the morphism outputs.
 
 One unique property that Cartesian categories have over Markov categories is that their diagonal maps are natural in a certain sense.
-Explicitly, if we equate the two inputs of the tensor product to form a "squaring" endofunctor $$- \otimes - : f \mapsto f\otimes f$$, then the collection of diagonal maps in a Cartesian category form a natural transformation $$\Delta : \mathrm{id} \rightarrow - \otimes -$$. The copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:
+Explicitly, if we equate the two inputs of the tensor product to form a "squaring" endofunctor $- \otimes - : f \mapsto f\otimes f$, then the collection of diagonal maps in a Cartesian category form a natural transformation $\Delta : \mathrm{id} \rightarrow - \otimes -$. The copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:
 
 ![determinism string diagram](figures/deterministic.png)
 
@@ -354,10 +360,10 @@ This would be different from copying your weather state and pasting it over your
 On the other hand, a deterministic process could be from weather to sprinkler, if it's always guaranteed to sprinkle when the sun is out.
 If you and your friend have identical weather, there's no difference between each sprinkler having its own sun sensor or a single sensor controlling both.
 
-Here's a concrete example with possibilistic states: Say the forecast today has $$p_W = \{\mathrm{Cloudy}, \mathrm{Rainy}\}$$ as possibilities.
-If we copy this, we get $$\mathrm{copy}_W \circ p_W = \{(\mathrm{Cloudy}, \mathrm{Cloudy}), (\mathrm{Rainy}, \mathrm{Rainy})\}$$ which is not equal to $$p_W \otimes p_W = \{(\mathrm{Cloudy}, \mathrm{Cloudy}),(\mathrm{Cloudy}, \mathrm{Rainy}), (\mathrm{Rainy}, \mathrm{Cloudy}), (\mathrm{Rainy}, \mathrm{Rainy})\}$$.
-On the other hand, we could look outside and determine the weather is certainly $$q_W = \{\mathrm{Rainy}\}$$.
-Then copying and tensoring would both give us $$\mathrm{copy}_W \circ q_W = \{(\mathrm{Rainy}, \mathrm{Rainy})\}$$.
+Here's a concrete example with possibilistic states: Say the forecast today has $p_W = \{\mathrm{Cloudy}, \mathrm{Rainy}\}$ as possibilities.
+If we copy this, we get $\mathrm{copy}_W \circ p_W = \{(\mathrm{Cloudy}, \mathrm{Cloudy}), (\mathrm{Rainy}, \mathrm{Rainy})\}$ which is not equal to $p_W \otimes p_W = \{(\mathrm{Cloudy}, \mathrm{Cloudy}),(\mathrm{Cloudy}, \mathrm{Rainy}), (\mathrm{Rainy}, \mathrm{Cloudy}), (\mathrm{Rainy}, \mathrm{Rainy})\}$.
+On the other hand, we could look outside and determine the weather is certainly $q_W = \{\mathrm{Rainy}\}$.
+Then copying and tensoring would both give us $\mathrm{copy}_W \circ q_W = \{(\mathrm{Rainy}, \mathrm{Rainy})\}$.
 
 Only Cartesian categories have all-deterministic morphisms, and so we also call them deterministic Markov categories.
 Further, all of the following are equivalent statemtents:
@@ -368,38 +374,38 @@ Further, all of the following are equivalent statemtents:
 
 Even though general Markov categories don't have all deterministic morphisms, they all at least have a few.
 In fact, it's not hard to prove that copies, deletes, swaps, and identities are all deterministic themselves, and that determinism is closed under composition.
-This means that the collection of deterministic morphisms form a wide subcategory of $$\mathsf{C}$$, which we call $$\mathsf{C}_{\mathrm{det}}$$, and that category is Markov itself!
+This means that the collection of deterministic morphisms form a wide subcategory of $\mathsf{C}$, which we call $\mathsf{C}_{\mathrm{det}}$, and that category is Markov itself!
 
-### Conditionals, Bayesian Inversion
+#### Conditionals, Bayesian Inversion
 
 In traditional probability, we define a conditional probability as "the probability of one event given that another event is already known to have occurred."
 This is constructed from a joint probability distribution, whose values are "renormalized" to the restriction of the known event.
 
 For example, say the forecast for today given jointly for pressure and weather, and the data is given in the table below:
 
-+-----------:+:--------:+:-------:+
-|            | **High** | **Low** |
-+------------+----------+---------+
-| **Sunny**  | .1       |         |
-+------------+----------+---------+
-| **Cloudy** | .1       | .2      |
-+------------+----------+---------+
-| **Rainy**  |          | .6      |
-+------------+----------+---------+
+$$
+p = 
+\array{\arrayopts{\collines{solid} \rowlines{solid}}
+ & \mathbf{High} & \mathbf{Low} \\
+\mathbf{Sunny}  & .1 & \\
+\mathbf{Cloudy} & .1 & .2 \\
+\mathbf{Rainy}  &    & .6
+}
+$$
 
 Say we have a barometer and now for a fact that the pressure outside is low.
 With this updated information, what's our new estimate for the chance of rain?
 We can calculate this by restricting our data to only the event of low pressure, and renormalizing that data to sum up again to 1.
-Renormalization is easily done by dividing our values by the total probability of that restriction, which is $$.2 + .6 = .8$$.
-So the chance of rain *given* that it's low pressure is $$.6/.8 = .75$$.
+Renormalization is easily done by dividing our values by the total probability of that restriction, which is $.2 + .6 = .8$.
+So the chance of rain *given* that it's low pressure is $.6/.8 = .75$.
 
 From here, we have a general formula for calculating conditional probability in the finite case:
 
 $$p(y|x) = \frac{p(y,x)}{\sum_x p(y,x)}$$
 
-where the traditional notation for the conditional probability of $$y$$ given $$x$$ is given by a pipe separating them.
+where the traditional notation for the conditional probability of $y$ given $x$ is given by a pipe separating them.
 If this looks exactly like the notation for stochastic kernels, this is no coincidence!
-In fact, we can calculate these quantities for all outcomes to generate a stochastic kernel from $$P$$ to $$W$$:
+In fact, we can calculate these quantities for all outcomes to generate a stochastic kernel from $P$ to $W$:
 
 $$ p_{|P} = 
 \begin{bmatrix}
@@ -409,24 +415,47 @@ $$ p_{|P} =
 \end{bmatrix}
 $$
 
-If the event $$A$$ is known to be true, then the conditional probability of event $$B$$ given $$A$$ is written as $$P(B|A)$$.
-If this looks identical to our notation for stochastic kernels, this is no coincidence.
+We give this kernel the same name as $p$ but with the subscript $|P$ to show that we turned $p$'s output into an input.
 
-### Conditional Independence
+There are many different formulas for conditionals with respect to different kinds of probability, but how do we generalize this concept to cover all types of uncertainty, and put it in the language of our framework?
+The key insight is to recognize that at the end, we were able to build a morphism from $P$ to $W$ that used the relationships between the two variables in $p$.
+In fact the information contained in $p_{|P}$ gives it a special property which allows it to serve as sort of a "recovery process" for some data in $p$, as shown in the diagram below.
+
+Imagine you've forgotten the weather portion of today's forecast, but you remember the predictions on what today's pressure will be. This is represented by the marginalization $p_P$.
+If you've calculated this conditional kernel earlier and stored it as backup, then you can simply graph this out with your remaining data to fully restore the original information!
+We'll use this as the basis for our definition, but we'll add parametrization with an input:
+
+    **Definition.** Given a morphism $f:A \rightarrow X\otimes Y$, a conditional on $X$ which we call $f_{|X}$ is *any* morphism, $f_{|X}: A\otimes X \rightarrow Y$ which satisfies
+
+![conditional definition]()
+
+which again can act as a recovery process from $X$ to $Y$ (parametrized by $A$) if the original data on $Y$ has been deleted.
+
+Unfortunately conditional morphisms are difficult to find, are not unique, and might not even exist for a given kernel.
+However if they do exist, then they are unique up to a certain equivalence called *almost sure equality*.
+And there are many Markov categories which do have conditionals for every morphism (such as $\mathsf{BorelStoch}$, unlike $\mathsf{Stoch}$), and there are even several Markov categories for which we have closed-form solutions for conditionals.
+
+To make string diagrams simpler, we often draw conditionals like so:
+
+where we "bend the wire back" to signify which output has been turned into an input.
+We should note though, this is only graphical sugar and does *not* represent some kind of "cap" morphism.
+In fact, nontrivial compact closed Markov categories do not exist.
+Conditionals also cannot be built up from compositions of other morphisms, so we put a dashed box around it to signify that the contents inside are "sealed off" from associating with other morphisms on the outside.
+So when we draw a bunch of morphisms inside the dashed box, it means we're taking the conditional of the morphism resulting from composition of the smaller morphisms.
+Even though the dash box seals the insides, luckily there are some properties of conditionals that allow us to do some manipulations.
+Dashed box notation makes these really nice.
+
+#### Conditional Independence
 
 In traditional probability, a joint distribution is said to be independent in its variables if it satisfies
 
-$$P(x,y) = P(x)P(y)$$
+$p(x,y) = p(x)p(y)$
 
-for all $$x$$ and $$y$$.
-There are actually many different forms of this condition.
-The above was given in the finite case, but for general measure theoretic probability it 
-
+for all $x$ and $y$.
 What does this mean qualitatively?
-And can we 
+And can we generalize this condition 
 
-
-# Conclusion: Cool things you can do with Markov categories
+## Conclusion: Cool things you can do with Markov categories
 
 * De Finetti
 * HMMs and Bayesian Inversion
