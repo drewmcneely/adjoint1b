@@ -133,16 +133,50 @@ This is not a coincidence: we will see that for certain monads, the Kleisli cate
 (Should this be a subsection of above? I think not) (NICO)
 -->
 
-If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the normalized [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the *Giry monad*, *Radon monad*, or *distribution monads over semirings*. Rather than explaining (technical) details of these, we want to dive into the underlying construction.
+If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the normalized [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the [Giry monad](https://ncatlab.org/nlab/show/Giry+monad), [Radon monad](https://ncatlab.org/nlab/show/Radon+monad), or [distribution monads over semirings](https://ncatlab.org/nlab/show/distribution+monad). Rather than explaining (technical) details of these, we want to dive into the underlying construction.
 
-If you do *not* know Kleisli categories--don't worry, we'll try to explain it on the go, focusing on the relevant properties for our purpose.
+If you do *not* know Kleisli categories--don't worry, we'll try to explain it on the go, focusing on the relevant properties for our purpose. The idea is the following:
 
-Consider an adjunction 
+ 1. take a cartesian monoidal category $\mathbf{D}$, representing *deterministic processes*
+ 2. introduce *non-deterministic processes* as a [monadic effect](https://ncatlab.org/nlab/show/monad+%28in+computer+science%29#BasicIdea) by a probability monad $T : \mathbf{D} \to \mathbf{D}$
+The [Kleisli category](https://en.wikipedia.org/wiki/Kleisli_category) $\mathbf{D}_T$ of $T$ has the same objects as $\mathbf{D}$, and morphisms $$\mathbf{D_T}(X,Y) := \mathbf{D}(X, TY) .$$
+We will call them *Kleisli morphisms*.
 
-![](figures/tikz-cd_adjunction_C_det.png)
+> For an example, recall the power set monad $P: \mathbf{Set} \to \mathbf{Set}$ from above.
+> **TODO**
+
+The following example is more of a probabilistic nature. In fact, it is insomuch prominent in categorical probability, that Markov categories got their name from 
+> Arguably, the most prominent example in categorical probability is the Giry monad $G : \mathbf{Meas} \to \mathbf{Meas}$ on the (cartesian monoida) category of measurable spaces, sending a measurable space $X$ to the space $P X$ of distributions on it (a.k.a probability  measures). Its Kleisli morphisms are known as Markov kernels, which  measurable functions $f: X \to P Y$, meaning that each point $x \in X$ is assigned a distribution $f_x$ on $Y$: normal distributions, uniform distribution,  [delta distribution (a.k.a Dirac measure)](https://ncatlab.org/nlab/show/Dirac+measure), ... 
+
+, meaning there is a $y \in Y$ such that  
+
+Let's take a closer look at the so-called *deterministic processes* from  1.
+
+
+
+- in detail: 
+	- adjunction
+	- $\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY) .$
+		- examples: $P$, $G$
+	- $D$ subcategory, cartesian -> deterministic processes
+	- transfer to $C$: "zipper" (making $T$ a symmetric monoidal functor)
+		- examples: $P$, $G$
+		- $f \times g$
+	- symmetric monoidal structure being not cartesian
+		- examples: $P$, $G$
+		- but weakly
+- copy maps
+	- $(X, copy, del)$ comonoids
+	- $del$ natural
+- non-properties
+	- $copy$ natural
+	- all Markov cats
+
+<!-- [Cdet <-> C](figures/tikz-cd_adjunction_C_det.png) -->
 
 Then $\mathbf{C}$ is a *Kleisli category*, iff its objects coincide with those of $\mathbf{C}_{\mathrm{det}}$ and $\iota$ is the identity on objects.[^1]  This yields a natural[^2] isomorphism $$\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY) .$$
 
+TODO: Distribution object
 
 [^1]: If you have heard about Kleisli categories and are wondering 'where is the monad?!' --it's $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ (with multiplication and unit, a.k.a. flatten and Dirac, directly coming the adjunction).
 
@@ -156,7 +190,7 @@ In the examples of interest, we have that
 	 2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\pi_L} X \times Y \xrightarrow{\pi_R} Y$ satisfying the [universal property of the product](https://en.wikipedia.org/wiki/Product_(category_theory)).   
 	 3. it has a symmetric monoidal structure is induced by 1. and 2., with tensored $\mathbf{C}_{det}$-morphisms, as indicated in
 
-![CD missing](figures/tikz-cd_def_product_morphisms.png)
+![product_of_morphisms](figures/tikz-cd_def_product_morphisms.png)
 
 In the examples from above ... **TODO**	
 
@@ -166,7 +200,7 @@ In the examples from above, ... **TODO**
 The subcategory $\mathbf{C}_{det}$ is called 'deterministic', as their morphisms are interpreted as 'deterministic processes'. We'll define the term later in detail, but call upon your intuition for now: a deterministic process has one (or multiple) output(s) being definitely determined by their input(s) (which may, in fact, be empty).  **TODO: the following is described above?** They can be run "in parallel" (a.k.a tensored) and (eventually) "sequentially" (a.k.a. composed), using the symmetric monoidal structure on $\mathbf{C}_{det}$. 
 
 How to integrate that to $\mathbf{C}$? 
---We need help of *zipper functions* in $\mathbf{C}_{det}$
+--We need $P$ to be [strong](https://ncatlab.org/nlab/show/commutative+monad), i.e. it comes with *zipper functions* in $\mathbf{C}_{det}$
 $$\nabla_{X,Y} : PX \times PY \to P(X \times Y)$$ 
 being compatible with the product on $\mathbf{C}_{det}$ and the adjunction $\iota \dashv P$.[^2]  
 
@@ -205,7 +239,10 @@ These *weak products* are no categorical products, as they lack the uniqueness c
 
 We are going to clarify in the next section what this means in detail; before, let's examine two properties that do *not* hold:
 
- 1. The copy maps are *not* natural; more precisely, a morphism $f \in \mathbf{C}(X,Y)$ satisfies $$f \otimes f \circ copy_X = copy_Y \circ f$$ if and only if $f$ is deterministic. 
+ 1. The copy maps are *not* natural; 
+ TODO: "check out the definition of 'determinism' later
+ 
+ more precisely, a morphism $f \in \mathbf{C}(X,Y)$ satisfies $$f \otimes f \circ copy_X = copy_Y \circ f$$ if and only if $f$ is deterministic. 
 This is not the case, for instance, with **TODO**
 The above equation will serve as definition of "deterministic morphisms" in general Markov categories, as ...
  2. ... there are Markov categories that *do not* arise as Kleisli category: e.g., $\mathbf{FinStoch}$ of finite sets and Markov kernels does have $$\mathbf{FinStoch}_{det} = \mathbf{FinSet} \subset \mathbf{FinStoch}$$ as wide subcategory of deterministic morphisms, the inclusion cannot have a right adjoint (because the set $PX$ of distributions over $X$ is infinite).
@@ -229,6 +266,8 @@ The above equation will serve as definition of "deterministic morphisms" in gene
         * Delete is still natural though, ie. unit object is still final **check**
         * This all plays into "equivalent characterizations of deterministic Markov categories" **missing, but I don't know where to include that**
 
+
+
 # Markov Categories
 
 ## Formal definition
@@ -250,7 +289,7 @@ such that
 
 ![](figures/intro_delete_natural.png)
 
-  Equivalently, $I$ is required to be terminal. Hence, the deletion maps are with the tensor product:
+  Equivalently, $I$ is required to be terminal. Hence, the deletion maps are compatible with the tensor product:
 
 ![](figures/intro_delete_XY.png)
 
