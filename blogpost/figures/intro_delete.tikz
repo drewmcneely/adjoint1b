@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (-1, 0) {};
+		\node [style=bn] (1) at (1, 0) {};
+		\node [style=none] (3) at (-1.5, 0) {$X$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (0.center) to (1);
+	\end{pgfonlayer}
+\end{tikzpicture}

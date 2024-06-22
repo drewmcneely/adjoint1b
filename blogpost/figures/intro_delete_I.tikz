@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (15) at (0, 0) {$=$};
+		\node [style=bn] (16) at (-1.25, 0) {};
+		\node [style=none] (17) at (-2.5, 0) {};
+		\node [style=none] (21) at (-3, 0) {$I$};
+		\node [style=none] (28) at (3, 0.25) {};
+		\node [style=none] (29) at (2.75, -0.5) {};
+		\node [style=none] (31) at (2.75, 0.5) {};
+		\node [style=none] (33) at (1, -0.5) {};
+		\node [style=none] (34) at (1, 0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (17.center) to (16);
+		\draw [style=dashed box] (34.center)
+			 to (33.center)
+			 to (29.center)
+			 to (31.center)
+			 to cycle;
+	\end{pgfonlayer}
+\end{tikzpicture}

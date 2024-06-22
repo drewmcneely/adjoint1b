@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (1.25, 0) {};
+		\node [style=bn] (1) at (3.25, 0) {};
+		\node [style=none] (3) at (1.25, 0.5) {$X$};
+		\node [style=none] (4) at (0, 0) {$=$};
+		\node [style=none] (5) at (-4.5, 0) {};
+		\node [style=bn] (6) at (-1.25, 0) {};
+		\node [style=none] (7) at (-4.5, 0.5) {$X$};
+		\node [style=morphism] (8) at (-3.25, 0) {$f$};
+		\node [style=none] (9) at (-2, 0.5) {$Y$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (0.center) to (1);
+		\draw (5.center) to (6);
+	\end{pgfonlayer}
+\end{tikzpicture}

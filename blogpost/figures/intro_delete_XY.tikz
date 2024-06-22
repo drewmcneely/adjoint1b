@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (15) at (0, 0) {$=$};
+		\node [style=bn] (16) at (-1, 0) {};
+		\node [style=none] (17) at (-2.5, 0) {};
+		\node [style=none] (21) at (-3.5, 0) {$X{ \otimes} Y$};
+		\node [style=bn] (29) at (2.75, 0.5) {};
+		\node [style=none] (30) at (1.5, 0.5) {};
+		\node [style=bn] (31) at (2.75, -0.5) {};
+		\node [style=none] (32) at (1.5, -0.5) {};
+		\node [style=none] (33) at (1, 0.5) {$X$};
+		\node [style=none] (34) at (1, -0.5) {$Y$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (17.center) to (16);
+		\draw (30.center) to (29);
+		\draw (32.center) to (31);
+	\end{pgfonlayer}
+\end{tikzpicture}
