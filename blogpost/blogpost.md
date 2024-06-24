@@ -148,7 +148,7 @@ If you do *not* know Kleisli categories--don't worry, we'll try to explain it on
 The [Kleisli category](https://en.wikipedia.org/wiki/Kleisli_category) $\mathbf{D}_T$ of $T$ has the same objects as $\mathbf{D}$, and morphisms $$\mathbf{D_T}(X,Y) := \mathbf{D}(X, TY) .$$ We call them *Kleisli maps*.
 
 > For an example, recall the power set monad $P: \mathbf{Set} \to \mathbf{Set}$ from above.
-> **TODO**
+<!-- **TODO** -->
 
 While the latter example captures *possibility*, the following is the most general framework for *probability*:
 
@@ -195,7 +195,7 @@ There are multiple equivalent requirements:
  - $I$ is a terminal object in $\mathbf{D}_T$, which is thus *semicartesian*.
 
 As a consequence, $\mathbf{D}_T$ has *weak products*: any pair of Kleisli maps $f: A \to X$, $g: A \to Y$ factorizes jointly over $X \otimes Y$:
-![tikz-cd_property_weak_product](figures/tikz-cd_property_weak_product.png)
+![tikz-cd_property_weak_product_asKleisliMaps](figures/tikz-cd_property_weak_product_asKleisliMaps.png)
 with the copy process of $A$ $$\mathrm{copy}_A := Kl_T (\langle \mathrm{id}_A, \mathrm{id}_A \rangle) \in \mathbf{D}_T (A, A \otimes A).$$ 
 
 However, the vertical Kleisli map $A \to X \otimes Y$ in the last diagram is *not unique*--hence the term *semi*cartesian--, as the following example shows.
