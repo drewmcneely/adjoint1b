@@ -135,9 +135,6 @@ Something you may have noticed from the two examples of morphisms of Markov cate
 This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition. 
 
 # Kleisli Categories 
-<!--
-(Should this be a subsection of above? I think not) (NICO)
--->
 
 If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the normalized [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the [Giry monad](https://ncatlab.org/nlab/show/Giry+monad), [Radon monad](https://ncatlab.org/nlab/show/Radon+monad), or [distribution monads over semirings](https://ncatlab.org/nlab/show/distribution+monad). Rather than explaining (technical) details of these, we want to dive into the underlying construction.
 
@@ -267,9 +264,10 @@ Let's go a little bit more in-depth into why each of these axioms are required.
 It is obvious why composition and identity is important to form a category. We note, however, that we want to think of constituents of a Markov category as states and channels that take states to states. So, in such a case, compositionality is important to be able to talk about "taking states to states", where for a state $p$, we wish for its "pushforward" $f_\ast(p) = f\circ p$ to be a state as well.
 
 
-#### Monoidal Products (Nico)
+#### Tensor Product
 
-We want to describe distributions over joint variables.
+We want to compose (probabilistic) systems out of smaller building blocs. From a more probability theoretic point of view, our theory should allow us to describe distributions over joint variables.
+
 
 #### Swap Map (Drew)
 
@@ -304,18 +302,14 @@ For instance, for a distribution $p: I \rightarrow X$ and kernel $f: X \rightarr
 
 We sometimes call this a graph state because it works the exact same way for sets: the graph of a function $f:X\rightarrow Y$ is the set of tuples $\{ (x, f(x)) : x\in X\}$. The appearance of $x$ twice means that it must have been passed through a copy map, and the tuple $(-, f(-))$ represents the map $\mathrm{id}\times f$.
 
-#### Delete Map (Nico)
+#### Delete Map
 
-In probability theory: marginalization.
-In information processing:deleting information seems desirable (even though impossible in quantum information theory)
+In probability theory, the delete maps is known as marginalization. Naturality of the deletion maps corresponds to normalization of Markov kernels.
 
-Why should it be natural? Equivalently, why should the tensor unit be terminal?
-In this sense, why should del be compatible with the monoidal structure?
+More generally speaking, deleting information seems desirable  in a framework for information processing (even though it's impossible in quantum information theory). Naturality of $\mathrm{del}$, i.e. terminality of $I$, means that deleting an output of a process deletes the whole process.
 
-* This corresponds to normalization
-* Deleting an output of a process deletes the whole process
-* Omitting this leads to CD-categories
-* leads to weak products.
+As seen above (section on Kleisli categories), this allows for *weak products*; this is the category theoretic description of uncertainty, in contrast to *determinism* of cartesian monoidal categories.
+
 
 ### Important Markov categories
 
