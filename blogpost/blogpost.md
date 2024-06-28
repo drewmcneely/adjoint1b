@@ -12,8 +12,6 @@ In this blog post, we'll work with examples of both traditional finite probabili
 
 ----------------------------------------------------------
 
-We assume that the reader is familiar with symmetric monoidal categories and string diagrams. All of our string diagrams are read from left to right.
-
 ## Basics of Probability Theory (UTKU)
 
 ### Probability distributions
@@ -230,13 +228,7 @@ This leads us to the formal definition of Markov categories.
 -->
 
 
-<<<<<<< HEAD
-
-
-# Markov Categories
-=======
 ## Markov Categories
->>>>>>> ef4201a387e46591e6510a8e10eb1c51de48f2d4
 
 ### Formal definition
 
@@ -268,18 +260,13 @@ such that
 
 ![](figures/intro_commutative-comonoid-equations_no_labels.png)
 
-
-
-
 ### Each Axiom Explained
 
 Let's go a little bit more in-depth into why each of these axioms are required.
-(Bring in our established example setting into each of the subsections below.)
 
 #### Composition and Identity (Utku)
 <!-- We want to describe how to "push forward" distributions -->
 It is obvious why composition and identity is important to form a category. We note, however, that we want to think of constituents of a Markov category as states and channels that take states to states. So, in such a case, compositionality is important to be able to talk about "taking states to states", where for a state $p$, we wish for its "pushforward" $f_\ast(p) = f\circ p$ to be a state as well.
-
 
 #### Monoidal Products (Nico)
 
@@ -289,25 +276,41 @@ We want to describe distributions over joint variables.
 
 #### Copy Map (Drew)
 
-We want this because it makes sense to process the same data in multiple different ways and then compare them.
-Show for instance the "graph" of a morphism
-
-Why should this be compatible with the monoidal structure?
-
-Now if we remember, every object $X$ in a Markov category is a comonoid, meaning that it's equipped with a comultiplication morphism $\mathrm{copy}_X :X \rightarrow X\otimes X$, which we'll give the following string diagram:
-
-![](figures/copy.png)
-
-We can think of it as a Markov kernel that takes an input $x \in X$ and outputs a Dirac delta distribution on its diagonal, $\delta_{(x,x)} \in \mathcal{P}\ X\otimes X$.
+We can think of the copy map as a Markov kernel that takes an input $x \in X$ and outputs a Dirac delta distribution on its diagonal, $\delta_{(x,x)} \in \mathcal{P}\ X\otimes X$.
 In our example, the copy morphism on our set of weather conditions forms the following stochastic matrix:
 
-![](figures/weather-copy.png)
+$$
+copy_W =
+\array{
+ & \array{S & C & R} \\
+\array{
+(S,S) \\
+(S,C) \\
+(S,R) \\
+(C,S) \\
+(C,C) \\
+(C,R) \\
+(R,S) \\
+(R,C) \\
+(R,R) }
+& \left [ \array{
+1 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 1 } \right ]
+}
+$$
 
 When a distribution is postcomposed with a copy, it will land on the diagonal in the joint space.
 So for instance, if a distribution on weather states is $p_W = 0.2 | \mathrm{Sunny} \rangle + 0.3 | \mathrm{Cloudy} \rangle + 0.5 | \mathrm{Rainy} \rangle$, then we get $$\mathrm{copy}_W \circ p_W = 0.2 | \mathrm{Sunny},\mathrm{Sunny} \rangle + 0.3 | \mathrm{Cloudy},\mathrm{Cloudy} \rangle + 0.5 | \mathrm{Rainy},\mathrm{Rainy} \rangle$$
 
 Cartesian categories come equipped with diagonal maps that do something very similar to this.
-Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories, albeit probabilistically uninteresting ones since all morphisms are *deterministic* as we'll define later.
+Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories. These don't make for very interesting categories in terms of probability though, since all morphisms are *deterministic* as we'll define later.
 But if we have a probability monad on a Cartesian category, we can transport the diagonal maps into its Kleisli category, and these become precisely the copy maps.
 
 Why do we want this comultiplication structure on our objects?
@@ -382,23 +385,22 @@ This means that the collection of deterministic morphisms form a wide subcategor
 In traditional probability, we define a conditional probability as "the probability of one event given that another event is already known to have occurred."
 This is constructed from a joint probability distribution, whose values are "renormalized" to the restriction of the known event.
 
-For example, say the forecast for today given jointly for pressure and weather, and the data is given in the table below:
+For example, say the forecast for today given jointly for temperature and weather, and the data is given in the table below:
 
 $$
 p = 
 \array{\arrayopts{\collines{solid} \rowlines{solid}}
- & \mathbf{High} & \mathbf{Low} \\
+ & \mathbf{Hot} & \mathbf{Cold} \\
 \mathbf{Sunny}  & .1 & \\
 \mathbf{Cloudy} & .1 & .2 \\
 \mathbf{Rainy}  &    & .6
 }
 $$
 
-Say we have a barometer and now for a fact that the pressure outside is low.
-With this updated information, what's our new estimate for the chance of rain?
+Now if we feel that it's cold outside, what's our new estimate for the chance of rain?
 We can calculate this by restricting our data to only the event of low pressure, and renormalizing that data to sum up again to 1.
 Renormalization is easily done by dividing our values by the total probability of that restriction, which is $.2 + .6 = .8$.
-So the chance of rain *given* that it's low pressure is $.6/.8 = .75$.
+So the chance of rain *given* that it's cold is $.6/.8 = .75$.
 
 From here, we have a general formula for calculating conditional probability in the finite case:
 
@@ -406,9 +408,9 @@ $$p(y|x) = \frac{p(y,x)}{\sum_x p(y,x)}$$
 
 where the traditional notation for the conditional probability of $y$ given $x$ is given by a pipe separating them.
 If this looks exactly like the notation for stochastic kernels, this is no coincidence!
-In fact, we can calculate these quantities for all outcomes to generate a stochastic kernel from $P$ to $W$:
+In fact, we can calculate these quantities for all outcomes to generate a stochastic kernel from $T$ to $W$:
 
-$$ p_{|P} = 
+$$ p_{|T} = 
 \begin{bmatrix}
 .5 & 0 \\
 .5 & .25 \\
@@ -416,19 +418,19 @@ $$ p_{|P} =
 \end{bmatrix}
 $$
 
-We give this kernel the same name as $p$ but with the subscript $|P$ to show that we turned $p$'s output into an input.
+We give this kernel the same name as $p$ but with the subscript $|T$ to show that we turned $p$'s output into an input.
 
 There are many different formulas for conditionals with respect to different kinds of probability, but how do we generalize this concept to cover all types of uncertainty, and put it in the language of our framework?
-The key insight is to recognize that at the end, we were able to build a morphism from $P$ to $W$ that used the relationships between the two variables in $p$.
-In fact the information contained in $p_{|P}$ gives it a special property which allows it to serve as sort of a "recovery process" for some data in $p$, as shown in the diagram below.
+The key insight is to recognize that at the end, we were able to build a morphism from $T$ to $W$ that used the relationships between the two variables in $p$.
+In fact the information contained in $p_{|T}$ gives it a special property which allows it to serve as sort of a "recovery process" for some data in $p$, as shown in the diagram below.
 
-Imagine you've forgotten the weather portion of today's forecast, but you remember the predictions on what today's pressure will be. This is represented by the marginalization $p_P$.
+Imagine you've forgotten the weather portion of today's forecast, but you remember the predictions on what today's temperature will be. This is represented by the marginalization $p_T$.
 If you've calculated this conditional kernel earlier and stored it as backup, then you can simply graph this out with your remaining data to fully restore the original information!
 We'll use this as the basis for our definition, but we'll add parametrization with an input:
 
     **Definition.** Given a morphism $f:A \rightarrow X\otimes Y$, a conditional on $X$ which we call $f_{|X}$ is *any* morphism, $f_{|X}: A\otimes X \rightarrow Y$ which satisfies
 
-![conditional definition]()
+![](figures/conditional-definition.png)
 
 which again can act as a recovery process from $X$ to $Y$ (parametrized by $A$) if the original data on $Y$ has been deleted.
 
@@ -438,25 +440,76 @@ And there are many Markov categories which do have conditionals for every morphi
 
 To make string diagrams simpler, we often draw conditionals like so:
 
+![](figures/bent-wire-notation.png)
+
 where we "bend the wire back" to signify which output has been turned into an input.
 We should note though, this is only graphical sugar and does *not* represent some kind of "cap" morphism.
 In fact, nontrivial compact closed Markov categories do not exist.
 Conditionals also cannot be built up from compositions of other morphisms, so we put a dashed box around it to signify that the contents inside are "sealed off" from associating with other morphisms on the outside.
 So when we draw a bunch of morphisms inside the dashed box, it means we're taking the conditional of the morphism resulting from composition of the smaller morphisms.
-Even though the dash box seals the insides, luckily there are some properties of conditionals that allow us to do some manipulations.
-Dashed box notation makes these really nice.
+Even though the dash box seals the insides, luckily there are some properties of conditionals that allow us to do rewrites.
+Bent wire notation makes these really nice:
+
+![](figures/conditional-rewrites.png)
+
+where the $g$ in the bottom equation needs to be deterministic.
 
 #### Conditional Independence
 
-In traditional probability, a joint distribution is said to be independent in its variables if it satisfies
+In traditional probability, a joint distribution is said to be independent in its variables if it satisfies $p(x,y) = p(x)p(y)$ for all $x$ and $y$.
 
-$p(x,y) = p(x)p(y)$
+So for instance, the following joint state on temperature and pressure is independent
 
-for all $x$ and $y$.
-What does this mean qualitatively?
-And can we generalize this condition 
+$$
+p = 
+\array{\arrayopts{\collines{solid} \rowlines{solid}}
+ & \mathbf{High}\ (.4) & \mathbf{Low}\ (.6) \\
+\mathbf{Hot}\  (.8) & .32 & .48 \\
+\mathbf{Cold}\ (.2) & .08 & .12 
+}
+$$
+
+The marginals are shown with the labels, so you can see that each entry is the product of its marginals.
+
+However, if we move just one speck of mass over from (High, Hot) to (Low, Hot), then it breaks independence:
+
+$$
+p = 
+\array{\arrayopts{\collines{solid} \rowlines{solid}}
+ & \mathbf{High}\ (.39) & \mathbf{Low}\ (.61) \\
+\mathbf{Hot}\  (.8)  & .31 & .49 \\
+\mathbf{Cold}\ (.2)  & .08 & .12 
+}
+$$
+
+This traditional definition seems a little arbitrary, so what does this mean intuitively?
+String diagrams can help here, and further they will allow us to generalize to any Markov category.
+First, a very informal definition: we say that a morphism $p:A\rightarrow X\otimes Y$ displays independence in its outputs if its conditional doesn't use its bent-wire input at all.
+We also say that its outputs are not correlated with each other, or they don't share mutual information.
+
+Let's look at this more closely in string diagrams with a formal definition:
+
+**Definition.** *A morphism $p:A\rightarrow X\otimes Y$ displays $X\perp Y || A$, read as "$X$ is independent of $Y$ given $A$", if its conditional can be calculated as*
+
+![](independence-definition-1.png)
+
+This looks like the bent wire has just been snipped!
+But if we look back to the definition of conditionals, this encapsulates the idea that there's no information about $Y$ contained in $X$.
+If the conditional is a "data recovery" morphism that reconstructs $Y$ from the information it shares with $X$, then we notice two things:
+one, the original $f$ has to be used in the condinional, which means the recovery morphism needs to store the entirety of $Y$'s original information to recover it.
+And two, the $X$ input wire juts gets deleted, so it doesn't use any information from our unforgotten channels during recovery.
+This means that whatever you know about $X$ isn't useful in reconstructing the information on $Y$.
+
+If we do some string diagram manipulation, then we'll see that this reduces to the traditional definition of independence:
+
+![](figures/independence-traditional.png)
 
 ## Conclusion: Cool things you can do with Markov categories
+
+So what can we do with all these constructions?
+It's neat that we now have a graphical language to describe probability, and also we have a unifying language that describes all different types of uncertainty.
+We've already done a lot of work in formulating traditional results in terms of Markov categories, which then generalizes these results to large classes of uncertainty representations.
+For instance, we 
 
 * De Finetti
 * HMMs and Bayesian Inversion
