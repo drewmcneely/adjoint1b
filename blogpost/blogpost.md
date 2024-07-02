@@ -133,9 +133,6 @@ Something you may have noticed from the two examples of morphisms of Markov cate
 This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition. 
 
 # Kleisli Categories 
-<!--
-(Should this be a subsection of above? I think not) (NICO)
--->
 
 If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the normalized [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the [Giry monad](https://ncatlab.org/nlab/show/Giry+monad), [Radon monad](https://ncatlab.org/nlab/show/Radon+monad), or [distribution monads over semirings](https://ncatlab.org/nlab/show/distribution+monad). Rather than explaining (technical) details of these, we want to dive into the underlying construction.
 
@@ -151,6 +148,7 @@ The [Kleisli category](https://en.wikipedia.org/wiki/Kleisli_category) $\mathbf{
 While the latter example captures *possibility*, the following is the most general framework for *probability*:
 
 > The Giry monad $G : \mathbf{Meas} \to \mathbf{Meas}$ on the (cartesian monoida) category of measurable spaces, sending a measurable space $X$ to the space $P X$ of distributions on it (a.k.a probability  measures). Its Kleisli morphisms are known as Markov kernels (hence the name Markov categories!): measurable functions $f: X \to P Y$, meaning that each point $x \in X$ is assigned a distribution $f_x$ on $Y$: normal distributions, uniform distribution,  [delta distribution (a.k.a Dirac measure)](https://ncatlab.org/nlab/show/Dirac+measure), ... Regard it as a stochastic process with input $X$ and probabilistic output $Y$. If the weather is sunny tomorrow, will the sprinkler switch on? Well, probably... In contrast, morphisms $X \to Y$ in $\mathbf{Meas}$ (i.e. measurable functions) are *deterministic*, as their output are points $f(x) \in Y$ being definitely determined by their input $x \in X$.
+
 <!---
 > Note two special cases:
 > -  Kleisli maps $I \to X$ correspond to distributions over $X$.
@@ -164,7 +162,7 @@ A general definition of *determinism* in Markov categories follows below. Before
 For our category $\mathbf{D}$ of "deterministic processes", this is straight forward; being *cartesian monoidal* means 
 
 1. it has a terminal object $I$. <!-- Equivalently,  there are unique *deleting morphisms*  $del_X : X \to I$ being natural in $X$. -->
-2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}^L} X \times Y \xrightarrow{\mathrm{out}^R} Y$ satisfying the universal property of the product: ![tikz-cd_universal_property_product](figures/tikz-cd_universal_property_product.png)
+2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}^L} X \times Y \xrightarrow{\mathrm{out}^R} Y$ satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_universal_property_product.png" alt="Diagram of universal property of the product."/>
 3. it has a symmetric monoidal structure is induced by 1. and 2.
 
 Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [strong](https://ncatlab.org/nlab/show/commutative+monad), i.e. it comes with well behaving[^2]  *zipper functions* in $\mathbf{D}$
@@ -181,8 +179,7 @@ Kleisli maps $f \in \mathbf{D}(A, TX)$ and $g \in \mathbf{D}(B, TY)$ may then be
 
 In categorical terms, the induced symmetric monoidal structure on the Kleisli category $\mathbf{D}_T$ is such that the [Kleisli functor](https://en.wikipedia.org/wiki/Kleisli_category#Kleisli_adjunction) $Kl_T : \mathbf{D} \to \mathbf{D}_T$ is strict symmetric monoidal.
 
-But we want more:[^10] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}^{L/R}$, in that the following diagrams (in $\mathbf{D}_T$!) commute for $\mathrm{del}^{L/R} := Kl_T (\mathrm{out}^{L/R})$:
-![tikz-cd_projections_asKleisliMaps](figures/tikz-cd_projections_asKleisliMaps.png)
+But we want more:[^10] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}^{L/R}$, in that the following diagrams (in $\mathbf{D}_T$!) commute for $\mathrm{del}^{L/R} := Kl_T (\mathrm{out}^{L/R})$: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
 
 [^10]: So far, the Kleisli category is only a CD-category, but not a Markov category.
 
@@ -192,13 +189,15 @@ There are multiple equivalent requirements:
  - $T$ preserves the terminal object $I \cong TI$ (in $\mathbf{D}$);
  - $I$ is a terminal object in $\mathbf{D}_T$, which is thus *semicartesian*.
 
-As a consequence, $\mathbf{D}_T$ has *weak products*: any pair of Kleisli maps $f: A \to X$, $g: A \to Y$ factorizes jointly over $X \otimes Y$:
-![tikz-cd_property_weak_product_asKleisliMaps](figures/tikz-cd_property_weak_product_asKleisliMaps.png)
+As a consequence, $\mathbf{D}_T$ has *weak products*: any pair of Kleisli maps $f: A \to X$, $g: A \to Y$ factorizes jointly over $X \otimes Y$: 
+
+<img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_property_weak_product_asKleisliMaps.png" alt="Diagram with weak products."/>
+
 with the copy process of $A$ $$\mathrm{copy}_A := Kl_T (\langle \mathrm{id}_A, \mathrm{id}_A \rangle) \in \mathbf{D}_T (A, A \otimes A).$$ 
 
 However, the vertical Kleisli map $A \to X \otimes Y$ in the last diagram is *not unique*--hence the term *semi*cartesian--, as the following example shows.
 
-> In the Kleisli category of the Giry-monad, consider the uniform distributions on $X = \{\text{sunny}, \text{cloudy}, \text{rainy}\}$ and $Y = \{\text{on}, \text{off}\}$, i.e. Markov kernels $$f : \{\ast\} \to X, \quad \ast \mapsto \frac{1}{3} |\text{sunny} \rangle + \frac{1}{3} |\text{cloudy} \rangle + \frac{1}{3} |\text{rainy} \rangle$$$$g : \{\ast\} \to Y, \quad \ast \mapsto \frac{1}{2} |\text{on} \rangle + \frac{1}{2} |\text{off} \rangle.$$ Then the weak-product-diagram from above commutes for both of the distribution on $X {\times} Y$: $$\ast \mapsto \frac{1}{6} | \text{sunny, on} \rangle + \frac{1}{6} | \text{sunny, off} \rangle + \frac{1}{6} | \text{cloudy, on} \rangle + \frac{1}{6} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle$$$$\ast \mapsto \frac{1}{3} | \text{sunny, on} \rangle + \frac{1}{3} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle.$$ Which one is obtained as above via $\{\ast\} \xrightarrow{\mathrm{copy}} \{\ast\} \otimes \{\ast\} \xrightarrow{f \otimes g} X \otimes Y$?[^13]
+> In the Kleisli category of the Giry-monad, consider the uniform distributions on $X = \{\text{sunny}, \text{cloudy}, \text{rainy}\}$ and $Y = \{\text{on}, \text{off}\}$, i.e. Markov kernels $$f : \{\ast\} \to X, \quad \ast \mapsto \frac{1}{3} |\text{sunny} \rangle + \frac{1}{3} |\text{cloudy} \rangle + \frac{1}{3} |\text{rainy} \rangle$$$$g : \{\ast\} \to Y, \quad \ast \mapsto \frac{1}{2} |\text{on} \rangle + \frac{1}{2} |\text{off} \rangle.$$ Then the weak-product-diagram from above commutes for both of the following distributions on $X {\times} Y$: $$\ast \mapsto \frac{1}{6} | \text{sunny, on} \rangle + \frac{1}{6} | \text{sunny, off} \rangle + \frac{1}{6} | \text{cloudy, on} \rangle + \frac{1}{6} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle$$$$\ast \mapsto \frac{1}{3} | \text{sunny, on} \rangle + \frac{1}{3} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle.$$ Which one is obtained as above via $\{\ast\} \xrightarrow{\mathrm{copy}} \{\ast\} \otimes \{\ast\} \xrightarrow{f \otimes g} X \otimes Y$?[^13]
 
 [^13]: --it's the first one, i.e. the uniform distribution on $X \times Y$
 
@@ -235,30 +234,17 @@ This leads us to the formal definition of Markov categories.
 Let's start with the terse definition that category theorists love so much: A Markov category is a semiCartesian category where every object is a commutative comonoid compatible with the monoidal structure.
 
 In more detail, a Markov category is a symmetric monoidal category $(\mathbf{C}, \otimes, I)$ where each object is equipped with
-- a *deletion map* $del_X : X \to I$ depicted as 
+- a *deletion map* $del_X : X \to I$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete.png" alt="String diagram of deletion map."/>
 
-![](figures/intro_delete.png)
-
-- a *copy map* $copy_X :X \to X \otimes  X$ depicted as 
-
-![](figures/intro_copy.png) 
+- a *copy map* $copy_X :X \to X \otimes  X$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_copy.png" alt="String diagram of copy map."/> 
 
 such that
 
-- the collection of deletion maps is natural:
+- the collection of deletion maps is natural: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete_natural.png" alt="String diagram of naturality of delete maps."/> Equivalently, $I$ is required to be terminal. Hence, the deletion maps are compatible with the tensor product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete_XY.png" alt="String diagram of deletion maps of tensor products."/>
 
-![](figures/intro_delete_natural.png)
+- the collection of copy maps is compatible with the symmetric monoidal structure <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_copy_XY.png" alt="String diagram with copy maps of tensor products."/>
 
-  Equivalently, $I$ is required to be terminal. Hence, the deletion maps are compatible with the tensor product:
-
-![](figures/intro_delete_XY.png)
-
-- the collection of copy maps is compatible with the symmetric monoidal structure
-![](figures/intro_copy_XY.png)
-
-- each pair of copy and discard maps form a commutative comonoid:
-
-![](figures/intro_commutative-comonoid-equations_no_labels.png)
+- each pair of copy and discard maps form a commutative comonoid: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_commutative-comonoid-equations_no_labels.png" alt="String diagrams with axioms of commutative comonoids."/>
 
 ### Each Axiom Explained
 
@@ -268,9 +254,9 @@ Let's go a little bit more in-depth into why each of these axioms are required.
 <!-- We want to describe how to "push forward" distributions -->
 It is obvious why composition and identity is important to form a category. We note, however, that we want to think of constituents of a Markov category as states and channels that take states to states. So, in such a case, compositionality is important to be able to talk about "taking states to states", where for a state $p$, we wish for its "pushforward" $f_\ast(p) = f\circ p$ to be a state as well.
 
-#### Monoidal Products (Nico)
+#### Tensor Product
 
-We want to describe distributions over joint variables.
+We want to compose (probabilistic) systems out of smaller building blocs. From a more probability theoretic point of view, our theory should allow us to describe distributions over joint variables.
 
 #### Swap Map (Drew)
 
@@ -321,18 +307,14 @@ For instance, for a distribution $p: I \rightarrow X$ and kernel $f: X \rightarr
 
 We sometimes call this a graph state because it works the exact same way for sets: the graph of a function $f:X\rightarrow Y$ is the set of tuples $\{ (x, f(x)) : x\in X\}$. The appearance of $x$ twice means that it must have been passed through a copy map, and the tuple $(-, f(-))$ represents the map $\mathrm{id}\times f$.
 
-#### Delete Map (Nico)
+#### Delete Map
 
-In probability theory: marginalization.
-In information processing:deleting information seems desirable (even though impossible in quantum information theory)
+In probability theory, the delete maps is known as marginalization. Naturality of the deletion maps corresponds to normalization of Markov kernels.
 
-Why should it be natural? Equivalently, why should the tensor unit be terminal?
-In this sense, why should del be compatible with the monoidal structure?
+More generally speaking, deleting information seems desirable  in a framework for information processing (even though it's impossible in quantum information theory). Naturality of $\mathrm{del}$, i.e. terminality of $I$, means that deleting an output of a process deletes the whole process.
 
-* This corresponds to normalization
-* Deleting an output of a process deletes the whole process
-* Omitting this leads to CD-categories
-* leads to weak products.
+As seen above (section on Kleisli categories), this allows for *weak products*; this is the category theoretic description of uncertainty, in contrast to *determinism* of cartesian monoidal categories.
+
 
 ### Important Markov categories
 
@@ -503,6 +485,11 @@ This means that whatever you know about $X$ isn't useful in reconstructing the i
 If we do some string diagram manipulation, then we'll see that this reduces to the traditional definition of independence:
 
 ![](figures/independence-traditional.png)
+
+From here, we can see that this definition is actually symmetric: if $X$ is independent from $Y$, then $Y$ is also independent from $X$ and we can just say that $X$ and $Y$ are independent of each other.
+Is it possible for $X$ and $Y$ to be only partially independent?
+What if we can factor out a component of the states that exhibits dependence, and the other components are independent?
+We can capture that scenario with the following:
 
 ## Conclusion: Cool things you can do with Markov categories
 
