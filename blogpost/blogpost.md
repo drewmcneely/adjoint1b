@@ -206,32 +206,9 @@ In probability theory, this ambiguity is known as the fact that Markov kernels $
 
 At first glance, it may not seem very convenient to consider something *non*-natural--but we want this, in order to capture uncertainty. We will give the details below (in subsection “Determinism”) and return to the big picture from above: a probability monad $T$ on a cartesian monoidal category $\mathbf{D}$ induces probabilistic/non-deterministic morphisms, which destroy the uniqueness constraint of the product and leaves us with weak products in $\mathbf{D}_T$.
 
-In the corresponding diagram of weak products, we have already seen that the two rectangles on top <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangles with projections"/> depict naturality of the deletion maps. 
+In the corresponding diagram of weak products, we have already seen the rectangles on top <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangles with projections"/> commute if and only if $\mathrm{D}_T$ is semicartesian. 
 
 Have you noticed that the triangles at the bottom <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_unitality.png" alt="Triangles with projections"/> look like a counitality constraint? In fact, each $(A, \mathrm{copy}_A, \mathrm{del}_A)$ is a commutative comonoid object in $\mathbf{D}_T$. This is the starting point for the general definition of Markov categories.
-
-<!--
-- in detail: 
-	- adjunction
-	- $\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY) .$
-		- examples: $P$, $G$
-	- $D$ subcategory, cartesian -> deterministic processes
-	- transfer to $C$: “zipper” (making $T$ a symmetric monoidal functor)
-		- examples: $P$, $G$
-		- $f \times g$
-	- symmetric monoidal structure being not cartesian
-		- examples: $P$, $G$
-		- but weakly
-- copy maps
-	- $(X, copy, del)$ comonoids
-	- $del$ natural
-- non-properties
-	- $copy$ natural
-	- all Markov cats
--->
-
-
-
 
 ## Markov Categories
 
