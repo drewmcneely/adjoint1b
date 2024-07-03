@@ -12,17 +12,14 @@ In this blog post, we'll work with examples of both traditional finite probabili
 
 ----------------------------------------------------------
 
-## Basics of Probability Theory (UTKU)
-
-### Probability distributions
-We want to proceed with our discussion through an example, and so before we introduce everything, consider the following:
+<!-- TODO: Change all headers to bold -->
+**Probability distributions.** We want to proceed with our discussion through an example, and so before we introduce everything, consider the following:
 
 > You've just installed a sprinkler system to your lawn! It is a very advanced piece of technology, measuring a myriad of different things to determine when to turn on the sprinklers... and you have no idea how it does this. In your effort to have an idea of when the system turns on (you pay the water bill, after all) you decided to keep track of how the weather feels and whether your sprinkler is on or not.
 
-<!-- Do we want to include pressure in the example as well? -->
-Here's what you have:
 You make the following distinctions: 
 
+<!-- TODO: Format code blocks properly -->
 ```
     Weather = {sunny, cloudy, rainy}, 
     Humidity = {dry, humid},
@@ -30,7 +27,7 @@ You make the following distinctions:
     Sprinkler = {on, off}
 ```
 
-<!-- tables need to be arrays... not even HTML tables work :( -->
+And you have joint data across these sets for each day:
 \[
     \begin{array}[t]{cccc}
     --Weather & Humidity & Temperature & Sprinkler--\\
@@ -54,7 +51,7 @@ A probability distribution on a finite set $X$ is a function $p: 2^X\to [0, 1]$ 
 * $p(X) = 1$,
 * and for disjoint subsets $A_1,\dots, A_k \subset X$, $\sum_i p(A_i) = p(\bigcup_i A_i)$.
 
-For our purposes, a simpler characterization exists from the fact that we can consider a set to disjointly consist of its individual points; namely we can think of a probability distribution on $X$ to be a function $p: X\to [0, 1]$ such that
+For our purposes, a simpler characterization exists from the fact that we can consider a finite set to disjointly consist of its individual points; namely we can think of a probability distribution on $X$ to be a function $p: X\to [0, 1]$ such that
 \[
     \sum_{x\in X} p(x) = 1
 \]
@@ -113,39 +110,36 @@ All in all, along with the identity matrices, all this data assembles into the c
 
 This is one of the first examples of a Markov category that we will be looking at, and it will be a good baseline to observe why a Markov category is defined the way it is.
 
-<!-- TODO: Should we remove these subheadings? They don't show up in the blog post renderer. -->
-<!-- That's frustrating. Especially because we're actually supposed to use a level 1 heading for the title. -->
-<!-- Let's keep headings for now for our internal organization maybe? -->
-### Possibility distribution
-Markov categories need not only house probabilistic models of uncertainty; we'll see that the following also forms a Markov category:
+**Possibility distributions.** Markov categories need not only house probabilistic models of uncertainty; we'll see that the following also forms a Markov category:
 
 Consider a channel between two finite sets $X$, $Y$ to be an assignment $f: X\to Y$ such that each $f(x)\subset Y$ is a non-empty subset. Defining the composition to be
+
 \[
-g\circ f (x) \coloneqq \bigcup_{y\in f(x)} g(y) 
+    g\circ f (x) \coloneqq \bigcup_{y\in f(x)} g(y) 
 \]
+
 and the identities as $x \mapsto \{x\}$ gives us the Markov category $\mathsf{FinSetMulti}$ of possibilities!
 
 The same data from the example can be used in a possibilistic way as well; a channel $S \to W\otimes H\otimes T$ can map the sprinkler to all the possible states of weather/climate where the sprinkler has turned on etc. Then, a state is just a set of possible configurations, and the composed state $f\circ p$ is the set of all possible configurations one can reach from the initial configurations of $p$.
 
-### Channels are Kleisli maps
 Something you may have noticed from the two examples of morphisms of Markov categories is that fixing an element $x\in X$ yields some structure attached to $Y$ with "desirable properties": in the case of $\mathsf{FinStoch}$, we have that each $f_x$ is a probability distribution on $Y$ -- in fact, the Chapman-Kolmogorov formula further provides a way to obtain a probability distribution from a probability distribution of probability distributions. In the case of $\mathsf{FinSetMulti}$, each $f_x$ is a non-empty subset of $Y$, and the composition is provided through the union of a set of sets.
 
 This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition. 
 
-# Kleisli Categories 
-
-If you are familiar with Kleisli categories, you might have uncovered $\mathbf{MultSet}$ from above as the Kleisli category of the normalized [powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the [Giry monad](https://ncatlab.org/nlab/show/Giry+monad), [Radon monad](https://ncatlab.org/nlab/show/Radon+monad), or [distribution monads over semirings](https://ncatlab.org/nlab/show/distribution+monad). Rather than explaining (technical) details of these, we want to dive into the underlying construction.
+<!-- TODO: Make notation consistent. -->
+<!-- eg. FinSetMulti -->
+**Kleisli Categories.** If you are familiar with Kleisli categories, you might have uncovered $\mathsf{FinSetMulti}$ from above as the Kleisli category of the normalized [finite powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the [Giry monad](https://ncatlab.org/nlab/show/Giry+monad), [Radon monad](https://ncatlab.org/nlab/show/Radon+monad), or [distribution monads over semirings](https://ncatlab.org/nlab/show/distribution+monad). Rather than explaining (technical) details of these, we want to dive into the underlying construction.
 
 If you do *not* know Kleisli categories--don't worry, we'll try to explain it on the go, focusing on the relevant properties for our purpose. The idea is the following:
 
- 1. take a cartesian monoidal category $\mathbf{D}$, representing *deterministic processes* and
- 2. introduce *non-deterministic processes* as a [monadic effect](https://ncatlab.org/nlab/show/monad+%28in+computer+science%29#BasicIdea) by a probability monad $T : \mathbf{D} \to \mathbf{D}$
-The [Kleisli category](https://en.wikipedia.org/wiki/Kleisli_category) $\mathbf{D}_T$ of $T$ has the same objects as $\mathbf{D}$, and morphisms $$\mathbf{D_T}(X,Y) := \mathbf{D}(X, TY) .$$ We call them *Kleisli maps*.
+ 1. Take a cartesian monoidal category $\mathbf{D}$, representing *deterministic processes* and
+ 2. Introduce *non-deterministic processes* as a [monadic effect](https://ncatlab.org/nlab/show/monad+%28in+computer+science%29#BasicIdea) by a probability monad $T : \mathbf{D} \to \mathbf{D}$.
+The [Kleisli category](https://en.wikipedia.org/wiki/Kleisli_category) $\mathbf{D}_T$ of $T$ has the same objects as $\mathbf{D}$, and morphisms $\mathbf{D_T}(X,Y) := \mathbf{D}(X, TY) .$ We call these *Kleisli maps*.
 
 > For an example, recall the power set monad $P: \mathbf{Set} \to \mathbf{Set}$ from above.
 <!-- **TODO** -->
 
-While the latter example captures *possibility*, the following is the most general framework for *probability*:
+While the previous example captures *possibility*, the following is the most general framework for *probability*:
 
 > The Giry monad $G : \mathbf{Meas} \to \mathbf{Meas}$ on the (cartesian monoida) category of measurable spaces, sending a measurable space $X$ to the space $P X$ of distributions on it (a.k.a probability  measures). Its Kleisli morphisms are known as Markov kernels (hence the name Markov categories!): measurable functions $f: X \to P Y$, meaning that each point $x \in X$ is assigned a distribution $f_x$ on $Y$: normal distributions, uniform distribution,  [delta distribution (a.k.a Dirac measure)](https://ncatlab.org/nlab/show/Dirac+measure), ... Regard it as a stochastic process with input $X$ and probabilistic output $Y$. If the weather is sunny tomorrow, will the sprinkler switch on? Well, probably... In contrast, morphisms $X \to Y$ in $\mathbf{Meas}$ (i.e. measurable functions) are *deterministic*, as their output are points $f(x) \in Y$ being definitely determined by their input $x \in X$.
 
@@ -165,10 +159,8 @@ For our category $\mathbf{D}$ of "deterministic processes", this is straight for
 2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}^L} X \times Y \xrightarrow{\mathrm{out}^R} Y$ satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_universal_property_product.png" alt="Diagram of universal property of the product."/>
 3. it has a symmetric monoidal structure is induced by 1. and 2.
 
-Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [strong](https://ncatlab.org/nlab/show/commutative+monad), i.e. it comes with well behaving[^2]  *zipper functions* in $\mathbf{D}$
-$$\nabla_{X,Y} : PX \times PY \to P(X \times Y).$$ 
-
-[^2]:  to be precise, we require  $\nabla_{X,Y}$ to make $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations. 
+Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [commutative](https://ncatlab.org/nlab/show/commutative+monad), i.e. it comes with well behaved  *zipper functions* in $\mathbf{D}$
+$$\nabla_{X,Y} : PX \times PY \to P(X \times Y).$$ To be precise, we require  $\nabla_{X,Y}$ to make $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations. 
 
 Kleisli maps $f \in \mathbf{D}(A, TX)$ and $g \in \mathbf{D}(B, TY)$ may then be tensored as $$f \otimes g : A \times B \xrightarrow{f \times g} PX \times PY \xrightarrow{\nabla_{X,Y}} P(X \times Y).$$
 
@@ -226,43 +218,27 @@ This leads us to the formal definition of Markov categories.
 	- all Markov cats
 -->
 
-
-## Markov Categories
-
-### Formal definition
-
-Let's start with the terse definition that category theorists love so much: A Markov category is a semiCartesian category where every object is a commutative comonoid compatible with the monoidal structure.
+**Markov Categories.** Let's start with the terse definition that category theorists love so much: A Markov category is a semiCartesian category where every object is a commutative comonoid compatible with the monoidal structure.
 
 In more detail, a Markov category is a symmetric monoidal category $(\mathbf{C}, \otimes, I)$ where each object is equipped with
-- a *deletion map* $del_X : X \to I$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete.png" alt="String diagram of deletion map."/>
 
-- a *copy map* $copy_X :X \to X \otimes  X$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_copy.png" alt="String diagram of copy map."/> 
+* a *deletion map* $del_X : X \to I$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete.png" alt="String diagram of deletion map."/>
+* a *copy map* $copy_X :X \to X \otimes  X$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_copy.png" alt="String diagram of copy map."/> 
 
 such that
 
-- the collection of deletion maps is natural: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete_natural.png" alt="String diagram of naturality of delete maps."/> Equivalently, $I$ is required to be terminal. Hence, the deletion maps are compatible with the tensor product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete_XY.png" alt="String diagram of deletion maps of tensor products."/>
+* the collection of deletion maps is natural: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete_natural.png" alt="String diagram of naturality of delete maps."/> Equivalently, $I$ is required to be terminal. Hence, the deletion maps are compatible with the tensor product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete_XY.png" alt="String diagram of deletion maps of tensor products."/>
+* the collection of copy maps is compatible with the symmetric monoidal structure <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_copy_XY.png" alt="String diagram with copy maps of tensor products."/>
+* each pair of copy and discard maps form a commutative comonoid: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_commutative-comonoid-equations_no_labels.png" alt="String diagrams with axioms of commutative comonoids."/>
 
-- the collection of copy maps is compatible with the symmetric monoidal structure <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_copy_XY.png" alt="String diagram with copy maps of tensor products."/>
+Let's go a little bit more in-depth into why each of these axioms are required:
 
-- each pair of copy and discard maps form a commutative comonoid: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_commutative-comonoid-equations_no_labels.png" alt="String diagrams with axioms of commutative comonoids."/>
-
-### Each Axiom Explained
-
-Let's go a little bit more in-depth into why each of these axioms are required.
-
-#### Composition and Identity (Utku)
 <!-- We want to describe how to "push forward" distributions -->
 It is obvious why composition and identity is important to form a category. We note, however, that we want to think of constituents of a Markov category as states and channels that take states to states. So, in such a case, compositionality is important to be able to talk about "taking states to states", where for a state $p$, we wish for its "pushforward" $f_\ast(p) = f\circ p$ to be a state as well.
+We also want to compose (probabilistic) systems out of smaller building blocks. From a more probability theoretic point of view, our theory should allow us to describe distributions over joint variables.
 
-#### Tensor Product
-
-We want to compose (probabilistic) systems out of smaller building blocs. From a more probability theoretic point of view, our theory should allow us to describe distributions over joint variables.
-
-#### Swap Map (Drew)
-
-#### Copy Map (Drew)
-
-We can think of the copy map as a Markov kernel that takes an input $x \in X$ and outputs a Dirac delta distribution on its diagonal, $\delta_{(x,x)} \in \mathcal{P}\ X\otimes X$.
+There are also reasons why we want the comultiplication structure.
+We can think of the copy map as a Markov kernel that takes an input $x \in X$ and outputs a Dirac delta distribution on its diagonal, $\delta_{(x,x)} \in T(X\otimes X)$.
 In our example, the copy morphism on our set of weather conditions forms the following stochastic matrix:
 
 $$
@@ -296,32 +272,21 @@ When a distribution is postcomposed with a copy, it will land on the diagonal in
 So for instance, if a distribution on weather states is $p_W = 0.2 | \mathrm{Sunny} \rangle + 0.3 | \mathrm{Cloudy} \rangle + 0.5 | \mathrm{Rainy} \rangle$, then we get $$\mathrm{copy}_W \circ p_W = 0.2 | \mathrm{Sunny},\mathrm{Sunny} \rangle + 0.3 | \mathrm{Cloudy},\mathrm{Cloudy} \rangle + 0.5 | \mathrm{Rainy},\mathrm{Rainy} \rangle$$
 
 Cartesian categories come equipped with diagonal maps that do something very similar to this.
-Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories. These don't make for very interesting categories in terms of probability though, since all morphisms are *deterministic* as we'll define later.
+Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories. These don't make for very interesting categories in terms of probability though, since all morphisms are deterministic as mentioned earlier.
 But if we have a probability monad on a Cartesian category, we can transport the diagonal maps into its Kleisli category, and these become precisely the copy maps.
 
 Why do we want this comultiplication structure on our objects?
 If we think of string diagrams as having pipes through which information flows, then it's useful to duplicate information and run different transformations on their parallel streams for comparison.
-For instance, for a distribution $p: I \rightarrow X$ and kernel $f: X \rightarrow Y$, it's really common to generate a joint distribution on $X$s and $Y$s with the following diagram:
 
-![](figures/graph-state.png)
-
-We sometimes call this a graph state because it works the exact same way for sets: the graph of a function $f:X\rightarrow Y$ is the set of tuples $\{ (x, f(x)) : x\in X\}$. The appearance of $x$ twice means that it must have been passed through a copy map, and the tuple $(-, f(-))$ represents the map $\mathrm{id}\times f$.
-
-#### Delete Map
-
-In probability theory, the delete maps is known as marginalization. Naturality of the deletion maps corresponds to normalization of Markov kernels.
-
+In probability theory, we have a kind of projection known as marginalization.
+Here, we build this projection morphism using the delete map and densoring it with an identity.
+Naturality of the deletion maps corresponds to normalization of Markov kernels.
 More generally speaking, deleting information seems desirable  in a framework for information processing (even though it's impossible in quantum information theory). Naturality of $\mathrm{del}$, i.e. terminality of $I$, means that deleting an output of a process deletes the whole process.
 
 As seen above (section on Kleisli categories), this allows for *weak products*; this is the category theoretic description of uncertainty, in contrast to *determinism* of cartesian monoidal categories.
 
+**Important Markov categories.**
 
-### Important Markov categories
-
-* The most important construction: Kleisli categories of symmetric monoidal monads
-* FinSupStoch := Kl(D)
-* Finstoch
-* Gauss
 
 ### Additional Axioms and definitions (Drew)
 
