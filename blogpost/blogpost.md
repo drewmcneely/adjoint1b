@@ -55,12 +55,9 @@ A probability distribution on a finite set $X$ is a function $p: 2^X\to [0, 1]$ 
 * and for disjoint subsets $A_1,\dots, A_k \subset X$, $\sum_i p(A_i) = p(\bigcup_i A_i)$.
 
 For our purposes, a simpler characterization exists from the fact that we can consider a set to disjointly consist of its individual points; namely we can think of a probability distribution on $X$ to be a function $p: X\to [0, 1]$ such that
-\[
-    \sum_{x\in X} p(x) = 1
-\]
+$$\sum_{x\in X} p(x) = 1$$
 
-
-We will also make use of the [bra-ket notation]() to denote a distribution/state on $X$; for $X\coloneqq \{x_1,\dots,x_k\}$ with the values $\lambda_i \coloneqq p(x_i)$, the following notation also describes a distribution on $X$:
+We will also make use of the [ket notation]() to denote a distribution/state on $X$; for $X\coloneqq \{x_1,\dots,x_k\}$ with the values $\lambda_i \coloneqq p(x_i)$, the following notation also describes a distribution on $X$:
 \[
     \sum_{i=1}^k \lambda_i = 1 \leftrightsquigarrow \lambda_1\mid x_1\rangle + \lambda_2\mid x_2\rangle + \dots + \lambda_k\mid x_k\rangle
 \]
@@ -140,7 +137,7 @@ If you do *not* know Kleisli categories--don't worry, we'll try to explain it on
 
  1. take a cartesian monoidal category $\mathbf{D}$, representing *deterministic processes* and
  2. introduce *non-deterministic processes* as a [monadic effect](https://ncatlab.org/nlab/show/monad+%28in+computer+science%29#BasicIdea) by a probability monad $T : \mathbf{D} \to \mathbf{D}$:
-The [Kleisli category](https://en.wikipedia.org/wiki/Kleisli_category) $\mathbf{D}_T$ of $T$ has the same objects as $\mathbf{D}$, and morphisms $$\mathbf{D_T}(X,Y) := \mathbf{D}(X, TY) .$$ We call them *Kleisli maps*.
+The [Kleisli category](https://en.wikipedia.org/wiki/Kleisli_category) $\mathbf{D}_T$ of $T$ has the same objects as $\mathbf{D}$, and morphisms $$\mathbf{D_T}(X,Y) \coloneqq \mathbf{D}(X, TY) .$$ We call them *Kleisli maps*.
 
 > For an example, recall the power set monad $P: \mathbf{Set} \to \mathbf{Set}$ from above.
 <!-- **TODO** -->
@@ -173,14 +170,14 @@ $$\nabla_{X,Y} : TX \times TY \to T(X \times Y).$$
 
 Kleisli maps $f \in \mathbf{D}(A, TX)$ and $g \in \mathbf{D}(B, TY)$ may then be tensored as $$f \otimes g : A \times B \xrightarrow{f \times g} TX \times TY \xrightarrow{\nabla_{X,Y}} T(X \times Y).$$
 
-> For the normalized power set-monad $P : \mathbf{Set} \to \mathbf{Set}$, the zipper maps two subsets $A \subseteq X$ and $B \subseteq Y$ to $\nabla_{X, Y} (A, B) := A \times B \subseteq X \times Y$. Kleisli maps $f: A \to PX$ and $g: B \to PY$ hence have the tensor product $$f \otimes g: (a, b) \mapsto f(a) \times g(b) \subseteq X \times Y .$$
+> For the normalized power set-monad $P : \mathbf{Set} \to \mathbf{Set}$, the zipper maps two subsets $A \subseteq X$ and $B \subseteq Y$ to $\nabla_{X, Y} (A, B) \coloneqq A \times B \subseteq X \times Y$. Kleisli maps $f: A \to PX$ and $g: B \to PY$ hence have the tensor product $$f \otimes g: (a, b) \mapsto f(a) \times g(b) \subseteq X \times Y .$$
 
 > The zipper for the Giry monad $G : \mathbf{Meas} \to \mathbf{Meas}$ assigns the [product measure](https://en.wikipedia.org/wiki/Product_measure) $\mu {\otimes} \nu$ to probability measures $\mu$, $\nu$.
 > Tensoring two Markov kernels $f: A \to GX$ and $g: B \to GY$ yields $$f \otimes g: (a, b) \mapsto f_a \otimes g_b .$$
 
 In categorical terms, the induced symmetric monoidal structure on the Kleisli category $\mathbf{D}_T$ is such that the [Kleisli functor](https://en.wikipedia.org/wiki/Kleisli_category#Kleisli_adjunction) $Kl_T : \mathbf{D} \to \mathbf{D}_T$ is strict symmetric monoidal.
 
-But we want more:[^10] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}_{i}$, in that the following diagrams (in $\mathbf{D}_T$!) commute for $\mathrm{del}_{i} := Kl_T (\mathrm{out}_{i})$: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
+But we want more:[^10] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}_{i}$, in that the following diagrams (in $\mathbf{D}_T$!) commute for $\mathrm{del}_{i} \coloneqq Kl_T (\mathrm{out}_{i})$: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
 
 [^10]: So far, the Kleisli category is only a CD-category, but not a Markov category.
 
@@ -194,7 +191,7 @@ As a consequence, $\mathbf{D}_T$ has *weak products*: any pair of Kleisli maps $
 
 <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_property_weak_product_asKleisliMaps.png" alt="Diagram with weak products."/>
 
-with the *copy process* of $A$ $$\mathrm{copy}_A := Kl_T (\langle \mathrm{id}_A, \mathrm{id}_A \rangle) \in \mathbf{D}_T (A, A \otimes A).$$ (The lower triangles commute, as $Kl$ is a functor and $\mathrm{out}_i \circ \langle \mathrm{id}_A, \mathrm{id}_A \rangle = \mathrm{id}_A$.)
+with the *copy process* of $A$ $$\mathrm{copy}_A \coloneqq Kl_T (\langle \mathrm{id}_A, \mathrm{id}_A \rangle) \in \mathbf{D}_T (A, A \otimes A).$$ (The lower triangles commute, as $Kl$ is a functor and $\mathrm{out}_i \circ \langle \mathrm{id}_A, \mathrm{id}_A \rangle = \mathrm{id}_A$.)
 
 However, the vertical Kleisli map $A \to X \otimes Y$ in that diagram is *not unique*--hence the term *semi*cartesian--as the following example shows.
 
