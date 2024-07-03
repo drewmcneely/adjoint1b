@@ -141,7 +141,8 @@ The [Kleisli category](https://en.wikipedia.org/wiki/Kleisli_category) $\mathbf{
 
 While the previous example captures *possibility*, the following is the most general framework for *probability*:
 
-> The Giry monad $G : \mathbf{Meas} \to \mathbf{Meas}$ on the (cartesian monoida) category of measurable spaces, sending a measurable space $X$ to the space $P X$ of distributions on it (a.k.a probability  measures). Its Kleisli morphisms are known as Markov kernels (hence the name Markov categories!): measurable functions $f: X \to P Y$, meaning that each point $x \in X$ is assigned a distribution $f_x$ on $Y$: normal distributions, uniform distribution,  [delta distribution (a.k.a Dirac measure)](https://ncatlab.org/nlab/show/Dirac+measure), ... Regard it as a stochastic process with input $X$ and probabilistic output $Y$. If the weather is sunny tomorrow, will the sprinkler switch on? Well, probably... In contrast, morphisms $X \to Y$ in $\mathbf{Meas}$ (i.e. measurable functions) are *deterministic*, as their output are points $f(x) \in Y$ being definitely determined by their input $x \in X$.
+> The Giry monad $G : \mathbf{Meas} \to \mathbf{Meas}$ on the (cartesian monoida) category of measurable spaces sends a measurable space $X$ to the space $P X$ of distributions on it (a.k.a probability  measures). Its Kleisli morphisms are known as *Markov kernels*. (Hence the name Markov categories!) By definition, these are measurable functions $f: X \to P Y$, meaning that each point $x \in X$ is assigned a distribution $f_x$ on $Y$: normal distributions, uniform distribution,  [delta distribution (a.k.a Dirac measure)](https://ncatlab.org/nlab/show/Dirac+measure), ... Regard it as a stochastic process with input $X$ and probabilistic output $Y$. If the weather is sunny tomorrow, will the sprinkler switch on? Well, probably... 
+> In contrast, morphisms $X \to Y$ in $\mathbf{Meas}$ (i.e. measurable functions) are *deterministic*, as their output are points $f(x) \in Y$ being definitely determined by their input $x \in X$.
 
 <!---
 > Note two special cases:
@@ -151,18 +152,20 @@ While the previous example captures *possibility*, the following is the most gen
 More generally, it is known as the Kleisli functor $\mathrm{D} \to \mathrm{D}_T$, interpreting deterministic processes as probabilistic processes.
 --->
 
-A general definition of *determinism* in Markov categories follows below. Before, let's investigate the term *process*, by which we mean morphisms in a monoidal category: the usual composition amounts to the concatenation of processes, while the tensor product merges two subsystems into one, by running them "in parallel".
+A general definition of *determinism* in Markov categories follows below. Before, let's investigate the term *process*, by which we mean morphisms in a monoidal category: the usual composition amounts to the concatenation of processes, while the tensor product merges two subsystems into one, by running them “in parallel”.
 
-For our category $\mathbf{D}$ of "deterministic processes", this is straight forward; being *cartesian monoidal* means 
+For our category $\mathbf{D}$ of “deterministic processes”, this is straight forward; being *cartesian monoidal* means 
 
 1. it has a terminal object $I$. <!-- Equivalently,  there are unique *deleting morphisms*  $del_X : X \to I$ being natural in $X$. -->
-2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}^L} X \times Y \xrightarrow{\mathrm{out}^R} Y$ satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_universal_property_product.png" alt="Diagram of universal property of the product."/>
-3. it has a symmetric monoidal structure is induced by 1. and 2.
+2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}_1} X \times Y \xrightarrow{\mathrm{out}_2} Y$ satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_universal_property_product.png" alt="Diagram of universal property of the product."/>
+3. it has a symmetric monoidal structure induced by 1. and 2.
 
-Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [commutative](https://ncatlab.org/nlab/show/commutative+monad), i.e. it comes with well behaved  *zipper functions* in $\mathbf{D}$
-$$\nabla_{X,Y} : PX \times PY \to P(X \times Y).$$ To be precise, we require  $\nabla_{X,Y}$ to make $P \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations. 
+Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [strong](https://ncatlab.org/nlab/show/commutative+monad), i.e., it comes with well behaving[^2]  *zipper functions* in $\mathbf{D}$
+$$\nabla_{X,Y} : TX \times TY \to T(X \times Y).$$ 
 
-Kleisli maps $f \in \mathbf{D}(A, TX)$ and $g \in \mathbf{D}(B, TY)$ may then be tensored as $$f \otimes g : A \times B \xrightarrow{f \times g} PX \times PY \xrightarrow{\nabla_{X,Y}} P(X \times Y).$$
+[^2]:  to be precise, we require  $\nabla_{X,Y}$ to make $T \iota : \mathbf{C}_{det} \to \mathbf{C}_{det}$ a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations. 
+
+Kleisli maps $f \in \mathbf{D}(A, TX)$ and $g \in \mathbf{D}(B, TY)$ may then be tensored as $$f \otimes g : A \times B \xrightarrow{f \times g} TX \times TY \xrightarrow{\nabla_{X,Y}} T(X \times Y).$$
 
 > For the normalized power set-monad $P : \mathbf{Set} \to \mathbf{Set}$, the zipper maps two subsets $A \subseteq X$ and $B \subseteq Y$ to $\nabla_{X, Y} (A, B) := A \times B \subseteq X \times Y$. Kleisli maps $f: A \to PX$ and $g: B \to PY$ hence have the tensor product $$f \otimes g: (a, b) \mapsto f(a) \times g(b) \subseteq X \times Y .$$
 
@@ -171,54 +174,37 @@ Kleisli maps $f \in \mathbf{D}(A, TX)$ and $g \in \mathbf{D}(B, TY)$ may then be
 
 In categorical terms, the induced symmetric monoidal structure on the Kleisli category $\mathbf{D}_T$ is such that the [Kleisli functor](https://en.wikipedia.org/wiki/Kleisli_category#Kleisli_adjunction) $Kl_T : \mathbf{D} \to \mathbf{D}_T$ is strict symmetric monoidal.
 
-But we want more:[^10] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}^{L/R}$, in that the following diagrams (in $\mathbf{D}_T$!) commute for $\mathrm{del}^{L/R} := Kl_T (\mathrm{out}^{L/R})$: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
+But we want more:[^10] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}_{i}$, in that the following diagrams (in $\mathbf{D}_T$!) commute for $\mathrm{del}_{i} := Kl_T (\mathrm{out}_{i})$: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
 
 [^10]: So far, the Kleisli category is only a CD-category, but not a Markov category.
 
 There are multiple equivalent requirements:
 
- - $\mathrm{del}^L$ and $\mathrm{del}^R$ are natural transformations;
+ - $\mathrm{del}_1$ and $\mathrm{del}_2$ are natural transformations;
  - $T$ preserves the terminal object $I \cong TI$ (in $\mathbf{D}$);
- - $I$ is a terminal object in $\mathbf{D}_T$, which is thus *semicartesian*.
+ - $I$ is a terminal object in $\mathbf{D}_T$, which is thus [*semicartesian*](https://golem.ph.utexas.edu/category/2016/08/monoidal_categories_with_proje.html).
 
-As a consequence, $\mathbf{D}_T$ has *weak products*: any pair of Kleisli maps $f: A \to X$, $g: A \to Y$ factorizes jointly over $X \otimes Y$: 
+As a consequence, $\mathbf{D}_T$ has *weak products*: any pair of Kleisli maps $f: A \to X$, $g: A \to Y$ factorizes as:
 
 <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_property_weak_product_asKleisliMaps.png" alt="Diagram with weak products."/>
 
-with the copy process of $A$ $$\mathrm{copy}_A := Kl_T (\langle \mathrm{id}_A, \mathrm{id}_A \rangle) \in \mathbf{D}_T (A, A \otimes A).$$ 
+with the *copy process* of $A$ $$\mathrm{copy}_A := Kl_T (\langle \mathrm{id}_A, \mathrm{id}_A \rangle) \in \mathbf{D}_T (A, A \otimes A).$$ (The lower triangles commute, as $Kl$ is a functor and $\mathrm{out}_i \circ \langle \mathrm{id}_A, \mathrm{id}_A \rangle = \mathrm{id}_A$.)
 
-However, the vertical Kleisli map $A \to X \otimes Y$ in the last diagram is *not unique*--hence the term *semi*cartesian--, as the following example shows.
+However, the vertical Kleisli map $A \to X \otimes Y$ in that diagram is *not unique*--hence the term *semi*cartesian--as the following example shows.
 
 > In the Kleisli category of the Giry-monad, consider the uniform distributions on $X = \{\text{sunny}, \text{cloudy}, \text{rainy}\}$ and $Y = \{\text{on}, \text{off}\}$, i.e. Markov kernels $$f : \{\ast\} \to X, \quad \ast \mapsto \frac{1}{3} |\text{sunny} \rangle + \frac{1}{3} |\text{cloudy} \rangle + \frac{1}{3} |\text{rainy} \rangle$$$$g : \{\ast\} \to Y, \quad \ast \mapsto \frac{1}{2} |\text{on} \rangle + \frac{1}{2} |\text{off} \rangle.$$ Then the weak-product-diagram from above commutes for both of the following distributions on $X {\times} Y$: $$\ast \mapsto \frac{1}{6} | \text{sunny, on} \rangle + \frac{1}{6} | \text{sunny, off} \rangle + \frac{1}{6} | \text{cloudy, on} \rangle + \frac{1}{6} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle$$$$\ast \mapsto \frac{1}{3} | \text{sunny, on} \rangle + \frac{1}{3} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle.$$ Which one is obtained as above via $\{\ast\} \xrightarrow{\mathrm{copy}} \{\ast\} \otimes \{\ast\} \xrightarrow{f \otimes g} X \otimes Y$?[^13]
 
-[^13]: --it's the first one, i.e. the uniform distribution on $X \times Y$
+[^13]: --it's the first one, i.e., the uniform distribution on $X \times Y$
 
-In probability theory, this ambiguity is known as the fact that kernels to product spaces $h : A \to X \otimes Y$ are not determined by their marginalization $\mathrm{del}^L \circ h: A \to X$ and $\mathrm{del}^R \circ h: A \to Y$. From a more category theoretic perspective, it means that the family of copy morphisms is not natural.
+In probability theory, this ambiguity is known as the fact that Markov kernels $h : A \to X \otimes Y$ are not determined by their marginalization $\mathrm{del}_1 \circ h: A \to X$ and $\mathrm{del}_2 \circ h: A \to Y$. From a more category theoretic perspective, it means that the family of copy morphisms is not natural.
 
-Take a last look back on the weak-product diagram from above. The two triangles at the bottom mean that each $(A, \mathrm{copy}_A, \mathrm{del}_A)$ is a commutative comonoid in $\mathbf{D}_T$.
-This leads us to the formal definition of Markov categories.
+At first glance, it may not seem very convenient to consider something *non*-natural--but we want this, in order to capture uncertainty. We will give the details below (in subsection “Determinism”) and return to the big picture from above: a probability monad $T$ on a cartesian monoidal category $\mathbf{D}$ induces probabilistic/non-deterministic morphisms, which destroy the uniqueness constraint of the product and leaves us with weak products in $\mathbf{D}_T$.
 
-<!--
-- in detail: 
-	- adjunction
-	- $\mathbf{C}(X,Y) \cong \mathbf{C}_{det}(X, PY) .$
-		- examples: $P$, $G$
-	- $D$ subcategory, cartesian -> deterministic processes
-	- transfer to $C$: "zipper" (making $T$ a symmetric monoidal functor)
-		- examples: $P$, $G$
-		- $f \times g$
-	- symmetric monoidal structure being not cartesian
-		- examples: $P$, $G$
-		- but weakly
-- copy maps
-	- $(X, copy, del)$ comonoids
-	- $del$ natural
-- non-properties
-	- $copy$ natural
-	- all Markov cats
--->
+In the corresponding diagram of weak products, we have already seen the rectangles on top <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangles with projections"/> commute if and only if $\mathrm{D}_T$ is semicartesian. 
 
-**Markov Categories.** Let's start with the terse definition that category theorists love so much: A Markov category is a semiCartesian category where every object is a commutative comonoid compatible with the monoidal structure.
+Have you noticed that the triangles at the bottom <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_unitality.png" alt="Triangles with projections"/> look like a counitality constraint? In fact, each $(A, \mathrm{copy}_A, \mathrm{del}_A)$ is a commutative comonoid object in $\mathbf{D}_T$. This is the starting point for the general definition of Markov categories.
+
+**Markov Categories.** Let's start with a terse definition: A Markov category is a semiCartesian category where every object is a commutative comonoid compatible with the monoidal structure.
 
 In more detail, a Markov category is a symmetric monoidal category $(\mathbf{C}, \otimes, I)$ where each object is equipped with
 
