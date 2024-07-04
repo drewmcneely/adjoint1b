@@ -153,7 +153,7 @@ A general definition of *determinism* in Markov categories follows below. Before
 For our category $\mathsf{D}$ of “deterministic processes”, this is straight forward; being *cartesian monoidal* means 
 
 1. it has a terminal object $I$. <!-- Equivalently,  there are unique *deleting morphisms*  $del_X : X \to I$ being natural in $X$. -->
-2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}_1} X \times Y \xrightarrow{\mathrm{out}_2} Y$ satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/drewmcneely/adjoint1b/main/blogpost/figures/tikz-cd_universal_property_product.png?token=GHSAT0AAAAAACULLS3B4SDMLLEF7PD4UXDYZUGTZAA" alt="Diagram of universal property of the product."/>
+2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}_1} X \times Y \xrightarrow{\mathrm{out}_2} Y$ satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_universal_property_product.png" alt="Diagram of universal property of the product."/>
 3. it has a symmetric monoidal structure induced by 1. and 2.
 
 Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [commutative](https://ncatlab.org/nlab/show/commutative+monad), i.e., it comes with well behaved[^2]  *zipper functions* (in $\mathsf{D}$)
@@ -170,7 +170,7 @@ Kleisli maps $f \in \mathsf{D}(A, TX)$ and $g \in \mathsf{D}(B, TY)$ may then be
 
 In categorical terms, the induced symmetric monoidal structure on the Kleisli category $\mathsf{D}_T$ is such that the [Kleisli functor](https://en.wikipedia.org/wiki/Kleisli_category#Kleisli_adjunction) $Kl_T : \mathsf{D} \to \mathsf{D}_T$ is strict symmetric monoidal.
 
-But we want more:[^3] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}_{i}$, in that the following diagrams (in $\mathsf{D}_T$!) commute for $\mathrm{del}_{i} \coloneqq Kl_T (\mathrm{out}_{i})$: <img src="https://raw.githubusercontent.com/drewmcneely/adjoint1b/main/blogpost/figures/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
+But we want more:[^3] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}_{i}$, in that the following diagrams (in $\mathsf{D}_T$!) commute for $\mathrm{del}_{i} \coloneqq Kl_T (\mathrm{out}_{i})$: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
 
 [^3]: So far, the Kleisli category $\mathsf{D}_T$ is only a CD-category, but not a Markov category.
 
@@ -367,8 +367,7 @@ We'll use this as the basis for our definition, but we'll add parametrization wi
 
     **Definition.** Given a morphism $f:A \rightarrow X\otimes Y$, a conditional on $X$ which we call $f_{|X}$ is *any* morphism, $f_{|X}: A\otimes X \rightarrow Y$ which satisfies
 
-![](figures/conditional-definition.png)
-<img src="https://raw.githubusercontent.com/drewmcneely/adjoint1b/main/blogpost/figures/conditional-definition.png?token=GHSAT0AAAAAACULLS3BLKGQEGRPWPNY3H7CZUFGSBA" alt="Definition of Conditionals"/>
+<img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/conditional-definition.png" alt="Definition of Conditionals"/>
 
 which again can act as a recovery process from $X$ to $Y$ (parametrized by $A$) if the original data on $Y$ has been deleted.
 
@@ -378,7 +377,7 @@ And there are many Markov categories which do have conditionals for every morphi
 
 To make string diagrams simpler, we often draw conditionals like so:
 
-![](figures/bent-wire-notation.png)
+<img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/bent-wire-notation.png" alt="Bent Wire Notation for Conditionals"/>
 
 where we "bend the wire back" to signify which output has been turned into an input.
 We should note though, this is only graphical sugar and does *not* represent some kind of "cap" morphism.
@@ -388,7 +387,7 @@ So when we draw a bunch of morphisms inside the dashed box, it means we're takin
 Even though the dash box seals the insides, luckily there are some properties of conditionals that allow us to do rewrites.
 Bent wire notation makes these really nice:
 
-![](figures/conditional-rewrites.png)
+<img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/conditional-rewrites.png" alt="Rewrite Rules for Conditionals"/>
 
 where the $g$ in the bottom equation needs to be deterministic.
 
@@ -426,7 +425,7 @@ We also say that its outputs are not correlated with each other, or they don't s
 Let's look at this more closely in string diagrams with a formal definition:
 
 > **Definition.** *A morphism $p:A\rightarrow X\otimes Y$ displays $X\perp Y || A$, read as "$X$ is independent of $Y$ given $A$", if its conditional can be calculated as*
-![](independence-definition-1.png)
+<img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/independence-definition-1.png" alt="Conditional Independence"/>
 
 This looks like the bent wire has just been snipped!
 But if we look back to the definition of conditionals, this encapsulates the idea that there's no information about $Y$ contained in $X$.
@@ -437,7 +436,7 @@ This means that whatever you know about $X$ isn't useful in reconstructing the i
 
 If we do some string diagram manipulation, then we'll see that this reduces to the traditional definition of independence:
 
-![](figures/independence-traditional.png)
+<img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/independence-traditional.png" alt="Symmetric Conditional Independence"/>
 
 From here, we can see that this definition is actually symmetric: if $X$ is independent from $Y$, then $Y$ is also independent from $X$ and we can just say that $X$ and $Y$ are independent of each other.
 Is it possible for $X$ and $Y$ to be only partially independent?
@@ -445,7 +444,7 @@ What if we can factor out a component of the states that exhibits dependence, an
 We can capture that scenario with the following:
 We say that a morphism with signature $f: A \rightarrow X\otimes B\otimes Y$, exhibits $X\perp Y | B || A$, read as "$X$ is independent of $Y$ given input $A$ and output $B$", if its conditional with respect to $X$ *and* $B$ is equal to the conditional with its $X$ wire snipped, like so:
 
-<img src="https://raw.githubusercontent.com/drewmcneely/adjoint1b/main/blogpost/figures/independence-definition-2.png" alt="General Definition of Independence"/>
+<img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/independence-definition-2.png" alt="General Definition of Independence"/>
 
 This version of independence has several equivalent definitions, and it is also symmetric.
 
