@@ -20,8 +20,8 @@
 		\node [style=large morphism] (26) at (6.75, -0.5) {$f$};
 		\node [style=none] (27) at (7, -1.25) {};
 		\node [style=none] (28) at (7, 0.25) {};
-		\node [style=bn] (29) at (9, 0.25) {};
-		\node [style=bn] (30) at (5.25, 1.5) {};
+		\node [style=bn] (29) at (7.75, 0.25) {};
+		\node [style=bn] (30) at (7.75, 1.5) {};
 		\node [style=none, label={left:$X$}] (31) at (4.5, 1.5) {};
 		\node [style=none, label={left:$A$}] (32) at (4.5, -0.5) {};
 		\node [style=none, label={right:$Y$}] (33) at (9, -1.25) {};

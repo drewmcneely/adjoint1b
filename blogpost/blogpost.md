@@ -126,8 +126,6 @@ Something you may have noticed from the two examples of morphisms of Markov cate
 
 This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition. 
 
-<!-- TODO: Make notation consistent. -->
-<!-- eg. FinSetMulti -->
 **Kleisli Categories.** If you are familiar with Kleisli categories, you might have uncovered $\mathsf{FinSetMulti}$ from above as the Kleisli category of the normalized [finite powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad). <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the [Giry monad](https://ncatlab.org/nlab/show/Giry+monad), [Radon monad](https://ncatlab.org/nlab/show/Radon+monad), or [distribution monads over semirings](https://ncatlab.org/nlab/show/distribution+monad). Rather than explaining (technical) details of these, we want to dive into the underlying construction.
 
 If you do *not* know Kleisli categories--don't worry, we'll try to explain it on the go, focusing on the relevant properties for our purpose. The idea is the following:
@@ -205,7 +203,6 @@ In the corresponding diagram of weak products, we have already seen the rectangl
 Have you noticed that the triangles at the bottom <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_unitality.png" alt="Triangles with projections"/> look like a counitality constraint? In fact, each $(A, \mathrm{copy}_A, \mathrm{del}_A)$ is a commutative comonoid object in $\mathbf{D}_T$. This is the starting point for the general definition of Markov categories.
 
 **Markov Categories.** Let's start with a terse definition: A Markov category is a semiCartesian category where every object is a commutative comonoid compatible with the monoidal structure.
-
 In more detail, a Markov category is a symmetric monoidal category $(\mathbf{C}, \otimes, I)$ where each object is equipped with
 
 * a *deletion map* $del_X : X \to I$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete.png" alt="String diagram of deletion map."/>
@@ -260,8 +257,7 @@ So for instance, if a distribution on weather states is $p_W = 0.2 | \mathrm{Sun
 Cartesian categories come equipped with diagonal maps that do something very similar to this.
 Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories. These don't make for very interesting categories in terms of probability though, since all morphisms are deterministic as mentioned earlier.
 But if we have a probability monad on a Cartesian category, we can transport the diagonal maps into its Kleisli category, and these become precisely the copy maps.
-
-Why do we want this comultiplication structure on our objects?
+So why do we want this comultiplication structure on our objects?
 If we think of string diagrams as having pipes through which information flows, then it's useful to duplicate information and run different transformations on their parallel streams for comparison.
 
 In probability theory, we have a kind of projection known as marginalization.
@@ -271,17 +267,21 @@ More generally speaking, deleting information seems desirable  in a framework fo
 
 As seen above (section on Kleisli categories), this allows for *weak products*; this is the category theoretic description of uncertainty, in contrast to *determinism* of cartesian monoidal categories.
 
-**Important Markov categories.**
+**Common Markov categories.** There are tons of Markov categories out there, some *quite* obscure, but also many whose compositional computations are used every single day.
+As we've seen, every Cartesian category such as $\mathsf{Set}$ is Markov, albeit one that doesn't contain uncertainty.
+But as we've also seen, for each affine commutative monad, whose functor can represent the collection of uncertainty distributions over an object, *its* Kleisli category is Markov.
+The classic example here is $\mathsf{Stoch} := \mathsf{Kl}(\mathcal{G})$ for the Giry monad.
+The primary topic for our research week during the Adjoint School was actually to try to find a monad for *imprecise probability* distributions such as Dempster-Shafer belief functions.
+Our method so far is to try to find a type of Riesz representation theorem to equivocate these belief functions with functionals.
+Since functionals form the *continuation monad*, then this would be an easy way to prove that our belief functions form a monad themselves.
 
+There are other Markov categories that aren't quite Kleisli categories, but they come from very similar constructions such as *relative* monads or decorated linear maps.
+In our example we've been working with $\mathsf{FinStoch}$, which has finite sets and stochastic matrices, and another common one is $\mathsf{Gauss}$, which contains Gaussian normal distributions on $\mathbb{R}^n$ and affine maps with Gaussian noise.
 
-### Additional Axioms and definitions (Drew)
-
-Markov categories as we've built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels.
+**Additional Axioms and Properties:** Markov categories as we've built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels.
 Many morphisms have relationships with each other that correspond to useful notions in traditional probability.
 
-#### Determinism
-
-Looking back at Cartesian categories, there seems to be something special about them: all of their morphisms seem to be "deterministic," in that they map a single input to a single output.
+**Determinism.** Looking back at Cartesian categories, there seems to be something special about them: all of their morphisms seem to be "deterministic," in that they map a single input to a single output.
 This isn't a very categorical notion though, so let's try to find properties of Cartesian categories that encapsulate the idea that there's no uncertainty in the morphism outputs.
 
 One unique property that Cartesian categories have over Markov categories is that their diagonal maps are natural in a certain sense.
@@ -313,9 +313,7 @@ Even though general Markov categories don't have all deterministic morphisms, th
 In fact, it's not hard to prove that copies, deletes, swaps, and identities are all deterministic themselves, and that determinism is closed under composition.
 This means that the collection of deterministic morphisms form a wide subcategory of $\mathsf{C}$, which we call $\mathsf{C}_{\mathrm{det}}$, and that category is Markov itself!
 
-#### Conditionals, Bayesian Inversion
-
-In traditional probability, we define a conditional probability as "the probability of one event given that another event is already known to have occurred."
+**Conditionals.** In traditional probability, we define a conditional probability as "the probability of one event given that another event is already known to have occurred."
 This is constructed from a joint probability distribution, whose values are "renormalized" to the restriction of the known event.
 
 For example, say the forecast for today given jointly for temperature and weather, and the data is given in the table below:
@@ -364,6 +362,7 @@ We'll use this as the basis for our definition, but we'll add parametrization wi
     **Definition.** Given a morphism $f:A \rightarrow X\otimes Y$, a conditional on $X$ which we call $f_{|X}$ is *any* morphism, $f_{|X}: A\otimes X \rightarrow Y$ which satisfies
 
 ![](figures/conditional-definition.png)
+<img src="https://raw.githubusercontent.com/drewmcneely/adjoint1b/main/blogpost/figures/conditional-definition.png?token=GHSAT0AAAAAACULLS3BLKGQEGRPWPNY3H7CZUFGSBA" alt="Definition of Conditionals"/>
 
 which again can act as a recovery process from $X$ to $Y$ (parametrized by $A$) if the original data on $Y$ has been deleted.
 
@@ -387,9 +386,7 @@ Bent wire notation makes these really nice:
 
 where the $g$ in the bottom equation needs to be deterministic.
 
-#### Conditional Independence
-
-In traditional probability, a joint distribution is said to be independent in its variables if it satisfies $p(x,y) = p(x)p(y)$ for all $x$ and $y$.
+**Conditional Independence.** In traditional probability, a joint distribution is said to be independent in its variables if it satisfies $p(x,y) = p(x)p(y)$ for all $x$ and $y$.
 
 So for instance, the following joint state on temperature and pressure is independent
 
@@ -429,7 +426,7 @@ Let's look at this more closely in string diagrams with a formal definition:
 This looks like the bent wire has just been snipped!
 But if we look back to the definition of conditionals, this encapsulates the idea that there's no information about $Y$ contained in $X$.
 If the conditional is a "data recovery" morphism that reconstructs $Y$ from the information it shares with $X$, then we notice two things:
-one, the original $f$ has to be used in the condinional, which means the recovery morphism needs to store the entirety of $Y$'s original information to recover it.
+one, the original $f$ has to be used in the conditional, which means the recovery morphism needs to store the entirety of $Y$'s original information to recover it.
 And two, the $X$ input wire juts gets deleted, so it doesn't use any information from our unforgotten channels during recovery.
 This means that whatever you know about $X$ isn't useful in reconstructing the information on $Y$.
 
@@ -441,15 +438,20 @@ From here, we can see that this definition is actually symmetric: if $X$ is inde
 Is it possible for $X$ and $Y$ to be only partially independent?
 What if we can factor out a component of the states that exhibits dependence, and the other components are independent?
 We can capture that scenario with the following:
+We say that a morphism with signature $f: A \rightarrow X\otimes B\otimes Y$, exhibits $X\perp Y | B || A$, read as "$X$ is independent of $Y$ given input $A$ and output $B$", if its conditional with respect to $X$ *and* $B$ is equal to the conditional with its $X$ wire snipped, like so:
 
-## Conclusion: Cool things you can do with Markov categories
+<img src="https://raw.githubusercontent.com/drewmcneely/adjoint1b/main/blogpost/figures/independence-definition-2.png" alt="General Definition of Independence"/>
 
-So what can we do with all these constructions?
+This version of independence has several equivalent definitions, and it is also symmetric.
+
+**Conclusion.** So what can we do with all these constructions?
 It's neat that we now have a graphical language to describe probability, and also we have a unifying language that describes all different types of uncertainty.
-We've already done a lot of work in formulating traditional results in terms of Markov categories, which then generalizes these results to large classes of uncertainty representations.
-For instance, we 
+We've already done a lot of work in formulating traditional results in terms of Markov categories, which then generalizes these results to several different types of uncertainty representations.
+For instance, there are generalized results for the [De Finetti Theorem](https://arxiv.org/abs/2105.02639), general constructions for [Hidden Markov Models](https://arxiv.org/abs/2401.14669), and graphical ways to do [causal inferencing](https://arxiv.org/abs/2207.05740).
+One benefit to categorifying these constructions could be to simplify the constructions of complicated statistical algorithms by making their code modular: the general categorical construction can be coded in the abstract, and kept separate from code used to build a Markov category.
 
-* De Finetti
-* HMMs and Bayesian Inversion
-* Causal Inferencing
+One other cool thing is that, since the categorical construction is so broad, it allows you to really dive deep into discovering the "meaning" of uncertainty, and how it's structured.
+For example, [information flow axioms](https://arxiv.org/abs/2211.02507) help explain what makes stochastic probability (that is, probabilities valued between 0 and 1) so special as a representation of uncertainty, as opposed to assigning other kinds of values to events.
 
+Currently, there's an ever-growing list of classical probabilistic notions that are being captured in this categorical language.
+While it seems like we're reinventing the wheel with a new language, really what we're trying to do is just make the wheel bigger.
