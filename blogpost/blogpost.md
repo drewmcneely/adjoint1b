@@ -202,11 +202,11 @@ In the corresponding diagram of weak products, we have already seen the rectangl
 
 Have you noticed that the triangles at the bottom <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_unitality.png" alt="Triangles with projections"/> look like a counitality constraint? In fact, each $(A, \mathrm{copy}_A, \mathrm{del}_A)$ is a commutative comonoid object in $\mathsf{D}_T$. This is the starting point for the general definition of Markov categories.
 
-**Markov Categories.** Let's start with a terse definition: A Markov category is a semiCartesian category where every object is a commutative comonoid compatible with the monoidal structure.
+**Markov Categories.** Let's start with a terse definition: A Markov category is a semi-Cartesian category where every object is a commutative comonoid compatible with the monoidal structure.
 
 In more detail, a Markov category is a symmetric monoidal category $(\mathsf{C}, \otimes, I)$ where each object is equipped with
 
-* a *deletion map* $del_X : X \to I$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete.png" alt="String diagram of deletion map."/> Even though they differ from the deletion maps from the sectionn on Kleisli categories, they are morally the same.
+* a *deletion map* $del_X : X \to I$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete.png" alt="String diagram of deletion map."/> Even though they differ from the deletion maps from the section on Kleisli categories, they are morally the same.
 * a *copy map* $copy_X :X \to X \otimes  X$ depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_copy.png" alt="String diagram of copy map."/> 
 
 such that
@@ -279,7 +279,9 @@ Since functionals form the *continuation monad*, then this would be an easy way 
 There are other Markov categories that aren't quite Kleisli categories, but they come from very similar constructions such as *relative* monads or decorated linear maps.
 In our example we've been working with $\mathsf{FinStoch}$, which has finite sets and stochastic matrices, and another common one is $\mathsf{Gauss}$, which contains Gaussian normal distributions on $\mathbb{R}^n$ and affine maps with Gaussian noise.
 
-**Additional Axioms and Properties:** Markov categories as we've built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels.
+**Additional Axioms and Properties**
+
+Markov categories as we've built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels.
 Many morphisms have relationships with each other that correspond to useful notions in traditional probability.
 
 **Determinism.** Looking back at Cartesian categories, there seems to be something special about them: all of their morphisms seem to be "deterministic," in that they map a single input to a single output.
@@ -365,7 +367,7 @@ Imagine you've forgotten the weather portion of today's forecast, but you rememb
 If you've calculated this conditional kernel earlier and stored it as backup, then you can simply graph this out with your remaining data to fully restore the original information!
 We'll use this as the basis for our definition, but we'll add parametrization with an input:
 
-    **Definition.** Given a morphism $f:A \rightarrow X\otimes Y$, a conditional on $X$ which we call $f_{|X}$ is *any* morphism, $f_{|X}: A\otimes X \rightarrow Y$ which satisfies
+**Definition.** Given a morphism $f:A \rightarrow X\otimes Y$, a conditional on $X$ which we call $f_{|X}$ is *any* morphism, $f_{|X}: A\otimes X \rightarrow Y$ which satisfies
 
 <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/conditional-definition.png" alt="Definition of Conditionals"/>
 
