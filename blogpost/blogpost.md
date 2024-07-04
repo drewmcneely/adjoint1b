@@ -133,11 +133,11 @@ If you do *not* know Kleisli categories--don't worry, we'll try to explain it on
  2. Introduce *non-deterministic processes* as a [monadic effect](https://ncatlab.org/nlab/show/monad+%28in+computer+science%29#BasicIdea) by a probability monad $T : \mathsf{D} \to \mathsf{D}$.
 The [Kleisli category](https://en.wikipedia.org/wiki/Kleisli_category) $\mathsf{D}_T$ of $T$ has the same objects as $\mathsf{D}$, and morphisms $\mathsf{D_T}(X,Y) \coloneqq \mathsf{D}(X, TY) .$ We call these *Kleisli maps*.
 
-> **Example:** as already mentioned, the category $\mathsf{FinSetMulti}$ (modelling *possible* transitions between finite sets) is the Kleisli category of the normalized [finite powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad) $P: \mathsf{FinSet} \to \mathsf{FinSet}$ which assigns to a set $$X \mapsto PX \coloneqq \{ S \subseteq X : S \neq \emptyset \}.$$ "Normalization" here means that we exclude the empty set.
+> **Example.** as already mentioned, the category $\mathsf{FinSetMulti}$ (modelling *possible* transitions between finite sets) is the Kleisli category of the normalized [finite powerset monad](https://math.stackexchange.com/questions/2994993/the-powerset-monad) $P: \mathsf{FinSet} \to \mathsf{FinSet}$ which assigns to a set $$X \mapsto PX \coloneqq \{ S \subseteq X : S \neq \emptyset \}.$$ "Normalization" here means that we exclude the empty set.
 
 While the previous example captures *possibility*, the following is the most general framework for *probability*:
 
-> **Example:** the Markov cateory $\mathsf{Stoch}$ is the Kleisli category of the Giry monad $G : \mathsf{Meas} \to \mathsf{Meas}$ on the (cartesian monoida) category of measurable spaces, sending a measurable space $X$ to the space $P X$ of distributions on it (a.k.a probability  measures). Its Kleisli morphisms are known as *Markov kernels*. (Hence the name Markov categories!) By definition, these are measurable functions $f: X \to P Y$, meaning that each point $x \in X$ is assigned a distribution $f_x$ on $Y$: normal distributions, uniform distribution,  [delta distribution (a.k.a Dirac measure)](https://ncatlab.org/nlab/show/Dirac+measure), ... Regard it as a stochastic process with input $X$ and probabilistic output $Y$. If the weather is sunny tomorrow, will the sprinkler switch on? Well, probably... 
+> **Example.** The Markov cateory $\mathsf{Stoch}$ is the Kleisli category of the Giry monad $G : \mathsf{Meas} \to \mathsf{Meas}$ on the (cartesian monoida) category of measurable spaces, sending a measurable space $X$ to the space $P X$ of distributions on it (a.k.a probability  measures). Its Kleisli morphisms are known as *Markov kernels*. (Hence the name Markov categories!) By definition, these are measurable functions $f: X \to P Y$, meaning that each point $x \in X$ is assigned a distribution $f_x$ on $Y$: normal distributions, uniform distribution,  [delta distribution (a.k.a Dirac measure)](https://ncatlab.org/nlab/show/Dirac+measure), ... Regard it as a stochastic process with input $X$ and probabilistic output $Y$. If the weather is sunny tomorrow, will the sprinkler switch on? Well, probably... 
 > In contrast, morphisms $X \to Y$ in $\mathsf{Meas}$ (i.e. measurable functions) are *deterministic*, as their output are points $f(x) \in Y$ being definitely determined by their input $x \in X$.
 
 <!---
@@ -163,9 +163,9 @@ $$\nabla_{X,Y} : TX \times TY \to T(X \times Y).$$
 
 Kleisli maps $f \in \mathsf{D}(A, TX)$ and $g \in \mathsf{D}(B, TY)$ may then be tensored as $$f \otimes g : A \times B \xrightarrow{f \times g} TX \times TY \xrightarrow{\nabla_{X,Y}} T(X \times Y).$$
 
-> **Example:** for the power set-monad $P : \mathsf{FinSet} \to \mathsf{FinSet}$, the zipper maps two subsets $A \subseteq X$ and $B \subseteq Y$ to $\nabla_{X, Y} (A, B) \coloneqq A \times B \subseteq X \times Y$. Kleisli maps $f: A \to PX$ and $g: B \to PY$ hence have the tensor product $$f \otimes g: (a, b) \mapsto f_a \times g_b \subseteq X \times Y .$$
+> **Example.** For the power set-monad $P : \mathsf{FinSet} \to \mathsf{FinSet}$, the zipper maps two subsets $A \subseteq X$ and $B \subseteq Y$ to $\nabla_{X, Y} (A, B) \coloneqq A \times B \subseteq X \times Y$. Kleisli maps $f: A \to PX$ and $g: B \to PY$ hence have the tensor product $$f \otimes g: (a, b) \mapsto f_a \times g_b \subseteq X \times Y .$$
 
-> **Example:** the zipper for the Giry monad $G : \mathsf{Meas} \to \mathsf{Meas}$ assigns the [product measure](https://en.wikipedia.org/wiki/Product_measure) $\mu {\otimes} \nu$ to probability measures $\mu$, $\nu$.
+> **Example.** The zipper for the Giry monad $G : \mathsf{Meas} \to \mathsf{Meas}$ assigns the [product measure](https://en.wikipedia.org/wiki/Product_measure) $\mu {\otimes} \nu$ to probability measures $\mu$, $\nu$.
 > Tensoring two Markov kernels $f: A \to GX$ and $g: B \to GY$ yields $$f \otimes g: (a, b) \mapsto f_a \otimes g_b .$$
 
 In categorical terms, the induced symmetric monoidal structure on the Kleisli category $\mathsf{D}_T$ is such that the [Kleisli functor](https://en.wikipedia.org/wiki/Kleisli_category#Kleisli_adjunction) $Kl_T : \mathsf{D} \to \mathsf{D}_T$ is strict symmetric monoidal.
@@ -180,7 +180,7 @@ There are multiple equivalent requirements:
  - $T$ preserves the terminal object $I \cong TI$ (in $\mathsf{D}$);
  - $I$ is a terminal object in $\mathsf{D}_T$, which is thus [*semicartesian*](https://golem.ph.utexas.edu/category/2016/08/monoidal_categories_with_proje.html).
 
-> **Example:** the power set monad $P: \mathsf{FinSet} \to \mathsf{FinSet}$ preserves the terminal object $\{\ast\}$ if it is "normalized" in the above sense: $\emptyset \notin PX$.
+> **Example.** The power set monad $P: \mathsf{FinSet} \to \mathsf{FinSet}$ preserves the terminal object $\{\ast\}$ if it is "normalized" in the above sense: $\emptyset \notin PX$.
 
 As a consequence, $\mathsf{D}_T$ has *weak products*: any pair of Kleisli maps $f: A \to X$, $g: A \to Y$ factorizes as:
 
@@ -271,7 +271,7 @@ As seen above (section on Kleisli categories), this allows for *weak products*; 
 **Common Markov categories.** There are tons of Markov categories out there, some *quite* obscure, but also many whose compositional computations are used every single day.
 As we've seen, every Cartesian category such as $\mathsf{Set}$ is Markov, albeit one that doesn't contain uncertainty.
 But as we've also seen, for each affine commutative monad, whose functor can represent the collection of uncertainty distributions over an object, *its* Kleisli category is Markov.
-The classic example here is $\mathsf{Stoch} := \mathsf{Kl}(\mathcal{G})$ for the Giry monad.
+The classic example here is $\mathsf{Stoch} := \mathsf{Kl}(G)$ for the Giry monad.
 The primary topic for our research week during the Adjoint School was actually to try to find a monad for *imprecise probability* distributions such as Dempster-Shafer belief functions.
 Our method so far is to try to find a type of Riesz representation theorem to equivocate these belief functions with functionals.
 Since functionals form the *continuation monad*, then this would be an easy way to prove that our belief functions form a monad themselves.
@@ -279,9 +279,7 @@ Since functionals form the *continuation monad*, then this would be an easy way 
 There are other Markov categories that aren't quite Kleisli categories, but they come from very similar constructions such as *relative* monads or decorated linear maps.
 In our example we've been working with $\mathsf{FinStoch}$, which has finite sets and stochastic matrices, and another common one is $\mathsf{Gauss}$, which contains Gaussian normal distributions on $\mathbb{R}^n$ and affine maps with Gaussian noise.
 
-**Additional Axioms and Properties**
-
-Markov categories as we've built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels.
+**Additional Axioms and Properties** Markov categories as we've built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels.
 Many morphisms have relationships with each other that correspond to useful notions in traditional probability.
 
 **Determinism.** Looking back at Cartesian categories, there seems to be something special about them: all of their morphisms seem to be "deterministic," in that they map a single input to a single output.
@@ -316,9 +314,9 @@ General Markov categories have not only deterministic morphisms, but they at lea
 In fact, it's not hard to prove that copies, deletes, swaps, and identities are all deterministic themselves, and that determinism is closed under composition.
 This means that the collection of deterministic morphisms form a wide subcategory of $\mathsf{C}$, which we call $\mathsf{C}_{\mathrm{det}}$, and that category is Markov itself!
 
-> **Example:** the deterministic subcategory of $\mathsf{FinSetMulti}$ is (equivalent to) $\mathsf{FinSet}$.
+> **Example.** The deterministic subcategory of $\mathsf{FinSetMulti}$ is (equivalent to) $\mathsf{FinSet}$.
 
-> **Example:** similarly, $\mathsf{FinStoch}$ has $\mathsf{FinSet}$ as deterministic subcategory. This does *not* translate to the infinite case $\mathsf{Stoch}$, though!
+> **Example.** Similarly, $\mathsf{FinStoch}$ has $\mathsf{FinSet}$ as deterministic subcategory. However, this does *not* translate to the infinite case: $\mathsf{Stoch}_{\mathrm{det}} \ncong \mathsf{Meas}$!
 
 **Conditionals.** In traditional probability, we define a conditional probability as "the probability of one event given that another event is already known to have occurred."
 In traditional probability, we define a conditional probability as "the probability of one event given that another event is already known to have occurred."
@@ -367,10 +365,8 @@ Imagine you've forgotten the weather portion of today's forecast, but you rememb
 If you've calculated this conditional kernel earlier and stored it as backup, then you can simply graph this out with your remaining data to fully restore the original information!
 We'll use this as the basis for our definition, but we'll add parametrization with an input:
 
-**Definition.** Given a morphism $f:A \rightarrow X\otimes Y$, a conditional on $X$ which we call $f_{|X}$ is *any* morphism, $f_{|X}: A\otimes X \rightarrow Y$ which satisfies
-
+> **Definition.** Given a morphism $f:A \rightarrow X\otimes Y$, a *conditional* on $X$ which we call $f_{|X}$ is *any* morphism, $f_{|X}: A\otimes X \rightarrow Y$ which satisfies
 <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/conditional-definition.png" alt="Definition of Conditionals"/>
-
 which again can act as a recovery process from $X$ to $Y$ (parametrized by $A$) if the original data on $Y$ has been deleted.
 
 Unfortunately conditional morphisms are difficult to find, are not unique, and might not even exist for a given kernel.
@@ -396,7 +392,6 @@ where the $g$ in the bottom equation needs to be deterministic.
 **Conditional Independence.** In traditional probability, a joint distribution is said to be independent in its variables if it satisfies $p(x,y) = p(x)p(y)$ for all $x$ and $y$.
 
 So for instance, the following joint state on temperature and pressure is independent
-
 $$
 p = 
 \array{\arrayopts{\collines{solid} \rowlines{solid}}
@@ -461,3 +456,4 @@ For example, [information flow axioms](https://arxiv.org/abs/2211.02507) help ex
 
 Currently, there's an ever-growing list of classical probabilistic notions that are being captured in this categorical language.
 While it seems like we're reinventing the wheel with a new language, really what we're trying to do is just make the wheel bigger.
+
