@@ -288,7 +288,7 @@ This isn't a very categorical notion though, so let's try to find properties of 
 One unique property that Cartesian categories have over Markov categories is that their diagonal maps are natural in a certain sense.
 Explicitly, if we equate the two inputs of the tensor product to form a "squaring" endofunctor $- \otimes - : f \mapsto f\otimes f$, then the collection of diagonal maps in a Cartesian category form a natural transformation $\Delta : \mathrm{id} \rightarrow - \otimes -$. The copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:
 
-![determinism string diagram](figures/deterministic.png)
+<img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/deterministic.png" alt="Definition of Determinism"/>
 
 This actually makes sense as a condition for a kernel to be deterministic!
 If we really think about what uncertainty means, it boils down to the idea that many different outputs of a process could be possible given a single input.
