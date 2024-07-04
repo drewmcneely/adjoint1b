@@ -153,10 +153,10 @@ A general definition of *determinism* in Markov categories follows below. Before
 For our category $\mathsf{D}$ of “deterministic processes”, this is straight forward; being *cartesian monoidal* means 
 
 1. it has a terminal object $I$. <!-- Equivalently,  there are unique *deleting morphisms*  $del_X : X \to I$ being natural in $X$. -->
-2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}_1} X \times Y \xrightarrow{\mathrm{out}_2} Y$ satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_universal_property_product.png" alt="Diagram of universal property of the product."/>
+2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}_1} X \times Y \xrightarrow{\mathrm{out}_2} Y$ satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/drewmcneely/adjoint1b/main/blogpost/figures/tikz-cd_universal_property_product.png?token=GHSAT0AAAAAACULLS3B4SDMLLEF7PD4UXDYZUGTZAA" alt="Diagram of universal property of the product."/>
 3. it has a symmetric monoidal structure induced by 1. and 2.
 
-Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [strong](https://ncatlab.org/nlab/show/commutative+monad), i.e., it comes with well behaving[^2]  *zipper functions* (in $\mathsf{D}$)
+Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [commutative](https://ncatlab.org/nlab/show/commutative+monad), i.e., it comes with well behaved[^2]  *zipper functions* (in $\mathsf{D}$)
 $$\nabla_{X,Y} : TX \times TY \to T(X \times Y).$$ 
 
 [^2]:  to be precise, we require  $\nabla_{X,Y}$ to make $T : \mathsf{D} \to \mathsf{D}$ a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations. 
@@ -170,7 +170,7 @@ Kleisli maps $f \in \mathsf{D}(A, TX)$ and $g \in \mathsf{D}(B, TY)$ may then be
 
 In categorical terms, the induced symmetric monoidal structure on the Kleisli category $\mathsf{D}_T$ is such that the [Kleisli functor](https://en.wikipedia.org/wiki/Kleisli_category#Kleisli_adjunction) $Kl_T : \mathsf{D} \to \mathsf{D}_T$ is strict symmetric monoidal.
 
-But we want more:[^3] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}_{i}$, in that the following diagrams (in $\mathsf{D}_T$!) commute for $\mathrm{del}_{i} \coloneqq Kl_T (\mathrm{out}_{i})$: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
+But we want more:[^3] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}_{i}$, in that the following diagrams (in $\mathsf{D}_T$!) commute for $\mathrm{del}_{i} \coloneqq Kl_T (\mathrm{out}_{i})$: <img src="https://raw.githubusercontent.com/drewmcneely/adjoint1b/main/blogpost/figures/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
 
 [^3]: So far, the Kleisli category $\mathsf{D}_T$ is only a CD-category, but not a Markov category.
 
