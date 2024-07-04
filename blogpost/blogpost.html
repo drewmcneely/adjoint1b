@@ -1,0 +1,276 @@
+<h1 id="introduction-to-categorical-probability">Introduction to Categorical Probability</h1>
+<p><em>Guest post by Utku Boduroğlu, Drew McNeely, and Nico Wittrock</em></p>
+<p><em>When is it appropriate to completely reinvent the wheel?</em> To an outsider, that seems to happen a lot in category theory, and probability theory isn’t spared from this treatment. We’ve had a useful language to describe probability since the 17th century, and it works. Why change it up now?</p>
+<p>This may be a tempting question when reading about categorical probability, but we might argue that this isn’t completely reinventing traditional probability from the ground up. Instead, we’re developing a set of tools that allows us to work with traditional probability in a really powerful and intuitive way, and these same tools also allow us define new kinds of uncertainty where traditional probability is limited. In this blog post, we’ll work with examples of both traditional finite probability and nondeterminism, or <em>possibility</em> to show how they can be unified in a single categorical language.</p>
+<hr />
+<h2 id="basics-of-probability-theory">Basics of Probability Theory</h2>
+<h3 id="probability-distributions">Probability distributions</h3>
+<p>We want to proceed with our discussion through an example, and so before we introduce everything, consider the following:</p>
+<blockquote>
+<p>You’ve just installed a sprinkler system to your lawn! It is a very advanced piece of technology, measuring a myriad of different things to determine when to turn on the sprinklers… and you have no idea how it does this. In your effort to have an idea of when the system turns on (you pay the water bill, after all) you decided to keep track of how the weather feels and whether your sprinkler is on or not.</p>
+</blockquote>
+<!-- Do we want to include pressure in the example as well? -->
+<p>Here’s what you have: You make the following distinctions:</p>
+<pre><code>    Weather = {sunny, cloudy, rainy}, 
+    Humidity = {dry, humid},
+    Temperature = {hot, mild, cold}, 
+    Sprinkler = {on, off}</code></pre>
+<!-- tables need to be arrays... not even HTML tables work :( -->
+[
+<p>]</p>
+<blockquote>
+<p>You make an assumption that the frequency with which each weather event occurred would be an accurate estimate for how it will be in the future, and so you assemble the previous 3 months’ weather data into probability distributions.</p>
+</blockquote>
+<p>We will be relating our definitions and examples to this theme of a lawn sprinkler system. To contextualize our examples, we provide some definitions.</p>
+<p>A probability distribution on a finite set <span class="math inline"><em>X</em></span> is a function <span class="math inline"><em>p</em> : 2<sup><em>X</em></sup> → [0, 1]</span> assigning to each subset <span class="math inline"><em>A</em> ⊂ <em>X</em></span> a number <span class="math inline"><em>p</em>(<em>A</em>)</span> such that</p>
+<ul>
+<li><span class="math inline"><em>p</em>(∅) = 0</span>,</li>
+<li><span class="math inline"><em>p</em>(<em>X</em>) = 1</span>,</li>
+<li>and for disjoint subsets <span class="math inline"><em>A</em><sub>1</sub>, …, <em>A</em><sub><em>k</em></sub> ⊂ <em>X</em></span>, <span class="math inline">∑<sub><em>i</em></sub><em>p</em>(<em>A</em><sub><em>i</em></sub>) = <em>p</em>(⋃<sub><em>i</em></sub><em>A</em><sub><em>i</em></sub>)</span>.</li>
+</ul>
+<p>For our purposes, a simpler characterization exists from the fact that we can consider a set to disjointly consist of its individual points; namely we can think of a probability distribution on <span class="math inline"><em>X</em></span> to be a function <span class="math inline"><em>p</em> : <em>X</em> → [0, 1]</span> such that [ _{xX} p(x) = 1 ]</p>
+<p>We will also make use of the <a href="">bra-ket notation</a> to denote a distribution/state on <span class="math inline"><em>X</em></span>; for <span class="math inline"><em>X</em> ≔ {<em>x</em><sub>1</sub>, …, <em>x</em><sub><em>k</em></sub>}</span> with the values <span class="math inline"><em>λ</em><sub><em>i</em></sub> ≔ <em>p</em>(<em>x</em><sub><em>i</em></sub>)</span>, the following notation also describes a distribution on <span class="math inline"><em>X</em></span>: [ _{i=1}^k _i = 1 _1x_1+ _2x_2+ + _kx_k ]</p>
+<p>Given this notion, we can model the transition between “state spaces” <span class="math inline"><em>X</em></span> to <span class="math inline"><em>Y</em></span> by means of a <a href=""><em>stochastic matrix</em></a>, which is a matrix <span class="math inline"><em>f</em> : <em>X</em> × <em>Y</em> → [0, 1]</span> such that each column sums to 1, which we denote [ _{yY} f(yx) = 1 ]</p>
+<p>Following our established bra-ket notation, we can equivalently describe the action of the channel <span class="math inline"><em>f</em> : <em>X</em> → <em>Y</em></span> by [ f_x: _1 y_1+ _2 y_2 + + _n y_n  ] with <span class="math inline"><em>γ</em><sub><em>i</em></sub> ≔ <em>f</em>(<em>y</em><sub><em>i</em></sub> ∣ <em>x</em>)</span> and <span class="math inline"><em>f</em><sub><em>x</em></sub></span> forming a probability distribution on <span class="math inline"><em>Y</em></span>.</p>
+<p>Furthermore, given two channels <span class="math inline"><em>f</em> : <em>X</em> → <em>Y</em></span> and <span class="math inline"><em>g</em> : <em>Y</em> → <em>Z</em></span>, we also have a way of obtaining a composite channel <span class="math inline"><em>g</em> ∘ <em>f</em> : <em>X</em> → <em>Z</em></span>, by the <a href="">Chapman-Kolmogorov equation</a>, defining the channel [ (gf)(zx) _{yY} g(zy)f(yx) ]</p>
+<p>You can interpret these distributions to be channels from the singleton set to their respective sets: <span class="math inline"><em>p</em> :  *  → <em>W</em></span>, <span class="math inline"><em>q</em> :  *  → <em>H</em></span>, <span class="math inline"><em>r</em> :  *  → <em>T</em></span>. Then, composing any such distribution with a channel will again yield a distribution [  X  Y ]</p>
+<blockquote>
+<p>Consider the example scenario we described above. Suppose that you compiled the historical weather data into the following probability distribution <span class="math inline"><em>p</em> :  *  → <em>W</em> ⊗ <em>H</em> ⊗ <em>T</em></span> (more to come about <span class="math inline">⊗</span> in just a second): [ p_: 0.2s,d,h+ 0.3r,h,c+ 0.3c,h,m+ 0.2c,d,h ]</p>
+</blockquote>
+<blockquote>
+<p>From the table in the example, we can obtain the following channel <span class="math inline"><em>f</em> : <em>W</em> ⊗ <em>H</em> ⊗ <em>T</em> → <em>S</em></span> if we assume the principle of indifference, i.e., that the entries in the table all occur with equal probability (which would be the case if these were a list of observations<!--reword? -->), we get a channel [ f_{(w,h,t)} = <em>{wht}^  + </em>{wht}^   ]</p>
+</blockquote>
+<p>Then, by everything we’ve established so far, we can reason about the likelihood that the sprinkler will turn on the next day by composing the state <span class="math inline"><em>p</em></span> of the climate with the channel <span class="math inline"><em>f</em></span> to obtain a state <span class="math inline"><em>f</em> ∘ <em>p</em></span> of the sprinkler, computed [ fp: 0.7 + 0.3  ]</p>
+<p>All in all, along with the identity matrices, all this data assembles into the category <span class="math inline">FinStoch</span> with</p>
+<ul>
+<li><strong>objects</strong>: finite sets</li>
+<li><strong>morphisms</strong>: stochastic matrices</li>
+<li>where the composition is determined through the <strong>Chapman-Kolmogorov equation</strong></li>
+</ul>
+<p>This is one of the first examples of a Markov category that we will be looking at, and it will be a good baseline to observe why a Markov category is defined the way it is.</p>
+<!-- TODO: Should we remove these subheadings? They don't show up in the blog post renderer. -->
+<!-- That's frustrating. Especially because we're actually supposed to use a level 1 heading for the title. -->
+<!-- Let's keep headings for now for our internal organization maybe? -->
+<h3 id="possibility-distribution">Possibility distribution</h3>
+<p>Markov categories need not only house probabilistic models of uncertainty; we’ll see that the following also forms a Markov category:</p>
+<p>Consider a channel between two finite sets <span class="math inline"><em>X</em></span>, <span class="math inline"><em>Y</em></span> to be an assignment <span class="math inline"><em>f</em> : <em>X</em> → <em>Y</em></span> such that each <span class="math inline"><em>f</em>(<em>x</em>) ⊂ <em>Y</em></span> is a non-empty subset. Defining the composition to be [ gf (x) _{yf(x)} g(y) ] and the identities as <span class="math inline"><em>x</em> ↦ {<em>x</em>}</span> gives us the Markov category <span class="math inline">FinSetMulti</span> of possibilities!</p>
+<p>The same data from the example can be used in a possibilistic way as well; a channel <span class="math inline"><em>S</em> → <em>W</em> ⊗ <em>H</em> ⊗ <em>T</em></span> can map the sprinkler to all the possible states of weather/climate where the sprinkler has turned on etc. Then, a state is just a set of possible configurations, and the composed state <span class="math inline"><em>f</em> ∘ <em>p</em></span> is the set of all possible configurations one can reach from the initial configurations of <span class="math inline"><em>p</em></span>.</p>
+<h3 id="channels-are-kleisli-maps">Channels are Kleisli maps</h3>
+<p>Something you may have noticed from the two examples of morphisms of Markov categories is that fixing an element <span class="math inline"><em>x</em> ∈ <em>X</em></span> yields some structure attached to <span class="math inline"><em>Y</em></span> with “desirable properties”: in the case of <span class="math inline">FinStoch</span>, we have that each <span class="math inline"><em>f</em><sub><em>x</em></sub></span> is a probability distribution on <span class="math inline"><em>Y</em></span> – in fact, the Chapman-Kolmogorov formula further provides a way to obtain a probability distribution from a probability distribution of probability distributions. In the case of <span class="math inline">FinSetMulti</span>, each <span class="math inline"><em>f</em><sub><em>x</em></sub></span> is a non-empty subset of <span class="math inline"><em>Y</em></span>, and the composition is provided through the union of a set of sets.</p>
+<p>This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition.</p>
+<h1 id="kleisli-categories">Kleisli Categories</h1>
+<p>If you are familiar with Kleisli categories, you might have uncovered <span class="math inline"><strong>M</strong><strong>u</strong><strong>l</strong><strong>t</strong><strong>S</strong><strong>e</strong><strong>t</strong></span> from above as the Kleisli category of the normalized <a href="https://math.stackexchange.com/questions/2994993/the-powerset-monad">powerset monad</a>. <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called <em>probability monads</em>, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the <a href="https://ncatlab.org/nlab/show/Giry+monad">Giry monad</a>, <a href="https://ncatlab.org/nlab/show/Radon+monad">Radon monad</a>, or <a href="https://ncatlab.org/nlab/show/distribution+monad">distribution monads over semirings</a>. Rather than explaining (technical) details of these, we want to dive into the underlying construction.</p>
+<p>If you do <em>not</em> know Kleisli categories–don’t worry, we’ll try to explain it on the go, focusing on the relevant properties for our purpose. The idea is the following:</p>
+<ol type="1">
+<li>take a cartesian monoidal category <span class="math inline"><strong>D</strong></span>, representing <em>deterministic processes</em> and</li>
+<li>introduce <em>non-deterministic processes</em> as a <a href="https://ncatlab.org/nlab/show/monad+%28in+computer+science%29#BasicIdea">monadic effect</a> by a probability monad <span class="math inline"><em>T</em> : <strong>D</strong> → <strong>D</strong></span>: The <a href="https://en.wikipedia.org/wiki/Kleisli_category">Kleisli category</a> <span class="math inline"><strong>D</strong><sub><em>T</em></sub></span> of <span class="math inline"><em>T</em></span> has the same objects as <span class="math inline"><strong>D</strong></span>, and morphisms <br /><span class="math display"><strong>D</strong><sub><strong>T</strong></sub>(<em>X</em>, <em>Y</em>) := <strong>D</strong>(<em>X</em>, <em>T</em><em>Y</em>).</span><br /> We call them <em>Kleisli maps</em>.</li>
+</ol>
+<blockquote>
+<p>For an example, recall the power set monad <span class="math inline"><em>P</em> : <strong>S</strong><strong>e</strong><strong>t</strong> → <strong>S</strong><strong>e</strong><strong>t</strong></span> from above. <!-- **TODO** --></p>
+</blockquote>
+<p>While the latter example captures <em>possibility</em>, the following is the most general framework for <em>probability</em>:</p>
+<blockquote>
+<p>The Giry monad <span class="math inline"><em>G</em> : <strong>M</strong><strong>e</strong><strong>a</strong><strong>s</strong> → <strong>M</strong><strong>e</strong><strong>a</strong><strong>s</strong></span> on the (cartesian monoida) category of measurable spaces sends a measurable space <span class="math inline"><em>X</em></span> to the space <span class="math inline"><em>P</em><em>X</em></span> of distributions on it (a.k.a probability measures). Its Kleisli morphisms are known as <em>Markov kernels</em>. (Hence the name Markov categories!) By definition, these are measurable functions <span class="math inline"><em>f</em> : <em>X</em> → <em>P</em><em>Y</em></span>, meaning that each point <span class="math inline"><em>x</em> ∈ <em>X</em></span> is assigned a distribution <span class="math inline"><em>f</em><sub><em>x</em></sub></span> on <span class="math inline"><em>Y</em></span>: normal distributions, uniform distribution, <a href="https://ncatlab.org/nlab/show/Dirac+measure">delta distribution (a.k.a Dirac measure)</a>, … Regard it as a stochastic process with input <span class="math inline"><em>X</em></span> and probabilistic output <span class="math inline"><em>Y</em></span>. If the weather is sunny tomorrow, will the sprinkler switch on? Well, probably… In contrast, morphisms <span class="math inline"><em>X</em> → <em>Y</em></span> in <span class="math inline"><strong>M</strong><strong>e</strong><strong>a</strong><strong>s</strong></span> (i.e. measurable functions) are <em>deterministic</em>, as their output are points <span class="math inline"><em>f</em>(<em>x</em>) ∈ <em>Y</em></span> being definitely determined by their input <span class="math inline"><em>x</em> ∈ <em>X</em></span>.</p>
+</blockquote>
+<!---
+> Note two special cases:
+> -  Kleisli maps $I \to X$ correspond to distributions over $X$.
+> - Every *deterministic processes*, i.e. a (measurable) functions $f:X \to Y$, gives rise to a probabilistic process, by assinging delta distributions $f_x$ to each input $x \in X$. More formally, this yields an identy-on-objects functor $\mathbf{Meas} \to \mathbf{Meas}_P$.
+
+More generally, it is known as the Kleisli functor $\mathrm{D} \to \mathrm{D}_T$, interpreting deterministic processes as probabilistic processes.
+--->
+<p>A general definition of <em>determinism</em> in Markov categories follows below. Before, let’s investigate the term <em>process</em>, by which we mean morphisms in a monoidal category: the usual composition amounts to the concatenation of processes, while the tensor product merges two subsystems into one, by running them “in parallel”.</p>
+<p>For our category <span class="math inline"><strong>D</strong></span> of “deterministic processes”, this is straight forward; being <em>cartesian monoidal</em> means</p>
+<ol type="1">
+<li>it has a terminal object <span class="math inline"><em>I</em></span>. <!-- Equivalently,  there are unique *deleting morphisms*  $del_X : X \to I$ being natural in $X$. --></li>
+<li>it has products <span class="math inline"><em>X</em> × <em>Y</em></span> and projection pairs <span class="math inline">$X \xleftarrow{\mathrm{out}_1} X \times Y \xrightarrow{\mathrm{out}_2} Y$</span> satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_universal_property_product.png" alt="Diagram of universal property of the product."/></li>
+<li>it has a symmetric monoidal structure induced by 1. and 2.</li>
+</ol>
+<p>Things are more complicated for the Kleisli category <span class="math inline"><em>D</em><sub><em>T</em></sub></span>: to get a tensor product, we need the monad <span class="math inline"><em>T</em></span> to be <a href="https://ncatlab.org/nlab/show/commutative+monad">strong</a>, i.e., it comes with well behaving<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <em>zipper functions</em> in <span class="math inline"><strong>D</strong></span> <br /><span class="math display">∇<sub><em>X</em>, <em>Y</em></sub> : <em>T</em><em>X</em> × <em>T</em><em>Y</em> → <em>T</em>(<em>X</em> × <em>Y</em>).</span><br /></p>
+<p>Kleisli maps <span class="math inline"><em>f</em> ∈ <strong>D</strong>(<em>A</em>, <em>T</em><em>X</em>)</span> and <span class="math inline"><em>g</em> ∈ <strong>D</strong>(<em>B</em>, <em>T</em><em>Y</em>)</span> may then be tensored as <br /><span class="math display">$$f \otimes g : A \times B \xrightarrow{f \times g} TX \times TY \xrightarrow{\nabla_{X,Y}} T(X \times Y).$$</span><br /></p>
+<blockquote>
+<p>For the normalized power set-monad <span class="math inline"><em>P</em> : <strong>S</strong><strong>e</strong><strong>t</strong> → <strong>S</strong><strong>e</strong><strong>t</strong></span>, the zipper maps two subsets <span class="math inline"><em>A</em> ⊆ <em>X</em></span> and <span class="math inline"><em>B</em> ⊆ <em>Y</em></span> to <span class="math inline">∇<sub><em>X</em>, <em>Y</em></sub>(<em>A</em>, <em>B</em>) := <em>A</em> × <em>B</em> ⊆ <em>X</em> × <em>Y</em></span>. Kleisli maps <span class="math inline"><em>f</em> : <em>A</em> → <em>P</em><em>X</em></span> and <span class="math inline"><em>g</em> : <em>B</em> → <em>P</em><em>Y</em></span> hence have the tensor product <br /><span class="math display"><em>f</em> ⊗ <em>g</em> : (<em>a</em>, <em>b</em>) ↦ <em>f</em>(<em>a</em>) × <em>g</em>(<em>b</em>) ⊆ <em>X</em> × <em>Y</em>.</span><br /></p>
+</blockquote>
+<blockquote>
+<p>The zipper for the Giry monad <span class="math inline"><em>G</em> : <strong>M</strong><strong>e</strong><strong>a</strong><strong>s</strong> → <strong>M</strong><strong>e</strong><strong>a</strong><strong>s</strong></span> assigns the <a href="https://en.wikipedia.org/wiki/Product_measure">product measure</a> <span class="math inline"><em>μ</em> ⊗ <em>ν</em></span> to probability measures <span class="math inline"><em>μ</em></span>, <span class="math inline"><em>ν</em></span>. Tensoring two Markov kernels <span class="math inline"><em>f</em> : <em>A</em> → <em>G</em><em>X</em></span> and <span class="math inline"><em>g</em> : <em>B</em> → <em>G</em><em>Y</em></span> yields <br /><span class="math display"><em>f</em> ⊗ <em>g</em> : (<em>a</em>, <em>b</em>) ↦ <em>f</em><sub><em>a</em></sub> ⊗ <em>g</em><sub><em>b</em></sub>.</span><br /></p>
+</blockquote>
+<p>In categorical terms, the induced symmetric monoidal structure on the Kleisli category <span class="math inline"><strong>D</strong><sub><em>T</em></sub></span> is such that the <a href="https://en.wikipedia.org/wiki/Kleisli_category#Kleisli_adjunction">Kleisli functor</a> <span class="math inline"><em>K</em><em>l</em><sub><em>T</em></sub> : <strong>D</strong> → <strong>D</strong><sub><em>T</em></sub></span> is strict symmetric monoidal.</p>
+<p>But we want more:<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> we want the Kleisli functor to preserve the projection pairs <span class="math inline"><em>o</em><em>u</em><em>t</em><sub><em>i</em></sub></span>, in that the following diagrams (in <span class="math inline"><strong>D</strong><sub><em>T</em></sub></span>!) commute for <span class="math inline"><em>d</em><em>e</em><em>l</em><sub><em>i</em></sub> := <em>K</em><em>l</em><sub><em>T</em></sub>(<em>o</em><em>u</em><em>t</em><sub><em>i</em></sub>)</span>: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/></p>
+<p>There are multiple equivalent requirements:</p>
+<ul>
+<li><span class="math inline"><em>d</em><em>e</em><em>l</em><sub>1</sub></span> and <span class="math inline"><em>d</em><em>e</em><em>l</em><sub>2</sub></span> are natural transformations;</li>
+<li><span class="math inline"><em>T</em></span> preserves the terminal object <span class="math inline"><em>I</em> ≅ <em>T</em><em>I</em></span> (in <span class="math inline"><strong>D</strong></span>);</li>
+<li><span class="math inline"><em>I</em></span> is a terminal object in <span class="math inline"><strong>D</strong><sub><em>T</em></sub></span>, which is thus <a href="https://golem.ph.utexas.edu/category/2016/08/monoidal_categories_with_proje.html"><em>semicartesian</em></a>.</li>
+</ul>
+<p>As a consequence, <span class="math inline"><strong>D</strong><sub><em>T</em></sub></span> has <em>weak products</em>: any pair of Kleisli maps <span class="math inline"><em>f</em> : <em>A</em> → <em>X</em></span>, <span class="math inline"><em>g</em> : <em>A</em> → <em>Y</em></span> factorizes as:</p>
+<p><img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_property_weak_product_asKleisliMaps.png" alt="Diagram with weak products."/></p>
+<p>with the <em>copy process</em> of <span class="math inline"><em>A</em></span> <br /><span class="math display"><em>c</em><em>o</em><em>p</em><em>y</em><sub><em>A</em></sub> := <em>K</em><em>l</em><sub><em>T</em></sub>(⟨<em>i</em><em>d</em><sub><em>A</em></sub>, <em>i</em><em>d</em><sub><em>A</em></sub>⟩) ∈ <strong>D</strong><sub><em>T</em></sub>(<em>A</em>, <em>A</em> ⊗ <em>A</em>).</span><br /> (The lower triangles commute, as <span class="math inline"><em>K</em><em>l</em></span> is a functor and <span class="math inline"><em>o</em><em>u</em><em>t</em><sub><em>i</em></sub> ∘ ⟨<em>i</em><em>d</em><sub><em>A</em></sub>, <em>i</em><em>d</em><sub><em>A</em></sub>⟩ = <em>i</em><em>d</em><sub><em>A</em></sub></span>.)</p>
+<p>However, the vertical Kleisli map <span class="math inline"><em>A</em> → <em>X</em> ⊗ <em>Y</em></span> in that diagram is <em>not unique</em>–hence the term <em>semi</em>cartesian–as the following example shows.</p>
+<blockquote>
+<p>In the Kleisli category of the Giry-monad, consider the uniform distributions on <span class="math inline"><em>X</em> = {sunny, cloudy, rainy}</span> and <span class="math inline"><em>Y</em> = {on, off}</span>, i.e. Markov kernels <br /><span class="math display">$$f : \{\ast\} \to X, \quad \ast \mapsto \frac{1}{3} |\text{sunny} \rangle + \frac{1}{3} |\text{cloudy} \rangle + \frac{1}{3} |\text{rainy} \rangle$$</span><br /><br /><span class="math display">$$g : \{\ast\} \to Y, \quad \ast \mapsto \frac{1}{2} |\text{on} \rangle + \frac{1}{2} |\text{off} \rangle.$$</span><br /> Then the weak-product-diagram from above commutes for both of the following distributions on <span class="math inline"><em>X</em> × <em>Y</em></span>: <br /><span class="math display">$$\ast \mapsto \frac{1}{6} | \text{sunny, on} \rangle + \frac{1}{6} | \text{sunny, off} \rangle + \frac{1}{6} | \text{cloudy, on} \rangle + \frac{1}{6} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle$$</span><br /><br /><span class="math display">$$\ast \mapsto \frac{1}{3} | \text{sunny, on} \rangle + \frac{1}{3} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle.$$</span><br /> Which one is obtained as above via <span class="math inline">$\{\ast\} \xrightarrow{\mathrm{copy}} \{\ast\} \otimes \{\ast\} \xrightarrow{f \otimes g} X \otimes Y$</span>?<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+</blockquote>
+<p>In probability theory, this ambiguity is known as the fact that Markov kernels <span class="math inline"><em>h</em> : <em>A</em> → <em>X</em> ⊗ <em>Y</em></span> are not determined by their marginalization <span class="math inline"><em>d</em><em>e</em><em>l</em><sub>1</sub> ∘ <em>h</em> : <em>A</em> → <em>X</em></span> and <span class="math inline"><em>d</em><em>e</em><em>l</em><sub>2</sub> ∘ <em>h</em> : <em>A</em> → <em>Y</em></span>. From a more category theoretic perspective, it means that the family of copy morphisms is not natural.</p>
+<p>At first glance, it may not seem very convenient to consider something <em>non</em>-natural–but we want this, in order to capture uncertainty. We will give the details below (in subsection “Determinism”) and return to the big picture from above: a probability monad <span class="math inline"><em>T</em></span> on a cartesian monoidal category <span class="math inline"><strong>D</strong></span> induces probabilistic/non-deterministic morphisms, which destroy the uniqueness constraint of the product and leaves us with weak products in <span class="math inline"><strong>D</strong><sub><em>T</em></sub></span>.</p>
+<p>In the corresponding diagram of weak products, we have already seen the rectangles on top <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangles with projections"/> commute if and only if <span class="math inline"><em>D</em><sub><em>T</em></sub></span> is semicartesian.</p>
+<p>Have you noticed that the triangles at the bottom <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_unitality.png" alt="Triangles with projections"/> look like a counitality constraint? In fact, each <span class="math inline">(<em>A</em>, <em>c</em><em>o</em><em>p</em><em>y</em><sub><em>A</em></sub>, <em>d</em><em>e</em><em>l</em><sub><em>A</em></sub>)</span> is a commutative comonoid object in <span class="math inline"><strong>D</strong><sub><em>T</em></sub></span>. This is the starting point for the general definition of Markov categories.</p>
+<h2 id="markov-categories">Markov Categories</h2>
+<h3 id="formal-definition">Formal definition</h3>
+<p>Let’s start with the terse definition that category theorists love so much: A Markov category is a semiCartesian category where every object is a commutative comonoid compatible with the monoidal structure.</p>
+<p>In more detail, a Markov category is a symmetric monoidal category <span class="math inline">(<strong>C</strong>, ⊗,<em>I</em>)</span> where each object is equipped with - a <em>deletion map</em> <span class="math inline"><em>d</em><em>e</em><em>l</em><sub><em>X</em></sub> : <em>X</em> → <em>I</em></span> depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete.png" alt="String diagram of deletion map."/></p>
+<ul>
+<li>a <em>copy map</em> <span class="math inline"><em>c</em><em>o</em><em>p</em><em>y</em><sub><em>X</em></sub> : <em>X</em> → <em>X</em> ⊗ <em>X</em></span> depicted as <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_copy.png" alt="String diagram of copy map."/></li>
+</ul>
+<p>such that</p>
+<ul>
+<li><p>the collection of deletion maps is natural: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete_natural.png" alt="String diagram of naturality of delete maps."/> Equivalently, <span class="math inline"><em>I</em></span> is required to be terminal. Hence, the deletion maps are compatible with the tensor product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_delete_XY.png" alt="String diagram of deletion maps of tensor products."/></p></li>
+<li><p>the collection of copy maps is compatible with the symmetric monoidal structure <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_copy_XY.png" alt="String diagram with copy maps of tensor products."/></p></li>
+<li><p>each pair of copy and discard maps form a commutative comonoid: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/intro_commutative-comonoid-equations_no_labels.png" alt="String diagrams with axioms of commutative comonoids."/></p></li>
+</ul>
+<h3 id="each-axiom-explained">Each Axiom Explained</h3>
+<p>Let’s go a little bit more in-depth into why each of these axioms are required.</p>
+<h4 id="composition-and-identity-utku">Composition and Identity (Utku)</h4>
+<!-- We want to describe how to "push forward" distributions -->
+<p>It is obvious why composition and identity is important to form a category. We note, however, that we want to think of constituents of a Markov category as states and channels that take states to states. So, in such a case, compositionality is important to be able to talk about “taking states to states”, where for a state <span class="math inline"><em>p</em></span>, we wish for its “pushforward” <span class="math inline"><em>f</em><sub>*</sub>(<em>p</em>) = <em>f</em> ∘ <em>p</em></span> to be a state as well.</p>
+<h4 id="tensor-product">Tensor Product</h4>
+<p>We want to compose (probabilistic) systems out of smaller building blocs. From a more probability theoretic point of view, our theory should allow us to describe distributions over joint variables.</p>
+<h4 id="swap-map-drew">Swap Map (Drew)</h4>
+<h4 id="copy-map-drew">Copy Map (Drew)</h4>
+<p>We can think of the copy map as a Markov kernel that takes an input <span class="math inline"><em>x</em> ∈ <em>X</em></span> and outputs a Dirac delta distribution on its diagonal, <span class="math inline"><em>δ</em><sub>(<em>x</em>, <em>x</em>)</sub> ∈ 𝒫 <em>X</em> ⊗ <em>X</em></span>. In our example, the copy morphism on our set of weather conditions forms the following stochastic matrix:</p>
+<p><br /><span class="math display">$$
+copy_W =
+\array{
+ &amp; \array{S &amp; C &amp; R} \\
+\array{
+(S,S) \\
+(S,C) \\
+(S,R) \\
+(C,S) \\
+(C,C) \\
+(C,R) \\
+(R,S) \\
+(R,C) \\
+(R,R) }
+&amp; \left [ \array{
+1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 } \right ]
+}
+$$</span><br /></p>
+<p>When a distribution is postcomposed with a copy, it will land on the diagonal in the joint space. So for instance, if a distribution on weather states is <span class="math inline"><em>p</em><sub><em>W</em></sub> = 0.2|<em>S</em><em>u</em><em>n</em><em>n</em><em>y</em>⟩ + 0.3|<em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>⟩ + 0.5|<em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>⟩</span>, then we get <br /><span class="math display"><em>c</em><em>o</em><em>p</em><em>y</em><sub><em>W</em></sub> ∘ <em>p</em><sub><em>W</em></sub> = 0.2|<em>S</em><em>u</em><em>n</em><em>n</em><em>y</em>, <em>S</em><em>u</em><em>n</em><em>n</em><em>y</em>⟩ + 0.3|<em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>, <em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>⟩ + 0.5|<em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>, <em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>⟩</span><br /></p>
+<p>Cartesian categories come equipped with diagonal maps that do something very similar to this. Paired with the projections, this makes all objects of Cartesian categories comonoids as well, and in fact all Cartesian categories are Markov categories. These don’t make for very interesting categories in terms of probability though, since all morphisms are <em>deterministic</em> as we’ll define later. But if we have a probability monad on a Cartesian category, we can transport the diagonal maps into its Kleisli category, and these become precisely the copy maps.</p>
+<p>Why do we want this comultiplication structure on our objects? If we think of string diagrams as having pipes through which information flows, then it’s useful to duplicate information and run different transformations on their parallel streams for comparison. For instance, for a distribution <span class="math inline"><em>p</em> : <em>I</em> → <em>X</em></span> and kernel <span class="math inline"><em>f</em> : <em>X</em> → <em>Y</em></span>, it’s really common to generate a joint distribution on <span class="math inline"><em>X</em></span>s and <span class="math inline"><em>Y</em></span>s with the following diagram:</p>
+<p><img src="figures/graph-state.png" /></p>
+<p>We sometimes call this a graph state because it works the exact same way for sets: the graph of a function <span class="math inline"><em>f</em> : <em>X</em> → <em>Y</em></span> is the set of tuples <span class="math inline">{(<em>x</em>, <em>f</em>(<em>x</em>)) : <em>x</em> ∈ <em>X</em>}</span>. The appearance of <span class="math inline"><em>x</em></span> twice means that it must have been passed through a copy map, and the tuple <span class="math inline">(−,<em>f</em>( − ))</span> represents the map <span class="math inline"><em>i</em><em>d</em> × <em>f</em></span>.</p>
+<h4 id="delete-map">Delete Map</h4>
+<p>In probability theory, the delete maps is known as marginalization. Naturality of the deletion maps corresponds to normalization of Markov kernels.</p>
+<p>More generally speaking, deleting information seems desirable in a framework for information processing (even though it’s impossible in quantum information theory). Naturality of <span class="math inline"><em>d</em><em>e</em><em>l</em></span>, i.e. terminality of <span class="math inline"><em>I</em></span>, means that deleting an output of a process deletes the whole process.</p>
+<p>As seen above (section on Kleisli categories), this allows for <em>weak products</em>; this is the category theoretic description of uncertainty, in contrast to <em>determinism</em> of cartesian monoidal categories.</p>
+<h3 id="important-markov-categories">Important Markov categories</h3>
+<ul>
+<li>The most important construction: Kleisli categories of symmetric monoidal monads</li>
+<li>FinSupStoch := Kl(D)</li>
+<li>Finstoch</li>
+<li>Gauss</li>
+</ul>
+<h3 id="additional-axioms-and-definitions-drew">Additional Axioms and definitions (Drew)</h3>
+<p>Markov categories as we’ve built them so far form a great setting for probability, but the characters on stage have a lot more depth to them than just being stochastic kernels. Many morphisms have relationships with each other that correspond to useful notions in traditional probability.</p>
+<h4 id="determinism">Determinism</h4>
+<p>Looking back at Cartesian categories, there seems to be something special about them: all of their morphisms seem to be “deterministic,” in that they map a single input to a single output. This isn’t a very categorical notion though, so let’s try to find properties of Cartesian categories that encapsulate the idea that there’s no uncertainty in the morphism outputs.</p>
+<p>One unique property that Cartesian categories have over Markov categories is that their diagonal maps are natural in a certain sense. Explicitly, if we equate the two inputs of the tensor product to form a “squaring” endofunctor <span class="math inline"> −  ⊗  −  : <em>f</em> ↦ <em>f</em> ⊗ <em>f</em></span>, then the collection of diagonal maps in a Cartesian category form a natural transformation <span class="math inline"><em>Δ</em> : <em>i</em><em>d</em> →  −  ⊗ −</span>. The copy maps in a general Markov category do not follow the naturality square for all morphisms, which translates to the following string diagram:</p>
+<figure>
+<img src="figures/deterministic.png" alt="" /><figcaption>determinism string diagram</figcaption>
+</figure>
+<p>This actually makes sense as a condition for a kernel to be deterministic! If we really think about what uncertainty means, it boils down to the idea that many different outputs of a process could be possible given a single input. Say the process maps pressure to weather state, and it’s a low pressure day. You could duplicate these exact pressure conditions on the other side of town, but the weather gods might decide to bless your neighbors with rain while they leave you only with cloud cover. This would be different from copying your weather state and pasting it over your friend’s house. On the other hand, a deterministic process could be from weather to sprinkler, if it’s always guaranteed to sprinkle when the sun is out. If you and your friend have identical weather, there’s no difference between each sprinkler having its own sun sensor or a single sensor controlling both.</p>
+<p>Here’s a concrete example with possibilistic states: Say the forecast today has <span class="math inline"><em>p</em><sub><em>W</em></sub> = {<em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>, <em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>}</span> as possibilities. If we copy this, we get <span class="math inline"><em>c</em><em>o</em><em>p</em><em>y</em><sub><em>W</em></sub> ∘ <em>p</em><sub><em>W</em></sub> = {(<em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>, <em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>), (<em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>, <em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>)}</span> which is not equal to <span class="math inline"><em>p</em><sub><em>W</em></sub> ⊗ <em>p</em><sub><em>W</em></sub> = {(<em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>, <em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>), (<em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>, <em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>), (<em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>, <em>C</em><em>l</em><em>o</em><em>u</em><em>d</em><em>y</em>), (<em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>, <em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>)}</span>. On the other hand, we could look outside and determine the weather is certainly <span class="math inline"><em>q</em><sub><em>W</em></sub> = {<em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>}</span>. Then copying and tensoring would both give us <span class="math inline"><em>c</em><em>o</em><em>p</em><em>y</em><sub><em>W</em></sub> ∘ <em>q</em><sub><em>W</em></sub> = {(<em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>, <em>R</em><em>a</em><em>i</em><em>n</em><em>y</em>)}</span>.</p>
+<p>Only Cartesian categories have all-deterministic morphisms, and so we also call them deterministic Markov categories. Further, all of the following are equivalent statemtents:</p>
+<ul>
+<li>A Markov category is deterministic</li>
+<li>Its copy map is natural</li>
+<li>It is Cartesian</li>
+</ul>
+<p>Even though general Markov categories don’t have all deterministic morphisms, they all at least have a few. In fact, it’s not hard to prove that copies, deletes, swaps, and identities are all deterministic themselves, and that determinism is closed under composition. This means that the collection of deterministic morphisms form a wide subcategory of <span class="math inline">C</span>, which we call <span class="math inline">C<sub><em>d</em><em>e</em><em>t</em></sub></span>, and that category is Markov itself!</p>
+<h4 id="conditionals-bayesian-inversion">Conditionals, Bayesian Inversion</h4>
+<p>In traditional probability, we define a conditional probability as “the probability of one event given that another event is already known to have occurred.” This is constructed from a joint probability distribution, whose values are “renormalized” to the restriction of the known event.</p>
+<p>For example, say the forecast for today given jointly for temperature and weather, and the data is given in the table below:</p>
+<p><br /><span class="math display">$$
+p = 
+\array{\arrayopts{\collines{solid} \rowlines{solid}}
+ &amp; \mathbf{Hot} &amp; \mathbf{Cold} \\
+\mathbf{Sunny}  &amp; .1 &amp; \\
+\mathbf{Cloudy} &amp; .1 &amp; .2 \\
+\mathbf{Rainy}  &amp;    &amp; .6
+}
+$$</span><br /></p>
+<p>Now if we feel that it’s cold outside, what’s our new estimate for the chance of rain? We can calculate this by restricting our data to only the event of low pressure, and renormalizing that data to sum up again to 1. Renormalization is easily done by dividing our values by the total probability of that restriction, which is <span class="math inline">.2 + .6 = .8</span>. So the chance of rain <em>given</em> that it’s cold is <span class="math inline">.6/.8 = .75</span>.</p>
+<p>From here, we have a general formula for calculating conditional probability in the finite case:</p>
+<p><br /><span class="math display">$$p(y|x) = \frac{p(y,x)}{\sum_x p(y,x)}$$</span><br /></p>
+<p>where the traditional notation for the conditional probability of <span class="math inline"><em>y</em></span> given <span class="math inline"><em>x</em></span> is given by a pipe separating them. If this looks exactly like the notation for stochastic kernels, this is no coincidence! In fact, we can calculate these quantities for all outcomes to generate a stochastic kernel from <span class="math inline"><em>T</em></span> to <span class="math inline"><em>W</em></span>:</p>
+<p><br /><span class="math display">$$ p_{|T} = 
+\begin{bmatrix}
+.5 &amp; 0 \\
+.5 &amp; .25 \\
+0 &amp; .75 
+\end{bmatrix}
+$$</span><br /></p>
+<p>We give this kernel the same name as <span class="math inline"><em>p</em></span> but with the subscript <span class="math inline">|<em>T</em></span> to show that we turned <span class="math inline"><em>p</em></span>’s output into an input.</p>
+<p>There are many different formulas for conditionals with respect to different kinds of probability, but how do we generalize this concept to cover all types of uncertainty, and put it in the language of our framework? The key insight is to recognize that at the end, we were able to build a morphism from <span class="math inline"><em>T</em></span> to <span class="math inline"><em>W</em></span> that used the relationships between the two variables in <span class="math inline"><em>p</em></span>. In fact the information contained in <span class="math inline"><em>p</em><sub>|<em>T</em></sub></span> gives it a special property which allows it to serve as sort of a “recovery process” for some data in <span class="math inline"><em>p</em></span>, as shown in the diagram below.</p>
+<p>Imagine you’ve forgotten the weather portion of today’s forecast, but you remember the predictions on what today’s temperature will be. This is represented by the marginalization <span class="math inline"><em>p</em><sub><em>T</em></sub></span>. If you’ve calculated this conditional kernel earlier and stored it as backup, then you can simply graph this out with your remaining data to fully restore the original information! We’ll use this as the basis for our definition, but we’ll add parametrization with an input:</p>
+<pre><code>**Definition.** Given a morphism $f:A \rightarrow X\otimes Y$, a conditional on $X$ which we call $f_{|X}$ is *any* morphism, $f_{|X}: A\otimes X \rightarrow Y$ which satisfies</code></pre>
+<p><img src="figures/conditional-definition.png" /></p>
+<p>which again can act as a recovery process from <span class="math inline"><em>X</em></span> to <span class="math inline"><em>Y</em></span> (parametrized by <span class="math inline"><em>A</em></span>) if the original data on <span class="math inline"><em>Y</em></span> has been deleted.</p>
+<p>Unfortunately conditional morphisms are difficult to find, are not unique, and might not even exist for a given kernel. However if they do exist, then they are unique up to a certain equivalence called <em>almost sure equality</em>. And there are many Markov categories which do have conditionals for every morphism (such as <span class="math inline">BorelStoch</span>, unlike <span class="math inline">Stoch</span>), and there are even several Markov categories for which we have closed-form solutions for conditionals.</p>
+<p>To make string diagrams simpler, we often draw conditionals like so:</p>
+<p><img src="figures/bent-wire-notation.png" /></p>
+<p>where we “bend the wire back” to signify which output has been turned into an input. We should note though, this is only graphical sugar and does <em>not</em> represent some kind of “cap” morphism. In fact, nontrivial compact closed Markov categories do not exist. Conditionals also cannot be built up from compositions of other morphisms, so we put a dashed box around it to signify that the contents inside are “sealed off” from associating with other morphisms on the outside. So when we draw a bunch of morphisms inside the dashed box, it means we’re taking the conditional of the morphism resulting from composition of the smaller morphisms. Even though the dash box seals the insides, luckily there are some properties of conditionals that allow us to do rewrites. Bent wire notation makes these really nice:</p>
+<p><img src="figures/conditional-rewrites.png" /></p>
+<p>where the <span class="math inline"><em>g</em></span> in the bottom equation needs to be deterministic.</p>
+<h4 id="conditional-independence">Conditional Independence</h4>
+<p>In traditional probability, a joint distribution is said to be independent in its variables if it satisfies <span class="math inline"><em>p</em>(<em>x</em>, <em>y</em>) = <em>p</em>(<em>x</em>)<em>p</em>(<em>y</em>)</span> for all <span class="math inline"><em>x</em></span> and <span class="math inline"><em>y</em></span>.</p>
+<p>So for instance, the following joint state on temperature and pressure is independent</p>
+<p><br /><span class="math display">$$
+p = 
+\array{\arrayopts{\collines{solid} \rowlines{solid}}
+ &amp; \mathbf{High}\ (.4) &amp; \mathbf{Low}\ (.6) \\
+\mathbf{Hot}\  (.8) &amp; .32 &amp; .48 \\
+\mathbf{Cold}\ (.2) &amp; .08 &amp; .12 
+}
+$$</span><br /></p>
+<p>The marginals are shown with the labels, so you can see that each entry is the product of its marginals.</p>
+<p>However, if we move just one speck of mass over from (High, Hot) to (Low, Hot), then it breaks independence:</p>
+<p><br /><span class="math display">$$
+p = 
+\array{\arrayopts{\collines{solid} \rowlines{solid}}
+ &amp; \mathbf{High}\ (.39) &amp; \mathbf{Low}\ (.61) \\
+\mathbf{Hot}\  (.8)  &amp; .31 &amp; .49 \\
+\mathbf{Cold}\ (.2)  &amp; .08 &amp; .12 
+}
+$$</span><br /></p>
+<p>This traditional definition seems a little arbitrary, so what does this mean intuitively? String diagrams can help here, and further they will allow us to generalize to any Markov category. First, a very informal definition: we say that a morphism <span class="math inline"><em>p</em> : <em>A</em> → <em>X</em> ⊗ <em>Y</em></span> displays independence in its outputs if its conditional doesn’t use its bent-wire input at all. We also say that its outputs are not correlated with each other, or they don’t share mutual information.</p>
+<p>Let’s look at this more closely in string diagrams with a formal definition:</p>
+<p><strong>Definition.</strong> <em>A morphism <span class="math inline"><em>p</em> : <em>A</em> → <em>X</em> ⊗ <em>Y</em></span> displays <span class="math inline"><em>X</em> ⊥ <em>Y</em>||<em>A</em></span>, read as “<span class="math inline"><em>X</em></span> is independent of <span class="math inline"><em>Y</em></span> given <span class="math inline"><em>A</em></span>”, if its conditional can be calculated as</em></p>
+<p><img src="independence-definition-1.png" /></p>
+<p>This looks like the bent wire has just been snipped! But if we look back to the definition of conditionals, this encapsulates the idea that there’s no information about <span class="math inline"><em>Y</em></span> contained in <span class="math inline"><em>X</em></span>. If the conditional is a “data recovery” morphism that reconstructs <span class="math inline"><em>Y</em></span> from the information it shares with <span class="math inline"><em>X</em></span>, then we notice two things: one, the original <span class="math inline"><em>f</em></span> has to be used in the condinional, which means the recovery morphism needs to store the entirety of <span class="math inline"><em>Y</em></span>’s original information to recover it. And two, the <span class="math inline"><em>X</em></span> input wire juts gets deleted, so it doesn’t use any information from our unforgotten channels during recovery. This means that whatever you know about <span class="math inline"><em>X</em></span> isn’t useful in reconstructing the information on <span class="math inline"><em>Y</em></span>.</p>
+<p>If we do some string diagram manipulation, then we’ll see that this reduces to the traditional definition of independence:</p>
+<p><img src="figures/independence-traditional.png" /></p>
+<p>From here, we can see that this definition is actually symmetric: if <span class="math inline"><em>X</em></span> is independent from <span class="math inline"><em>Y</em></span>, then <span class="math inline"><em>Y</em></span> is also independent from <span class="math inline"><em>X</em></span> and we can just say that <span class="math inline"><em>X</em></span> and <span class="math inline"><em>Y</em></span> are independent of each other. Is it possible for <span class="math inline"><em>X</em></span> and <span class="math inline"><em>Y</em></span> to be only partially independent? What if we can factor out a component of the states that exhibits dependence, and the other components are independent? We can capture that scenario with the following:</p>
+<h2 id="conclusion-cool-things-you-can-do-with-markov-categories">Conclusion: Cool things you can do with Markov categories</h2>
+<p>So what can we do with all these constructions? It’s neat that we now have a graphical language to describe probability, and also we have a unifying language that describes all different types of uncertainty. We’ve already done a lot of work in formulating traditional results in terms of Markov categories, which then generalizes these results to large classes of uncertainty representations. For instance, we</p>
+<ul>
+<li>De Finetti</li>
+<li>HMMs and Bayesian Inversion</li>
+<li>Causal Inferencing</li>
+</ul>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>to be precise, we require <span class="math inline">∇<sub><em>X</em>, <em>Y</em></sub></span> to make <span class="math inline"><em>T</em><em>ι</em> : <strong>C</strong><sub><em>d</em><em>e</em><em>t</em></sub> → <strong>C</strong><sub><em>d</em><em>e</em><em>t</em></sub></span> a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>So far, the Kleisli category is only a CD-category, but not a Markov category.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>–it’s the first one, i.e., the uniform distribution on <span class="math inline"><em>X</em> × <em>Y</em></span><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
