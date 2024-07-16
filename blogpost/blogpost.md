@@ -12,14 +12,12 @@ In this blog post, we'll work with examples of both traditional finite probabili
 
 ----------------------------------------------------------
 
-<!-- TODO: Change all headers to bold -->
 **Probability distributions.** We want to proceed with our discussion through an example, and so before we introduce everything, consider the following:
 
 > You've just installed a sprinkler system to your lawn! It is a very advanced piece of technology, measuring a myriad of different things to determine when to turn on the sprinklers... and you have no idea how it does this. In your effort to have an idea of when the system turns on (you pay the water bill, after all) you decided to keep track of how the weather feels and whether your sprinkler is on or not.
 
 You make the following distinctions: 
 
-<!-- TODO: Format code blocks properly -->
 ```
     Weather = {sunny, cloudy, rainy}, 
     Humidity = {dry, humid},
@@ -88,13 +86,11 @@ Then, composing any such distribution with a channel will again yield a distribu
     p_\ast: 0.2\mid s,d,h\rangle + 0.3\mid r,h,c\rangle + 0.3\mid c,h,m\rangle + 0.2\mid c,d,h\rangle
 \]
 
-> From the table in the example, we can obtain the following channel $f: W\otimes H\otimes T \to S$ [^1] 
+> From the table in the example, assuming that the entires in the table all occur with equal probability, we can obtain the following channel $f: W\otimes H\otimes T \to S$  
 \[
     f_{(w,h,t)} = \delta_{w, h, t, \text{on}} \mid \text{on} \rangle + \delta_{w, h, t, \text{off}} \mid \text{off} \rangle,
 \]
 where $\delta_{w, h, t, \text{on}}$ is $1$ if the combination $w, h, t, \text{on}$ occurs in the table above, and $0$ otherwise; analogously for $\delta_{w, h, t, \text{off}}$.
-
-[^1]: if we assume the principle of indifference, i.e., that the entries in the table all occur with equal probability (which is the case, as we have a list of observations<!--reword? -->)
 
 Then, by everything we've established so far, we can reason about the likelihood that the sprinkler will turn on the next day by composing the state $p$ of the climate with the channel $f$ to obtain a state $f\circ p$ of the sprinkler, computed
 \[
@@ -125,7 +121,7 @@ Something you may have noticed from the two examples of morphisms of Markov cate
 
 This is not a coincidence: we will see that for certain monads, the Kleisli category they yield turn out to be Markov categories! The monads in question will provide us descriptions of what the channels are, as well as the rule for composition. 
 
-**Kleisli Categories.** If you are familiar with Kleisli categories, you might have uncovered $\mathsf{FinSetMulti}$ from above as the Kleisli category of the normalized finite powerset monad. <!-- $P$: it's objects are sets $X, Y$, its's morphisms are functions $f : X \to PY = \{ U \subseteq X \} $ --> In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*, <!-- (see [this paper on representable Markov categories](https://arxiv.org/abs/2010.07416v3) for details),--> such as the [Giry monad](https://ncatlab.org/nlab/show/Giry+monad), [Radon monad](https://ncatlab.org/nlab/show/Radon+monad), or [distribution monads over semirings](https://ncatlab.org/nlab/show/distribution+monad). Rather than explaining (technical) details of these, we want to dive into the underlying construction.
+**Kleisli Categories.** If you are familiar with Kleisli categories, you might have uncovered $\mathsf{FinSetMulti}$ from above as the Kleisli category of the normalized finite powerset monad.  In fact, it turns out that many Markov categories of interest arise as Kleisli categories of so-called *probability monads*,  such as the [Giry monad](https://ncatlab.org/nlab/show/Giry+monad), [Radon monad](https://ncatlab.org/nlab/show/Radon+monad), or [distribution monads over semirings](https://ncatlab.org/nlab/show/distribution+monad). Rather than explaining (technical) details of these, we want to dive into the underlying construction.
 
 If you do *not* know Kleisli categories--don't worry, we'll try to explain it on the go, focusing on the relevant properties for our purpose. The idea is the following:
 
@@ -140,26 +136,17 @@ While the previous example captures *possibility*, the following is the most gen
 > **Example.** The Markov cateory $\mathsf{Stoch}$ is the Kleisli category of the Giry monad $G : \mathsf{Meas} \to \mathsf{Meas}$ on the (cartesian monoida) category of measurable spaces, sending a measurable space $X$ to the space $P X$ of distributions on it (a.k.a probability  measures). Its Kleisli morphisms are known as *Markov kernels*. (Hence the name Markov categories!) By definition, these are measurable functions $f: X \to P Y$, meaning that each point $x \in X$ is assigned a distribution $f_x$ on $Y$: normal distributions, uniform distribution,  [delta distribution (a.k.a Dirac measure)](https://ncatlab.org/nlab/show/Dirac+measure), ... Regard it as a stochastic process with input $X$ and probabilistic output $Y$. If the weather is sunny tomorrow, will the sprinkler switch on? Well, probably... 
 > In contrast, morphisms $X \to Y$ in $\mathsf{Meas}$ (i.e. measurable functions) are *deterministic*, as their output are points $f(x) \in Y$ being definitely determined by their input $x \in X$.
 
-<!---
-> Note two special cases:
-> -  Kleisli maps $I \to X$ correspond to distributions over $X$.
-> - Every *deterministic processes*, i.e. a (measurable) functions $f:X \to Y$, gives rise to a probabilistic process, by assinging delta distributions $f_x$ to each input $x \in X$. More formally, this yields an identy-on-objects functor $\mathsf{Meas} \to \mathsf{Meas}_P$.
-
-More generally, it is known as the Kleisli functor $\mathrm{D} \to \mathrm{D}_T$, interpreting deterministic processes as probabilistic processes.
---->
-
 A general definition of *determinism* in Markov categories follows below. Before, let's investigate the term *process*, by which we mean morphisms in a monoidal category: the usual composition amounts to the concatenation of processes, while the tensor product merges two subsystems into one, by running them “in parallel”.
 
 For our category $\mathsf{D}$ of “deterministic processes”, this is straight forward; being *cartesian monoidal* means 
 
-1. it has a terminal object $I$. <!-- Equivalently,  there are unique *deleting morphisms*  $del_X : X \to I$ being natural in $X$. -->
+1. it has a terminal object $I$. 
 2. it has products $X \times Y$ and projection pairs $X \xleftarrow{\mathrm{out}_1} X \times Y \xrightarrow{\mathrm{out}_2} Y$ satisfying the universal property of the product: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_universal_property_product.png" alt="Diagram of universal property of the product."/>
 3. it has a symmetric monoidal structure induced by 1. and 2.
 
-Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [commutative](https://ncatlab.org/nlab/show/commutative+monad), i.e., it comes with well behaved[^2]  *zipper functions* (in $\mathsf{D}$)
+Things are more complicated for the Kleisli category $D_T$: to get a tensor product, we need the monad $T$ to be [commutative](https://ncatlab.org/nlab/show/commutative+monad), i.e., it comes with well behaved *zipper functions* (in $\mathsf{D}$)
 $$\nabla_{X,Y} : TX \times TY \to T(X \times Y).$$ 
-
-[^2]:  to be precise, we require  $\nabla_{X,Y}$ to make $T : \mathsf{D} \to \mathsf{D}$ a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations. 
+To be precise, we require  $\nabla_{X,Y}$ to make $T : \mathsf{D} \to \mathsf{D}$ a symmetric monoidal functor, such that multiplication and unit of the monad are monoidal natural transformations. 
 
 Kleisli maps $f \in \mathsf{D}(A, TX)$ and $g \in \mathsf{D}(B, TY)$ may then be tensored as $$f \otimes g : A \times B \xrightarrow{f \times g} TX \times TY \xrightarrow{\nabla_{X,Y}} T(X \times Y).$$
 
@@ -170,9 +157,7 @@ Kleisli maps $f \in \mathsf{D}(A, TX)$ and $g \in \mathsf{D}(B, TY)$ may then be
 
 In categorical terms, the induced symmetric monoidal structure on the Kleisli category $\mathsf{D}_T$ is such that the [Kleisli functor](https://en.wikipedia.org/wiki/Kleisli_category#Kleisli_adjunction) $Kl_T : \mathsf{D} \to \mathsf{D}_T$ is strict symmetric monoidal.
 
-But we want more:[^3] we want the Kleisli functor to preserve the projection pairs $\mathrm{out}_{i}$, in that the following diagrams (in $\mathsf{D}_T$!) commute for $\mathrm{del}_{i} \coloneqq Kl_T (\mathrm{out}_{i})$: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
-
-[^3]: So far, the Kleisli category $\mathsf{D}_T$ is only a CD-category, but not a Markov category.
+But we want more: we want the Kleisli functor to preserve the projection pairs $\mathrm{out}_{i}$, in that the following diagrams (in $\mathsf{D}_T$!) commute for $\mathrm{del}_{i} \coloneqq Kl_T (\mathrm{out}_{i})$: <img src="https://raw.githubusercontent.com/appliedcategorytheory/appliedcategorytheory.github.io/master/images/2024-blog-posts/1B/tikz-cd_projections_asKleisliMaps.png" alt="Rectangle with projections."/>
 
 There are multiple equivalent requirements:
 
@@ -190,9 +175,8 @@ with the *copy process* of $A$ $$\mathrm{copy}_A \coloneqq Kl_T (\langle \mathrm
 
 However, the vertical Kleisli map $A \to X \otimes Y$ in that diagram is *not unique*--hence the term *semi*cartesian--as the following example shows.
 
-> In the Kleisli category of the Giry-monad, consider the uniform distributions on $X = \{\text{sunny}, \text{cloudy}, \text{rainy}\}$ and $Y = \{\text{on}, \text{off}\}$, i.e. Markov kernels $$f : \{\ast\} \to X, \quad \ast \mapsto \frac{1}{3} |\text{sunny} \rangle + \frac{1}{3} |\text{cloudy} \rangle + \frac{1}{3} |\text{rainy} \rangle$$$$g : \{\ast\} \to Y, \quad \ast \mapsto \frac{1}{2} |\text{on} \rangle + \frac{1}{2} |\text{off} \rangle.$$ Then the product-diagram commutes for both of the following Markov kernels $\{\ast\} \to X {\times} Y$: $$\ast \mapsto \frac{1}{6} | \text{sunny, on} \rangle + \frac{1}{6} | \text{sunny, off} \rangle + \frac{1}{6} | \text{cloudy, on} \rangle + \frac{1}{6} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle$$$$\ast \mapsto \frac{1}{3} | \text{sunny, on} \rangle + \frac{1}{3} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle.$$ Which one is obtained as above via $\{\ast\} \xrightarrow{\mathrm{copy}} \{\ast\} \otimes \{\ast\} \xrightarrow{f \otimes g} X \otimes Y$?[^4]
-
-[^4]: --it's the first one, i.e., the uniform distribution on $X \times Y$
+> In the Kleisli category of the Giry-monad, consider the uniform distributions on $X = \{\text{sunny}, \text{cloudy}, \text{rainy}\}$ and $Y = \{\text{on}, \text{off}\}$, i.e. Markov kernels $$f : \{\ast\} \to X, \quad \ast \mapsto \frac{1}{3} |\text{sunny} \rangle + \frac{1}{3} |\text{cloudy} \rangle + \frac{1}{3} |\text{rainy} \rangle$$$$g : \{\ast\} \to Y, \quad \ast \mapsto \frac{1}{2} |\text{on} \rangle + \frac{1}{2} |\text{off} \rangle.$$ Then the product-diagram commutes for both of the following Markov kernels $\{\ast\} \to X {\times} Y$: $$\ast \mapsto \frac{1}{6} | \text{sunny, on} \rangle + \frac{1}{6} | \text{sunny, off} \rangle + \frac{1}{6} | \text{cloudy, on} \rangle + \frac{1}{6} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle$$$$\ast \mapsto \frac{1}{3} | \text{sunny, on} \rangle + \frac{1}{3} | \text{cloudy, off} \rangle + \frac{1}{6} | \text{rainy, on} \rangle + \frac{1}{6} | \text{rainy, off} \rangle.$$ Which one is obtained as above via $\{\ast\} \xrightarrow{\mathrm{copy}} \{\ast\} \otimes \{\ast\} \xrightarrow{f \otimes g} X \otimes Y$?
+(It's the first one, i.e., the uniform distribution on $X \times Y$)
 
 In probability theory, this ambiguity is known as the fact that Markov kernels $h : A \to X \otimes Y$ are not determined by their marginalizations $\mathrm{del}_1 \circ h: A \to X$ and $\mathrm{del}_2 \circ h: A \to Y$. From a more category theoretic perspective, it means that the family of copy morphisms is not natural.
 
@@ -217,7 +201,6 @@ such that
 
 Let's go a little bit more in-depth into why each of these axioms are required:
 
-<!-- We want to describe how to "push forward" distributions -->
 It is obvious why composition and identity is important to form a category. We note, however, that we want to think of constituents of a Markov category as states and channels that take states to states. So, in such a case, compositionality is important to be able to talk about "taking states to states", where for a state $p$, we wish for its "pushforward" $f_\ast(p) = f\circ p$ to be a state as well.
 We also want to compose (probabilistic) systems out of smaller building blocks. From a more probability theoretic point of view, our theory should allow us to describe distributions over joint variables.
 
